@@ -8,7 +8,7 @@ Last updated: 2026-09-09 (session 1, night). Repo: https://github.com/Zalamancer
 |---|---|---|
 | 01 Hybrid RAG (#6) | **Built, measured, running locally.** 20 tests pass; retrieval eval (18 configs) and six answer-quality runs done; results + failure analysis in README. | No (question set verified 2026-09-10) |
 | 02 Model regression (#1) | **Done locally + on GitHub.** 12 tests; dataset human-verified by Ihsan (80/80); v1 85 %, v2 pass, v3-bad blocked (critical, exit 2); public repo + PR gate workflow running (eval step skipped without model secrets). Slack delivery pending a webhook. | Slack webhook (optional); model secrets for Actions (optional) |
-| 03 Agent orchestration (#15) | **Built and live-tested locally.** 11 tests; one full live run completed with approval pause/resume, budget pause/resume and exactly one webhook delivery; five defects found by live runs and fixed. **Deployed to AWS Lightsail ($12/month, SSH-only) with a $20 budget alert**; Bedrock model access pending AWS account verification. | Create the `agentops-bedrock` IAM user + local profile |
+| 03 Agent orchestration (#15) | **Built and live-tested locally.** 11 tests; one full live run completed with approval pause/resume, budget pause/resume and exactly one webhook delivery; five defects found by live runs and fixed. **Deployed to AWS** (Lightsail $12/month, SSH-only, Bedrock Nova Lite, CloudWatch, S3 backup, $20 budget alert); one cloud run completed end to end for $0.003. | Enable MFA on the root user (recommended) |
 
 All three share one local LLM server (Qwen3-4B on the Mac). Running the three evaluation jobs at
 once slowed each of them; results are still correct, only wall-clock latency numbers are inflated
@@ -71,6 +71,5 @@ Checked: 9 tests (EVIDENCE_LEDGER R3-TESTS). Pending: live demo run result; READ
 
 1. Collect the running results → fill README results in all three projects and EVIDENCE_LEDGER placeholders.
 2. (done) Both datasets reviewed; RAG answers unchanged so results stand; regression gate re-run on verified labels.
-3. Project 3 AWS: measure container memory/CPU locally (needs disk), confirm budget interpretation,
-   price the cost sheet, then ask for deployment approval.
+3. (done) Project 3 deployed to AWS; run `scripts/aws_teardown.sh` when the demo is no longer needed to stop the $12/month.
 4. Optional: GitHub repo + Actions run for project 2; Slack test channel.

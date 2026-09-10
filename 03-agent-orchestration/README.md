@@ -129,6 +129,38 @@ Honest reading: the plumbing behaved as designed (bounded corrections, escalatio
 but the 4B local model's task execution quality is low — it guesses schemas and skips required actions. The
 supervisor's stated confidence (0.95) was not a reliable predictor of execution quality.
 
+
+## Cloud deployment (AWS, 2026-09-10)
+
+Deployed to a Lightsail `small_3_0` instance in us-east-1 ($12/month), SSH-only firewall, four systemd services
+(API, worker, console, local test target) bound to localhost and reached through an SSH tunnel; model = **Amazon Bedrock
+Nova Lite** through the Converse API (IAM user limited to Bedrock + CloudWatch agent); logs shipped to CloudWatch
+group `agentops` with 7-day retention; database backed up to a private S3 bucket with 30-day expiry; AWS Budget
+$20/month with e-mail alerts. Scripts: `scripts/aws_deploy.sh`, `deploy/server_setup.sh`, `scripts/aws_backup.sh`,
+`scripts/aws_teardown.sh`. Idle memory on the server: 565 MB of 1910 MB.
+
+**Cloud run `run_ff918d661db6`** driven entirely through the production path (POST /runs → systemd worker → approval via
+POST /approvals → completion):
+
+| | value |
+|---|---|
+| status | **completed** in **51 s** wall clock |
+| model calls / tool calls | 23 / 4 |
+| tokens | 24,007 in / 6,790 out (as reported by Bedrock) |
+| **cost** (ledger, reserve→reconcile) | **$0.0031** |
+| tasks | research done (2 attempts: the first exhausted its tool turns), analysis done (SQL first time), writing done after the reviewer rejected the first draft for not posting |
+| approvals | 1 (`http_post` to the local test target, approved through the API) |
+| external writes | exactly 1 POST received by the test target |
+| citations | 2 doc URLs, both retrieved by the research task |
+
+The cloud model is ~15× faster than the local 4B model (51 s vs ~700 s of active time) and still made the same class
+of mistakes the reviewer rules were written for (skipping the required post). One earlier cloud run (`run_83e93a4ecbe7`)
+**failed** in 32 s for $0.0025 because Nova copied the raw JSON schema of a tool as its arguments and then repeated the
+same search until its turns ran out — fixed by showing example-style arguments and blocking repeated identical calls
+(tests 14/14). A caveat on the analysis numbers: the count the model reports is whatever query it chose to run
+(6 proxy / 14 HTTPS here, 135 / 256 with a different query locally); the reviewer only checks that the numbers come from a
+real tool result, not that the query was the best one.
+
 ## Adaptations from the guide (and why)
 
 | Guide | Here | Why |
@@ -148,4 +180,4 @@ supervisor's stated confidence (0.95) was not a reliable predictor of execution 
 - `python_exec` is a lightweight sandbox (subprocess, isolated mode, empty env, rlimits, blocked
   imports) — not a VM. Do not run untrusted code with it in production.
 - Memory consolidation is embedding-similarity merging, not LLM summarisation.
-- No AWS deployment yet; cost sheet is unpriced until Ihsan confirms the budget interpretation.
+- AWS: single small instance, no autoscaling/HA; IAM deploy user is broader than least privilege (documented in AWS_COST_PLAN.md).

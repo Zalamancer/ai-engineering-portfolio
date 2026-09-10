@@ -20,9 +20,8 @@ Newest first. Each item says why it is needed and what happens if it waits.
 6. **Slack test webhook** (optional): create an incoming webhook for a *test* channel and put the URL
    in `02-model-regression/.env` as `REG_SLACK_WEBHOOK_URL`. Until then alerts are built and saved locally, not sent.
 7. ~~AWS account + deploy approval~~ — **done 2026-09-10** (budget $20 alert + $12 server created). Still to do:
-   - create IAM user `agentops-bedrock` with `AmazonBedrockLimitedAccess` + `CloudWatchAgentServerPolicy`, make an access
-     key, run `~/.local/bin/aws configure --profile bedrock` in Terminal (region us-east-1, output json);
-   - enable MFA on the root user (IAM → root user → security credentials);
-   - when AWS e-mails that the account is verified, tell Claude so the cloud model can be switched on.
+   - ~~create IAM user `agentops-bedrock` + profile~~ — done; cloud model live; cloud run completed.
+   - enable MFA on the root user (IAM → root user → security credentials) — recommended, still open.
+   - remember: the server costs $12/month while it exists; say "tear down AWS" when you no longer need the live demo.
 8. **Try the approval flow yourself**: start project 3's console and approve/reject a paused run
    (`uv run streamlit run agentops/ui.py` in `03-agent-orchestration/`).

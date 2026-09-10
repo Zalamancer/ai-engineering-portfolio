@@ -6,7 +6,9 @@
   (free while attached), firewall **SSH only**; API/console reachable only through an SSH tunnel.
 - Services api / worker / console / testtarget under systemd (`deploy/server_setup.sh`); measured on the server:
   565 MB used of 1910 MB with everything idle.
-- Pending: Bedrock (account verification by AWS, then the `bedrock` profile on the server); CloudWatch log shipping.
+- Bedrock Nova Lite live (IAM user `agentops-bedrock`: AmazonBedrockLimitedAccess + CloudWatchAgentServerPolicy; profile on the server only).
+- CloudWatch log group `agentops` (7-day retention) fed by the CloudWatch agent; S3 bucket `agentops-portfolio-<account>` (private, 30-day expiry) holds DB backups.
+- Measured: one full cloud run = **$0.0031** of model usage (24k in / 6.8k out tokens), 51 s.
 Teardown: `03-agent-orchestration/scripts/aws_teardown.sh`. Backup: `scripts/aws_backup.sh` (creates the S3 bucket on first use).
 
 ## Budget interpretation (to confirm)

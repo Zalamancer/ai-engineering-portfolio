@@ -18,7 +18,8 @@ trade-offs, so the work can be discussed honestly. Every number below is in `EVI
 - Built a supervisor / specialist / reviewer multi-agent system on LangGraph with a schema-validated tool registry,
   sandboxed code execution, human approval pauses/resumes, budgets enforced in code (steps, calls, tokens, time, cost
   ledger), durable state and long-term memory outside the process, and crash recovery that never repeats external
-  writes (verified by tests and one full live run).
+  writes (verified by tests and live runs); deployed on AWS Lightsail with Bedrock, CloudWatch, S3 and a budget cap,
+  where a full run costs ~$0.003.
 
 Do not claim: customer impact, production traffic, cost savings, or that any model judgment is a human judgment.
 
@@ -78,8 +79,11 @@ SQL tool did not tell the model the schema; the approved action was re-asked wit
 charged idle time; and the writer invented "12 sections / 8 HTTPS" when SQL said 135 / 256 — the reviewer missed it,
 so I added a numeric-grounding check. The supervisor's own confidence (0.95) predicted nothing about execution quality.
 
+Cloud: deployed on a $12/month Lightsail box with Bedrock Nova Lite; a full run costs about a third of a cent and takes
+~50 s; budget alert, SSH-only access, CloudWatch logs, S3 backups, one-command teardown.
+
 Trade-offs: SQLite instead of Postgres/Redis (same guarantees tested, one file), no OpenTelemetry (structured event
-table instead), no replay UI, no AWS yet (cost sheet drafted, unpriced until the budget interpretation is confirmed).
+table instead), no replay UI, single instance with no high availability.
 
 ## Questions to expect
 

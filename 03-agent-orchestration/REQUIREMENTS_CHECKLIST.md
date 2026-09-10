@@ -24,4 +24,4 @@
 | + | Prompt: budgets (steps, retries, concurrency, time, model usage) enforced in code | ✅ | `config.py`, `llm.py`, `graph.py`; test | — |
 | + | Prompt: killed worker resumes without repeating side effects | ✅ | `test_killed_worker_resumes_without_repeating_side_effects` | — |
 | + | Prompt: usage ledger reserve/reconcile, disable calls when allowance exhausted | ✅ | `LLM.chat`, `ledger` table, `/ledger` | — |
-| + | AWS deployment | ❌ not started | `../AWS_COST_PLAN.md` | awaits budget confirmation + local verification |
+| + | AWS deployment | ✅ | Lightsail + Bedrock Nova Lite + CloudWatch + S3 + Budget; cloud run completed for $0.0031 | single instance, SSH-tunnel access only |
