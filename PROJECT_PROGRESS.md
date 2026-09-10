@@ -6,7 +6,7 @@ Last updated: 2026-09-09 (session 1, night). Repo: https://github.com/Zalamancer
 
 | Project | Status | Human action needed? |
 |---|---|---|
-| 01 Hybrid RAG (#6) | **Built, measured, running locally.** 20 tests pass; retrieval eval (18 configs) and six answer-quality runs done; results + failure analysis in README. | Yes — review the 75 questions |
+| 01 Hybrid RAG (#6) | **Built, measured, running locally.** 20 tests pass; retrieval eval (18 configs) and six answer-quality runs done; results + failure analysis in README. | No (question set verified 2026-09-10) |
 | 02 Model regression (#1) | **Done locally + on GitHub.** 12 tests; dataset human-verified by Ihsan (80/80); v1 85 %, v2 pass, v3-bad blocked (critical, exit 2); public repo + PR gate workflow running (eval step skipped without model secrets). Slack delivery pending a webhook. | Slack webhook (optional); model secrets for Actions (optional) |
 | 03 Agent orchestration (#15) | **Built and live-tested locally.** 11 tests; one full live run completed with approval pause/resume, budget pause/resume and exactly one webhook delivery; five defects found by live runs and fixed. AWS untouched. | Later — AWS budget confirmation |
 
@@ -65,12 +65,12 @@ Checked: 9 tests (EVIDENCE_LEDGER R3-TESTS). Pending: live demo run result; READ
 
 - **Disk space** (~1 GB free): no Docker builds, no additional models.
 - **Model access**: local 4B only; quality-limited planning/JSON. A paid key is Ihsan's decision.
-- **Human verification** of both datasets pending (USER_ACTIONS 1–2).
+- Both datasets are now human-verified (2026-09-09/10).
 
 ## Next steps
 
 1. Collect the running results → fill README results in all three projects and EVIDENCE_LEDGER placeholders.
-2. Ihsan reviews the datasets → re-run evals on verified items and report both.
+2. (done) Both datasets reviewed; RAG answers unchanged so results stand; regression gate re-run on verified labels.
 3. Project 3 AWS: measure container memory/CPU locally (needs disk), confirm budget interpretation,
    price the cost sheet, then ask for deployment approval.
 4. Optional: GitHub repo + Actions run for project 2; Slack test channel.

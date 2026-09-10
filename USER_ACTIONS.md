@@ -4,9 +4,7 @@ Newest first. Each item says why it is needed and what happens if it waits.
 
 ## Pending now
 
-1. **Review the RAG question set** (project 1). In `01-hybrid-rag/`: `uv run streamlit run scripts/review_ui.py`.
-   75 AI-drafted questions with the source passage shown next to each. Fix wrong answers, reject bad
-   questions, press Verified. Until then every RAG result is labelled "AI-drafted, not human-verified".
+1. ~~Review the RAG question set~~ — **done 2026-09-10** (75/75 verified, no answers changed; dataset 0.2.0-reviewed).
 2. ~~Review the support-email dataset~~ — **done 2026-09-09** (all 80 verified, 6 labels changed; dataset version 0.2.0-reviewed).
    One follow-up: please re-check c005 and c006 in the review screen — they were saved before the button bug was fixed.
 3. ~~Free some disk space~~ — **done** (12 GB free now; Docker builds are possible again).

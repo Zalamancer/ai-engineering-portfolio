@@ -129,7 +129,7 @@ What the numbers say, honestly:
 - **But plain BM25 beats hybrid on this question set** (92 % vs 81 % correct; 85 % vs 82 % hit@5). Reranking and
   fusion did not add value over keyword search here. Most likely cause: the questions were drafted from the text and
   reuse its exact identifiers (flag names, header names, status codes), which is BM25's home turf. Whether hybrid wins on
-  human-written questions is *not yet known* — that is what the pending question review will test.
+  questions written independently of the text is *not yet known*; the review confirmed the answers, not the phrasing bias.
 - **Abstention works**: every configuration refused all 8 unanswerable questions (threshold 0.40 chosen on dev only), at
   the cost of 5–17 % false abstentions on answerable ones.
 - **Ambiguity handling is weak** (50–75 % of ambiguous questions got interpretations surfaced); the 4B model tends to pick one meaning.
@@ -143,8 +143,9 @@ passage says it defaults to 127.0.0.1 (judge 2/5, citation flagged NOT_SUPPORTED
 q069 "How do I set the maximum size?" — answered about `max_body_size` instead of surfacing the three interpretations.
 
 **Read the numbers with these caveats.** (1) The 75 questions were drafted by an AI reading
-the corpus and are **not yet human-verified** (status in `eval/questions.json`). Questions
-written from the text tend to reuse its exact words, which favours keyword search. (2) The
+the corpus and then **reviewed one by one by Ihsan Duru on 2026-09-10** (75/75 verified, no
+answers changed, so the runs above — made on the identical 0.1.0 content — stand as the verified
+results). Questions written from the text tend to reuse its exact words, which favours keyword search. (2) The
 generator *and* the judge are the same local 4B model; judge verdicts are model opinions, not
 human ones. (3) The corpus is small (≈3–4 k chunks); results will not transfer to a 100× larger
 corpus without re-measuring.
@@ -175,8 +176,8 @@ patterns observed while building:
 - Local 4B generator instead of the guide's GPT-4o / Claude Sonnet; answers are shorter and
   citation discipline is weaker than a frontier model would give.
 - Judge = generator model; no human calibration of the judge yet.
-- Question set not human-verified; dev/held-out split exists but the held-out set was written
-  by the same process.
+- Question set was AI-drafted (then human-verified); dev/held-out split exists but both were written
+  by the same process, so phrasing is closer to the documents than real user questions would be.
 - Docker image not built here (disk); `/v1/ingest` rebuilds an index synchronously (fine for
   this corpus size, not for a large one).
 - Semantic chunking uses the same small embedding model as retrieval; no separate tuning.

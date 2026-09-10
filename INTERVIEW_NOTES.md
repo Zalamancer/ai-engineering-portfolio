@@ -9,7 +9,7 @@ trade-offs, so the work can be discussed honestly. Every number below is in `EVI
   reranking, grounded generation with claim-level citation verification and explicit abstention) over 198 public
   technical documents in four formats; evaluated 18 retrieval configurations and 6 end-to-end configurations on a
   75-question suite, raising retrieval hit@5 from 58 % (dense-only baseline) to 82 % (hybrid) and answer correctness
-  from 75 % to 81 %, and documenting that plain BM25 (92 %) beat hybrid on the AI-drafted question set.
+  from 75 % to 81 %, and documenting that plain BM25 (92 %) beat hybrid on the (AI-drafted, human-verified) question set.
 - Built an LLM regression gate for a support-email classifier: versioned prompts, an 80-case human-verified golden
   dataset with deliberate edge cases, multi-dimensional scoring, baseline diffing with policy thresholds *and* exact
   McNemar / Wilson statistics, HTML diff reports, drift detection, Slack payloads and a GitHub Actions PR gate;
@@ -34,7 +34,7 @@ instead of guessing."
 The result I lead with: hybrid beat the dense-only baseline by 24 points of retrieval recall and 6 points of answer
 correctness. The result I volunteer next: keyword search alone beat hybrid on my question set (92 % vs 81 %), and I
 think that is because I drafted the questions from the text, so they reuse exact identifiers — which is exactly what
-BM25 rewards. Human-written questions are the test that settles it; that review is pending.
+BM25 rewards. I then reviewed all 75 questions myself (no answers needed changing), but the phrasing bias remains: questions written by real users, not from the text, are the test that settles it.
 
 Failures I can describe: the near-duplicate filter dropped a "response headers" passage because FastAPI's docs are
 templated; the PDF extractor displaced RFC "MUST/SHOULD" keywords; the 4B model sometimes leaves the first sentence
