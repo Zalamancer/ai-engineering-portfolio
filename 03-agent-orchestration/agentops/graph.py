@@ -308,6 +308,12 @@ class Orchestrator:
                 self.db.event(run_id, "task_final", task["specialist"], {"output": step["output"], "thought": step["thought"]}, task_id=task["task_id"])
                 return {"kind": "final", "output": step["output"], "transcript": transcript, "evidence": sorted(set(evidence))}
             tool = self.registry.tools.get(step["tool"])
+            # no-op loop guard: the same tool with the same args already ran → push the model to use what it has
+            prior = [st for st in transcript if st["kind"] == "tool_result" and st["tool"] == step["tool"] and st["args"] == step["args"]]
+            if prior:
+                transcript.append({"kind": "tool_denied", "tool": step["tool"], "args": step["args"],
+                                   "error": "you already called this tool with exactly these arguments (see the result above); do not repeat it — use the results you have and return final, or try different arguments"})
+                continue
             action_key = f"{task['task_id']}|{step['tool']}|{json.dumps(step['args'], sort_keys=True)}"
             if tool is not None and tool.sensitive and action_key not in approved:
                 modified = [s for s in transcript if s["kind"] == "human_modify" and s["tool"] == step["tool"]]

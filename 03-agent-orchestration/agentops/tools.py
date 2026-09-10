@@ -140,7 +140,23 @@ class Tool:
     sensitive: bool = False
 
     def schema_for_prompt(self) -> dict:
-        return {"name": self.name, "description": self.description, "args": self.input_model.model_json_schema().get("properties", {})}
+        """Example-style args (models copy JSON-schema objects literally if shown the raw schema)."""
+        props = self.input_model.model_json_schema().get("properties", {})
+        example = {}
+        for name, spec in props.items():
+            t = spec.get("type")
+            if "default" in spec and t != "object":
+                example[name] = spec["default"]
+            elif t == "string":
+                example[name] = f"<{name}: text>"
+            elif t == "integer":
+                example[name] = 5
+            elif t == "object":
+                example[name] = {"<key>": "<value>"}
+            else:
+                example[name] = f"<{name}>"
+        required = self.input_model.model_json_schema().get("required", [])
+        return {"name": self.name, "description": self.description, "args_example": example, "required": required}
 
 
 @dataclass

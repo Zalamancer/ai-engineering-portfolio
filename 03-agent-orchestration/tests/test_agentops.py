@@ -360,3 +360,24 @@ def test_bedrock_provider_maps_messages_usage_and_ledger(env):
     assert out.tokens_in == 1000 and out.cost_usd == pytest.approx(0.00006 + 0.00012)
     tot = db.ledger_totals(run_id)
     assert tot["entries"] == 1 and tot["open_reservations"] == 0 and tot["actual"] == pytest.approx(0.00018)
+
+
+def test_tool_prompt_uses_examples_not_raw_schema(env):
+    s, db = env
+    d = {t["name"]: t for t in ToolRegistry(s).describe("research")}
+    assert d["docs_search"]["args_example"] == {"query": "<query: text>", "max_results": 5}
+    assert d["docs_search"]["required"] == ["query"] and "title" not in json.dumps(d["docs_search"]["args_example"])
+
+
+def test_repeated_identical_tool_call_is_blocked_without_a_new_tool_run(env):
+    s, db = env
+    run_id = db.create_run("Research Uvicorn proxy headers", {}, {})
+    plan = json.dumps({"confidence": 0.9, "tasks": [json.loads(PLAN)["tasks"][0]]})
+    # model repeats the same search 3 times, then finalises
+    no_cite_final = json.dumps({"thought": "done", "final": {"summary": "Uvicorn trusts forwarded headers only from allowed IPs.", "content": "see summary", "citations": []}})
+    turns = [RESEARCH_SEARCH, RESEARCH_SEARCH, RESEARCH_SEARCH, no_cite_final]
+    llm = ScriptedLLM(s, db, run_id, plan=plan, research_turns=turns)
+    out = make_orch(s, db, llm).start(db.get_run(run_id))
+    ev = db.events(run_id)
+    assert sum(1 for e in ev if e["kind"] == "tool_call" and e["payload"].get("tool") == "docs_search") == 1
+    assert db.tasks(run_id)[0]["status"] == "done" and db.tasks(run_id)[0]["attempts"] == 1
