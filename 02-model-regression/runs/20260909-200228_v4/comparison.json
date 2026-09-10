@@ -1,0 +1,144 @@
+{
+ "baseline_run_id": "20260909-193113_v1",
+ "candidate_run_id": "20260909-200228_v4",
+ "n_common": 80,
+ "baseline_pass_rate": 0.85,
+ "candidate_pass_rate": 0.8375,
+ "pass_rate_delta": -0.0125,
+ "category_accuracy_delta": -0.0375,
+ "per_category_accuracy_delta": {
+  "account": {
+   "n": 22,
+   "baseline": 0.8182,
+   "candidate": 0.8182,
+   "delta": 0.0
+  },
+  "billing": {
+   "n": 16,
+   "baseline": 0.875,
+   "candidate": 0.6875,
+   "delta": -0.1875
+  },
+  "general": {
+   "n": 19,
+   "baseline": 1.0,
+   "candidate": 1.0,
+   "delta": 0.0
+  },
+  "technical": {
+   "n": 23,
+   "baseline": 0.8261,
+   "candidate": 0.8261,
+   "delta": 0.0
+  }
+ },
+ "regressions": [
+  {
+   "case_id": "c015",
+   "expected_category": "billing",
+   "difficulty": "medium",
+   "baseline_output": "{\"category\": \"billing\", \"summary\": \"Customer requests 20% discount for the first year as promised by sales rep Dana, citing discrepancy between promise and current invoice.\"}",
+   "candidate_output": "{\"category\": \"general\", \"summary\": \"Customer claims a promised 20% discount was guaranteed by sales rep Dana but sees full price on invoice.\"}",
+   "baseline_category": "billing",
+   "candidate_category": "general",
+   "baseline_summary_score": 4,
+   "candidate_summary_score": 5,
+   "reason": "category billing\u2192general"
+  },
+  {
+   "case_id": "c017",
+   "expected_category": "billing",
+   "difficulty": "easy",
+   "baseline_output": "{\"category\": \"billing\", \"summary\": \"Customer wants to confirm if the free trial is truly free and if they will be charged for forgetting to cancel.\"}",
+   "candidate_output": "{\"category\": \"general\", \"summary\": \"Customer asks if the free trial is truly free and if they will be charged for forgetting to cancel.\"}",
+   "baseline_category": "billing",
+   "candidate_category": "general",
+   "baseline_summary_score": 5,
+   "candidate_summary_score": 5,
+   "reason": "category billing\u2192general"
+  },
+  {
+   "case_id": "c020",
+   "expected_category": "billing",
+   "difficulty": "easy",
+   "baseline_output": "{\"category\": \"billing\", \"summary\": \"Customer inquires about accepted payment methods, specifically whether cards or SEPA/bank transfer options are available.\"}",
+   "candidate_output": "{\"category\": \"general\", \"summary\": \"Customer asks what payment methods are accepted, specifically if SEPA or bank transfer are options.\"}",
+   "baseline_category": "billing",
+   "candidate_category": "general",
+   "baseline_summary_score": 5,
+   "candidate_summary_score": 5,
+   "reason": "category billing\u2192general"
+  },
+  {
+   "case_id": "c036",
+   "expected_category": "technical",
+   "difficulty": "medium",
+   "baseline_output": "{\"category\": \"technical\", \"summary\": \"The software is not functioning properly and experiencing crashes or errors.\"}",
+   "candidate_output": "{\"category\": \"general\", \"summary\": \"Customer reports a broken issue without further details.\"}",
+   "baseline_category": "technical",
+   "candidate_category": "general",
+   "baseline_summary_score": 4,
+   "candidate_summary_score": 4,
+   "reason": "category technical\u2192general"
+  }
+ ],
+ "improvements": [
+  {
+   "case_id": "c029",
+   "expected_category": "technical",
+   "difficulty": "hard",
+   "baseline_output": "{\"category\": \"general\", \"summary\": \"OAuth callback should accept redirect URIs with ports like localhost:3000, as per RFC 6749, to improve local development experience.\"}",
+   "candidate_output": "{\"category\": \"technical\", \"summary\": \"Customer reports OAuth callback rejects redirect URIs with port; requests support for port in localhost URLs as per RFC 6749.\"}",
+   "baseline_category": "general",
+   "candidate_category": "technical",
+   "baseline_summary_score": 5,
+   "candidate_summary_score": 5,
+   "reason": "fail \u2192 pass"
+  },
+  {
+   "case_id": "c050",
+   "expected_category": "account",
+   "difficulty": "hard",
+   "baseline_output": "{\"category\": \"account\", \"summary\": \"Der Kunden kann das vergessene Passwort zur\u00fccksetzen, da die Reset-E-Mail nicht ankommt.\"}",
+   "candidate_output": "{\"category\": \"account\", \"summary\": \"Customer forgot their password and is not receiving the reset email, needing assistance to recover access.\"}",
+   "baseline_category": "account",
+   "candidate_category": "account",
+   "baseline_summary_score": 3,
+   "candidate_summary_score": 5,
+   "reason": "fail \u2192 pass"
+  },
+  {
+   "case_id": "c068",
+   "expected_category": "general",
+   "difficulty": "medium",
+   "baseline_output": "{\"category\": \"general\", \"summary\": \"Customer has a general question about the software features and wants clarification on how to use a specific function.\"}",
+   "candidate_output": "{\"category\": \"general\", \"summary\": \"Customer has sent an unclear message with no specific request.\"}",
+   "baseline_category": "general",
+   "candidate_category": "general",
+   "baseline_summary_score": 1,
+   "candidate_summary_score": 5,
+   "reason": "fail \u2192 pass"
+  }
+ ],
+ "verdict": "pass",
+ "verdict_basis": "pass rate change -1.2 pp within warning threshold 3 pp",
+ "stats": {
+  "n": 80,
+  "flipped_to_fail": 4,
+  "flipped_to_pass": 3,
+  "discordant_pairs": 7,
+  "mcnemar_exact_p_value": 1.0,
+  "baseline_pass_rate_wilson95": [
+   0.7559,
+   0.9121
+  ],
+  "candidate_pass_rate_wilson95": [
+   0.7416,
+   0.9025
+  ],
+  "reading": "4 regressions vs 3 improvements among 7 flipped cases; exact two-sided p=1.000. This is consistent with noise at n=80.",
+  "caveat": "With fewer than ~100 cases, differences under ~8-10 pp are rarely statistically distinguishable; the policy thresholds are a product decision, not a test."
+ },
+ "same_dataset": true,
+ "dataset_note": ""
+}

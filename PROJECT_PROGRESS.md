@@ -1,14 +1,14 @@
 # Project progress
 
-Last updated: 2026-09-09 (session 1, evening). Plain-language status first, details below.
+Last updated: 2026-09-09 (session 1, night). Repo: https://github.com/Zalamancer/ai-engineering-portfolio Plain-language status first, details below.
 
 ## Where things stand
 
 | Project | Status | Human action needed? |
 |---|---|---|
-| 01 Hybrid RAG (#6) | **Built and running locally.** API, UI, 20 tests pass, 75-question eval set, retrieval comparison done; six answer-quality runs in progress (~1 h each with the shared local model). | Yes — review the 75 questions |
-| 02 Model regression (#1) | **Built locally.** 12 tests pass; baseline run measured (v1: 86 % pass); v2 and intentionally-bad v3 runs in progress. Slack delivery and GitHub Actions prepared but not exercised live. | Yes — review the 80 emails; later GitHub + Slack |
-| 03 Agent orchestration (#15) | **Built locally.** 9 end-to-end tests pass with a scripted model (approval pause/resume, budget exhaustion, kill-recovery without repeated side effects, bounded reviewer correction). Live demo run with the real local model in progress. AWS untouched. | Later — AWS budget confirmation |
+| 01 Hybrid RAG (#6) | **Built, measured, running locally.** 20 tests pass; retrieval eval (18 configs) and six answer-quality runs done; results + failure analysis in README. | Yes — review the 75 questions |
+| 02 Model regression (#1) | **Done locally + on GitHub.** 12 tests; dataset human-verified by Ihsan (80/80); v1 85 %, v2 pass, v3-bad blocked (critical, exit 2); public repo + PR gate workflow running (eval step skipped without model secrets). Slack delivery pending a webhook. | Slack webhook (optional); model secrets for Actions (optional) |
+| 03 Agent orchestration (#15) | **Built and live-tested locally.** 11 tests; one full live run completed with approval pause/resume, budget pause/resume and exactly one webhook delivery; five defects found by live runs and fixed. AWS untouched. | Later — AWS budget confirmation |
 
 All three share one local LLM server (Qwen3-4B on the Mac). Running the three evaluation jobs at
 once slowed each of them; results are still correct, only wall-clock latency numbers are inflated

@@ -1,0 +1,74 @@
+{
+ "run_id": "20260909-194022_semantic_hybrid_rerank",
+ "config": {
+  "strategy": "semantic",
+  "mode": "hybrid",
+  "rerank": true,
+  "threshold": 0.4,
+  "top_k": 5
+ },
+ "is_baseline": false,
+ "llm_model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+ "judge_model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+ "embedding_model": "BAAI/bge-small-en-v1.5",
+ "reranker_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+ "dataset": {
+  "dataset_version": "0.1.0-ai-draft",
+  "n_questions": 75,
+  "verification": {
+   "ai_generated": 75
+  }
+ },
+ "split": "all",
+ "n": 75,
+ "run_at": "2026-09-09T20:04:23",
+ "total_seconds": 1440.1,
+ "note": "correctness/faithfulness/citation verdicts are LLM judgments by the model named in judge_model, not human judgments",
+ "summary": {
+  "dev": {
+   "n": 44,
+   "answer_correct_rate": 0.8333,
+   "answer_score_mean_1_5": 4.6176,
+   "wrongly_abstained_rate": 0.0556,
+   "faithfulness": 0.9518,
+   "citation_precision": 0.6959,
+   "citation_partial_rate": 0.2207,
+   "retrieval_hit@5": 0.85,
+   "no_answer_abstain_rate": 1.0,
+   "ambiguity_handled_rate": 0.5,
+   "median_wall_s": 16.1,
+   "mean_llm_calls": 4,
+   "mean_prompt_tokens": 1365.9091
+  },
+  "heldout": {
+   "n": 31,
+   "answer_correct_rate": 0.8261,
+   "answer_score_mean_1_5": 4.6364,
+   "wrongly_abstained_rate": 0.0435,
+   "faithfulness": 0.982,
+   "citation_precision": 0.7486,
+   "citation_partial_rate": 0.1414,
+   "retrieval_hit@5": 0.7308,
+   "no_answer_abstain_rate": 1.0,
+   "ambiguity_handled_rate": 0.5,
+   "median_wall_s": 16.6,
+   "mean_llm_calls": 4,
+   "mean_prompt_tokens": 1391.4839
+  },
+  "all": {
+   "n": 75,
+   "answer_correct_rate": 0.8305,
+   "answer_score_mean_1_5": 4.625,
+   "wrongly_abstained_rate": 0.0508,
+   "faithfulness": 0.9638,
+   "citation_precision": 0.7172,
+   "citation_partial_rate": 0.1887,
+   "retrieval_hit@5": 0.803,
+   "no_answer_abstain_rate": 1.0,
+   "ambiguity_handled_rate": 0.5,
+   "median_wall_s": 16.3,
+   "mean_llm_calls": 4,
+   "mean_prompt_tokens": 1376.48
+  }
+ }
+}

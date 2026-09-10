@@ -112,7 +112,35 @@ Measured on this Mac with the local models named in the tables. See
 [`eval/results/FAILURES.md`](eval/results/FAILURES.md) for saved failure examples.
 The summary below is filled in from those files.
 
-RESULTS_SUMMARY_PLACEHOLDER
+Six end-to-end runs on 75 questions (2026-09-09; generator and judge = local Qwen3-4B; LLM server shared with
+other jobs, so latencies are inflated). Retrieval-only comparison of 18 configurations in `RESULTS.md` §1.
+
+| configuration | correct (judge ≥ 4/5) | held-out correct | wrongly abstained | faithfulness | citation precision | no-answer abstained | retrieval hit@5 |
+|---|---|---|---|---|---|---|---|
+| **baseline**: fixed chunks · dense only · no rerank | 75 % | 65 % | 17 % | 98 % | 76 % | 100 % | 58 % |
+| recursive · **hybrid** (RRF) · rerank — *the guide's design* | 81 % | 78 % | 14 % | 99 % | 81 % | 100 % | 82 % |
+| recursive · dense only · rerank | 73 % | 78 % | 15 % | 97 % | 77 % | 100 % | 79 % |
+| recursive · **BM25 only** · no rerank | **92 %** | **96 %** | **5 %** | 99 % | 79 % | 100 % | **85 %** |
+| fixed · hybrid · rerank | 83 % | 87 % | 7 % | 94 % | 65 % | 100 % | 77 % |
+| semantic · hybrid · rerank | 83 % | 83 % | 5 % | 96 % | 72 % | 100 % | 80 % |
+
+What the numbers say, honestly:
+- **Hybrid beats the dense-only baseline** clearly (+6 pp correct, +24 pp retrieval hit@5, fewer false abstentions).
+- **But plain BM25 beats hybrid on this question set** (92 % vs 81 % correct; 85 % vs 82 % hit@5). Reranking and
+  fusion did not add value over keyword search here. Most likely cause: the questions were drafted from the text and
+  reuse its exact identifiers (flag names, header names, status codes), which is BM25's home turf. Whether hybrid wins on
+  human-written questions is *not yet known* — that is what the pending question review will test.
+- **Abstention works**: every configuration refused all 8 unanswerable questions (threshold 0.40 chosen on dev only), at
+  the cost of 5–17 % false abstentions on answerable ones.
+- **Ambiguity handling is weak** (50–75 % of ambiguous questions got interpretations surfaced); the 4B model tends to pick one meaning.
+- **Chunking**: at the answer level fixed / recursive / semantic are within a few points of each other (83 / 81 / 83 %);
+  recursive gives the best citation precision (81 %), semantic the best multi-hop retrieval (see §1).
+- Faithfulness is high everywhere (94–99 %): when the model answers, it mostly sticks to the passages. Citation
+  precision (65–81 %) is the weaker layer — the verifier flags a fifth of citations as not supporting their sentence.
+
+Failure examples (`FAILURES.md`): e.g. q004 — the model answered "Uvicorn trusts no IPs by default" although the
+passage says it defaults to 127.0.0.1 (judge 2/5, citation flagged NOT_SUPPORTED — the verification layer caught it);
+q069 "How do I set the maximum size?" — answered about `max_body_size` instead of surfacing the three interpretations.
 
 **Read the numbers with these caveats.** (1) The 75 questions were drafted by an AI reading
 the corpus and are **not yet human-verified** (status in `eval/questions.json`). Questions

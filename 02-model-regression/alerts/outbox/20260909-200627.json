@@ -1,0 +1,37 @@
+{
+ "text": "✅ *PASS* — prompt `v4` vs baseline `20260909-193113_v1`: 4 regressions, 3 improvements, pass rate 85% → 84%",
+ "blocks": [
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "✅ *PASS* — prompt `v4` vs baseline `20260909-193113_v1`: 4 regressions, 3 improvements, pass rate 85% → 84%"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "category accuracy Δ -3.8 pp · n=80 · exact p=1.0 · 95% CI candidate (0.7416, 0.9025)"
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "*Regressed cases*\n• `c015` (billing, medium): category billing→general\n• `c017` (billing, easy): category billing→general\n• `c020` (billing, easy): category billing→general\n• `c036` (technical, medium): category technical→general"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "model `mlx-community/Qwen3-4B-Instruct-2507-4bit` · judge `mlx-community/Qwen3-4B-Instruct-2507-4bit` · dataset human-verified"
+    }
+   ]
+  }
+ ]
+}
