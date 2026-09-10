@@ -9,7 +9,6 @@ __pycache__/
 01-hybrid-rag/data/raw/_src/
 01-hybrid-rag/data/raw/rfc/
 01-hybrid-rag/data/raw/uploads/
-01-hybrid-rag/data/processed/
 01-hybrid-rag/data/index/
 03-agent-orchestration/data/chroma/
 03-agent-orchestration/data/checkpoints.db*

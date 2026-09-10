@@ -28,22 +28,54 @@ class LLMResult:
 
 
 class LLM:
-    def __init__(self, settings: Settings, db, run_id: str | None = None, model: str | None = None):
+    def __init__(self, settings: Settings, db, run_id: str | None = None, model: str | None = None, bedrock_client=None):
         self.s = settings
         self.db = db
         self.run_id = run_id
         self.model = model or settings.llm_model
-        self.client = OpenAI(base_url=settings.llm_base_url, api_key=settings.llm_api_key, timeout=settings.llm_timeout_s, max_retries=1)
+        self.provider = settings.llm_provider
+        if self.provider == "bedrock":
+            self.bedrock = bedrock_client or self._bedrock_client(settings)
+            self.client = None
+        else:
+            self.bedrock = None
+            self.client = OpenAI(base_url=settings.llm_base_url, api_key=settings.llm_api_key, timeout=settings.llm_timeout_s, max_retries=1)
         self.calls = 0
         self.tokens = 0
 
+    @staticmethod
+    def _bedrock_client(settings: Settings):
+        import boto3
+        from botocore.config import Config
+        session = boto3.Session(profile_name=settings.bedrock_profile or None, region_name=settings.bedrock_region)
+        return session.client("bedrock-runtime", config=Config(read_timeout=settings.llm_timeout_s, retries={"max_attempts": 2}))
+
     def is_available(self) -> bool:
+        if self.provider == "bedrock":
+            return self.bedrock is not None
         try:
             import httpx
             return httpx.get(self.s.llm_base_url.rstrip("/") + "/models", timeout=3.0,
                              headers={"Authorization": f"Bearer {self.s.llm_api_key}"}).status_code < 500
         except Exception:
             return False
+
+    def _complete(self, messages: list[dict], max_tokens: int, temperature: float) -> tuple[str, int | None, int | None]:
+        """Provider-specific call → (text, tokens_in, tokens_out)."""
+        if self.provider == "bedrock":
+            system = [{"text": m["content"]} for m in messages if m["role"] == "system"]
+            convo = [{"role": m["role"], "content": [{"text": m["content"]}]} for m in messages if m["role"] != "system"]
+            kw = {"modelId": self.model, "messages": convo, "inferenceConfig": {"maxTokens": max_tokens, "temperature": temperature}}
+            if system:
+                kw["system"] = system
+            resp = self.bedrock.converse(**kw)
+            text = "".join(c.get("text", "") for c in resp["output"]["message"]["content"]).strip()
+            u = resp.get("usage", {})
+            return text, u.get("inputTokens"), u.get("outputTokens")
+        resp = self.client.chat.completions.create(model=self.model, messages=messages, max_tokens=max_tokens, temperature=temperature)
+        text = (resp.choices[0].message.content or "").strip()
+        u = getattr(resp, "usage", None)
+        return text, (u.prompt_tokens if u else None), (u.completion_tokens if u else None)
 
     def _price(self, tin: int, tout: int) -> float:
         return tin / 1000 * self.s.price_in_per_1k + tout / 1000 * self.s.price_out_per_1k
@@ -65,11 +97,8 @@ class LLM:
         entry = self.db.reserve(self.run_id, "llm", reserve_usd, agent) if (self.db and self.run_id) else None
 
         t0 = time.perf_counter()
-        resp = self.client.chat.completions.create(model=self.model, messages=messages, max_tokens=max_tokens, temperature=temperature)
+        text, tin, tout = self._complete(messages, max_tokens, temperature)
         latency = (time.perf_counter() - t0) * 1000
-        text = (resp.choices[0].message.content or "").strip()
-        u = getattr(resp, "usage", None)
-        tin, tout = (u.prompt_tokens, u.completion_tokens) if u else (None, None)
         cost = self._price(tin or 0, tout or 0)
         self.calls += 1
         self.tokens += (tin or 0) + (tout or 0)

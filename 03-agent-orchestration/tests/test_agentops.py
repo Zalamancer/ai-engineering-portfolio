@@ -338,3 +338,25 @@ def test_memory_consolidation_and_delete(env):
     merged = m.consolidate(threshold=0.95)
     assert len(merged) == 1 and m.dashboard()["count"] == 2
     assert m.delete(user_id="u1") == 1 and m.dashboard()["count"] == 1 and m.search("cookies")[0]["run_id"] == "r3"
+
+
+def test_bedrock_provider_maps_messages_usage_and_ledger(env):
+    """Bedrock path with a stubbed client: system prompt → `system`, usage → tokens/cost, ledger reserved + reconciled."""
+    from agentops.llm import LLM
+    s, db = env
+    s = s.model_copy(update={"llm_provider": "bedrock", "llm_model": "amazon.nova-lite-v1:0", "price_in_per_1k": 0.00006, "price_out_per_1k": 0.00024})
+    run_id = db.create_run("x", {}, {})
+
+    class Stub:
+        def __init__(self):
+            self.kw = None
+        def converse(self, **kw):
+            self.kw = kw
+            return {"output": {"message": {"content": [{"text": "SUPPORTED"}]}}, "usage": {"inputTokens": 1000, "outputTokens": 500}}
+    stub = Stub()
+    llm = LLM(s, db, run_id, bedrock_client=stub)
+    out = llm.chat([{"role": "system", "content": "be brief"}, {"role": "user", "content": "hi"}], max_tokens=5, agent="reviewer")
+    assert out.text == "SUPPORTED" and stub.kw["system"] == [{"text": "be brief"}] and stub.kw["messages"][0]["role"] == "user"
+    assert out.tokens_in == 1000 and out.cost_usd == pytest.approx(0.00006 + 0.00012)
+    tot = db.ledger_totals(run_id)
+    assert tot["entries"] == 1 and tot["open_reservations"] == 0 and tot["actual"] == pytest.approx(0.00018)

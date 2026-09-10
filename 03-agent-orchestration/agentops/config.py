@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     workspace_dir: Path = ROOT / "data" / "workspaces"       # per-run file sandbox for file tools
 
     # --- models ----------------------------------------------------------------------
+    llm_provider: str = "openai"                              # openai (any OpenAI-compatible endpoint) | bedrock (AWS Converse API)
+    bedrock_region: str = "us-east-1"
+    bedrock_profile: str = ""                                 # AWS named profile for Bedrock calls (empty = default credential chain)
     llm_base_url: str = "http://127.0.0.1:8081/v1"
     llm_api_key: str = "local-no-key"
     llm_model: str = "mlx-community/Qwen3-4B-Instruct-2507-4bit"
