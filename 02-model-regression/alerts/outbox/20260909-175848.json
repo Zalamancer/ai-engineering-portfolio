@@ -1,0 +1,30 @@
+{
+ "text": "✅ eval run `20260909-175034_v1` — pass rate 86% (no baseline to compare)",
+ "blocks": [
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "✅ eval run `20260909-175034_v1` — pass rate 86% (no baseline to compare)"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "n=80 · dataset 0.1.0-ai-draft (0/80 human-verified; rest AI-drafted)"
+    }
+   ]
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "model `mlx-community/Qwen3-4B-Instruct-2507-4bit` · judge `mlx-community/Qwen3-4B-Instruct-2507-4bit` · dataset 0/80 human-verified; rest AI-drafted"
+    }
+   ]
+  }
+ ]
+}

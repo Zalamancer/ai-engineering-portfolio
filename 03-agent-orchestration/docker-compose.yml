@@ -1,0 +1,37 @@
+# docker compose up --build   (LLM stays on the host or any endpoint given by AO_LLM_BASE_URL)
+# Adaptation from the guide's compose (API, Redis, PostgreSQL, ChromaDB, Celery workers, trace UI, review UI):
+# state lives in SQLite files on a shared volume (swap for Postgres by pointing db.py at a DSN),
+# the work queue is the leased `runs` table (no Redis/Celery), Chroma is embedded. Same roles, fewer moving parts.
+x-env: &env
+  AO_LLM_BASE_URL: ${AO_LLM_BASE_URL:-http://host.docker.internal:8081/v1}
+  AO_LLM_MODEL: ${AO_LLM_MODEL:-mlx-community/Qwen3-4B-Instruct-2507-4bit}
+  AO_LLM_API_KEY: ${AO_LLM_API_KEY:-local-no-key}
+  AO_HTTP_POST_ALLOWLIST: '["http://testtarget:8099"]'
+  HF_HOME: /app/.hf
+services:
+  api:
+    build: .
+    ports: ["8010:8010"]
+    environment: *env
+    volumes: [ "./data:/app/data", "hf:/app/.hf" ]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+  worker:
+    build: .
+    command: ["python", "-m", "agentops.worker"]
+    environment: *env
+    volumes: [ "./data:/app/data", "hf:/app/.hf" ]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    deploy: { replicas: 1 }       # a second replica is safe: runs are leased
+    depends_on: [api]
+  console:
+    build: .
+    command: ["streamlit", "run", "agentops/ui.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
+    ports: ["8501:8501"]
+    environment: *env
+    volumes: [ "./data:/app/data", "hf:/app/.hf" ]
+  testtarget:
+    build: .
+    command: ["uvicorn", "agentops.testtarget:app", "--host", "0.0.0.0", "--port", "8099"]
+    ports: ["8099:8099"]
+volumes:
+  hf: {}

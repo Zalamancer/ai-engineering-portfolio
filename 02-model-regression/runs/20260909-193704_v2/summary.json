@@ -1,0 +1,92 @@
+{
+ "run_id": "20260909-193704_v2",
+ "created": "2026-09-09T19:43:34",
+ "prompt_version": "v2",
+ "prompt_path": "prompts/v2.yaml",
+ "dataset_version": "0.2.0-reviewed",
+ "dataset_fingerprint": "d6f4a7d7d3be",
+ "n_cases": 80,
+ "n_verified": 80,
+ "only_verified": false,
+ "dataset_label": "human-verified",
+ "pass_rate": 0.825,
+ "category_accuracy": 0.825,
+ "summary_pass_rate": 1.0,
+ "summary_score_mean": 4.912,
+ "output_valid_rate": 1.0,
+ "latency_p50_ms": 5343.1,
+ "latency_p95_ms": 16135.2,
+ "latency_mean_ms": 6627.0,
+ "prompt_tokens": 39469,
+ "completion_tokens": 2448,
+ "by_category": {
+  "billing": {
+   "n": 16,
+   "correct": 10,
+   "passed": 10,
+   "accuracy": 0.625,
+   "pass_rate": 0.625
+  },
+  "account": {
+   "n": 22,
+   "correct": 18,
+   "passed": 18,
+   "accuracy": 0.8182,
+   "pass_rate": 0.8182
+  },
+  "technical": {
+   "n": 23,
+   "correct": 19,
+   "passed": 19,
+   "accuracy": 0.8261,
+   "pass_rate": 0.8261
+  },
+  "general": {
+   "n": 19,
+   "correct": 19,
+   "passed": 19,
+   "accuracy": 1.0,
+   "pass_rate": 1.0
+  }
+ },
+ "by_difficulty": {
+  "easy": {
+   "n": 27,
+   "passed": 22,
+   "pass_rate": 0.8148
+  },
+  "medium": {
+   "n": 36,
+   "passed": 31,
+   "pass_rate": 0.8611
+  },
+  "hard": {
+   "n": 17,
+   "passed": 13,
+   "pass_rate": 0.7647
+  }
+ },
+ "status": "candidate",
+ "baseline_run_id": "20260909-193113_v1",
+ "notes": "",
+ "thresholds": {
+  "warn_delta": 0.03,
+  "critical_delta": 0.08,
+  "summary_pass_score": 4,
+  "kind": "policy thresholds, not statistical significance"
+ },
+ "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+ "judge_model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+ "wall_seconds": 389.9,
+ "verdict": "pass",
+ "drift": {
+  "drift": false,
+  "reason": "need 7 runs, have 1",
+  "window": 7,
+  "moving_average": null,
+  "threshold": 0.85,
+  "runs_used": [
+   "20260909-175852_v2"
+  ]
+ }
+}

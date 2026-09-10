@@ -1,0 +1,37 @@
+{
+ "text": "🚨 *CRITICAL* — prompt `v3-bad` vs baseline `20260909-175034_v1`: 51 regressions, 2 improvements, pass rate 86% → 25%",
+ "blocks": [
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "🚨 *CRITICAL* — prompt `v3-bad` vs baseline `20260909-175034_v1`: 51 regressions, 2 improvements, pass rate 86% → 25%"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "category accuracy Δ -62.5 pp · n=80 · exact p=0.0 · 95% CI candidate (0.1681, 0.3548)"
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "*Regressed cases*\n• `c001` (billing, easy): category billing→general\n• `c002` (billing, easy): category billing→general\n• `c003` (billing, easy): category billing→general\n• `c004` (billing, easy): category billing→general\n• `c005` (billing, easy): category billing→general"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "model `mlx-community/Qwen3-4B-Instruct-2507-4bit` · judge `mlx-community/Qwen3-4B-Instruct-2507-4bit` · dataset 0/80 human-verified; rest AI-drafted"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+version: v3-bad
+created: 2026-09-09T17:10:00
+description: >
+  INTENTIONALLY BAD change for the demo: the category definitions were "simplified" away and the
+  model is nudged to prefer "general". Expected to fail the regression gate.
+temperature: 0.0
+max_tokens: 200
+system_prompt: |
+  You are a helpful assistant. Read the customer email and reply with JSON:
+  {"category": "general", "summary": "<summary>"}
+  Use "general" unless the email is clearly and only about a technical bug. Keep the summary short.
+few_shot: []

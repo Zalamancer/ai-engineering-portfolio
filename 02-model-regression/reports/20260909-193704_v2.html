@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Regression report 20260909-193704_v2</title>
+<style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:2rem;max-width:1200px;color:#222}
+table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #ddd;padding:.4rem .6rem;vertical-align:top;font-size:.9rem}
+th{background:#f5f5f5;text-align:left}.pass{color:#1a7f37}.warn{color:#b35900}.critical{color:#b3261e}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:.4rem;font-weight:600;color:#fff}
+.badge.pass{background:#1a7f37}.badge.warn{background:#b35900}.badge.critical{background:#b3261e}
+pre{white-space:pre-wrap;margin:0;font-size:.8rem}small{color:#666}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.card{border:1px solid #ddd;border-radius:.5rem;padding:.8rem}.card b{font-size:1.4rem}
+</style></head><body>
+<h1>Regression report <small>20260909-193704_v2</small></h1>
+<p><span class="badge pass">PASS</span> pass rate change -2.5 pp within warning threshold 3 pp</p>
+
+
+<h2>Run metadata</h2>
+<table><tr><th>prompt version</th><td>v2 <small>(prompts/v2.yaml)</small></td><th>model</th><td>mlx-community/Qwen3-4B-Instruct-2507-4bit</td></tr>
+<tr><th>judge</th><td>mlx-community/Qwen3-4B-Instruct-2507-4bit <small>(summary scores are LLM judgments)</small></td><th>timestamp</th><td>2026-09-09T19:43:34</td></tr>
+<tr><th>dataset</th><td>0.2.0-reviewed · fingerprint d6f4a7d7d3be · 80 cases · <b>human-verified</b></td>
+<th>baseline</th><td>20260909-193113_v1</td></tr></table>
+
+<h2>Scorecard</h2>
+<table><tr><th>metric</th><th>baseline</th><th>candidate</th><th>delta</th></tr>
+<tr><td>overall pass rate (category ∧ valid ∧ summary ≥ threshold)</td><td>85.0%</td><td>82.5%</td><td class="warn">-2.5 pp</td></tr><tr><td>category accuracy</td><td>87.5%</td><td>82.5%</td><td class="warn">-5.0 pp</td></tr><tr><td>summary acceptable rate (judge)</td><td>97.5%</td><td>100.0%</td><td class="pass">+2.5 pp</td></tr><tr><td>output valid rate</td><td>100.0%</td><td>100.0%</td><td class="pass">+0.0 pp</td></tr><tr><td>latency p50</td><td>4975 ms</td><td>5343 ms</td><td class="warn">+368 ms</td></tr><tr><td>latency p95</td><td>12799 ms</td><td>16135 ms</td><td class="warn">+3337 ms</td></tr>
+</table>
+<h3>Per-category accuracy</h3><table><tr><th>category</th><th>n</th><th>baseline</th><th>candidate</th><th>delta</th></tr>
+<tr><td>account</td><td>22</td><td>82%</td><td>82%</td><td class="pass">+0.0 pp</td></tr><tr><td>billing</td><td>16</td><td>88%</td><td>62%</td><td class="critical">-25.0 pp</td></tr><tr><td>general</td><td>19</td><td>100%</td><td>100%</td><td class="pass">+0.0 pp</td></tr><tr><td>technical</td><td>23</td><td>83%</td><td>83%</td><td class="pass">+0.0 pp</td></tr></table>
+<h3>Is it signal or noise?</h3>
+<p>4 regressions vs 2 improvements among 6 flipped cases; exact two-sided p=0.688. This is consistent with noise at n=80. Wilson 95% intervals — baseline (0.7559, 0.9121), candidate (0.7274, 0.8928).</p>
+<p><small>With fewer than ~100 cases, differences under ~8-10 pp are rarely statistically distinguishable; the policy thresholds are a product decision, not a test. The pass/warn/critical verdict above uses the configured <b>policy thresholds</b> (3 pp / 8 pp), which are not a significance test.</small></p>
+
+
+<h2>Slow drift (7-run moving average)</h2>
+<p class="pass">need 7 runs, have 1</p>
+
+<h2>Trend (pass rate, last 1 runs of this prompt version)</h2>
+<svg viewBox="0 0 700 220" width="700" height="220" style="border:1px solid #eee;background:#fff"><line x1="40" y1="180.0" x2="660" y2="180.0" stroke="#eee"/><text x="4" y="184.0" font-size="11" fill="#666">0%</text><line x1="40" y1="145.0" x2="660" y2="145.0" stroke="#eee"/><text x="4" y="149.0" font-size="11" fill="#666">25%</text><line x1="40" y1="110.0" x2="660" y2="110.0" stroke="#eee"/><text x="4" y="114.0" font-size="11" fill="#666">50%</text><line x1="40" y1="75.0" x2="660" y2="75.0" stroke="#eee"/><text x="4" y="79.0" font-size="11" fill="#666">75%</text><line x1="40" y1="40.0" x2="660" y2="40.0" stroke="#eee"/><text x="4" y="44.0" font-size="11" fill="#666">100%</text><line x1="40" y1="61.0" x2="660" y2="61.0" stroke="#b35900" stroke-dasharray="4 3"/><text x="664" y="65.0" font-size="10" fill="#b35900">drift</text><polyline points="40.0,64.5" fill="none" stroke="#1f6feb" stroke-width="2"/><circle cx="40.0" cy="64.5" r="4" fill="#1f6feb"><title>20260909-175852_v2: 82.5%</title></circle><text x="40" y="212" font-size="11" fill="#666">oldest</text><text x="620" y="212" font-size="11" fill="#666">newest</text></svg>
+
+<h2>Regressed cases (4)</h2>
+<table><tr><th>case</th><th>expected</th><th>baseline output</th><th>candidate output</th><th>why it failed</th></tr>
+<tr><td>c008<br><small>medium</small></td><td>billing</td>
+<td><pre>{"category": "billing", "summary": "Customer requests a receipt for recent payment or subscription."}</pre><small>summary score 5</small></td>
+<td><pre>{"category": "general", "summary": "Customer requests a receipt, with no additional context provided."}</pre><small>summary score 5</small></td><td>category billing→general</td></tr><tr><td>c015<br><small>medium</small></td><td>billing</td>
+<td><pre>{"category": "billing", "summary": "Customer requests 20% discount for the first year as promised by sales rep Dana, citing discrepancy between promise and current invoice."}</pre><small>summary score 4</small></td>
+<td><pre>{"category": "general", "summary": "Customer claims a promised 20% discount was guaranteed by sales rep Dana but sees full price on invoice."}</pre><small>summary score 5</small></td><td>category billing→general</td></tr><tr><td>c017<br><small>easy</small></td><td>billing</td>
+<td><pre>{"category": "billing", "summary": "Customer wants to confirm if the free trial is truly free and if they will be charged for forgetting to cancel."}</pre><small>summary score 5</small></td>
+<td><pre>{"category": "general", "summary": "Customer asks if the free trial is truly free and if they will be charged for forgetting to cancel."}</pre><small>summary score 5</small></td><td>category billing→general</td></tr><tr><td>c020<br><small>easy</small></td><td>billing</td>
+<td><pre>{"category": "billing", "summary": "Customer inquires about accepted payment methods, specifically whether cards or SEPA/bank transfer options are available."}</pre><small>summary score 5</small></td>
+<td><pre>{"category": "general", "summary": "Customer asks what payment methods are accepted, specifically if SEPA or bank transfer are supported."}</pre><small>summary score 5</small></td><td>category billing→general</td></tr></table>
+
+<h2>Improved cases (2)</h2>
+<ul><li>c050 (account, hard)</li><li>c068 (general, medium)</li></ul>
+
+<h2>All failing cases in this run (14)</h2>
+<table><tr><th>case</th><th>expected</th><th>predicted</th><th>summary score</th><th>output</th><th>problem</th></tr>
+<tr><td>c005<br><small>easy</small></td><td>account</td><td>billing</td><td>5</td><td><pre>{"category": "billing", "summary": "Customer wants to switch from monthly to annual billing and asks if there's a discount available."}</pre></td><td>wrong category</td></tr><tr><td>c006<br><small>medium</small></td><td>technical</td><td>billing</td><td>5</td><td><pre>{"category": "billing", "summary": "Customer's card expired, causing app to go 'read only'; they want to know when payment will retry after adding a new card."}</pre></td><td>wrong category</td></tr><tr><td>c008<br><small>medium</small></td><td>billing</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer requests a receipt, with no additional context provided."}</pre></td><td>wrong category</td></tr><tr><td>c010<br><small>hard</small></td><td>billing</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer asks if there's an enterprise option supporting net-60 terms and invoice requirements, instead of card-only checkout."}</pre></td><td>wrong category</td></tr><tr><td>c013<br><small>medium</small></td><td>technical</td><td>billing</td><td>5</td><td><pre>{"category": "billing", "summary": "Customer cannot download the May invoice PDF, which returns a 404 error, and needs it for expenses."}</pre></td><td>wrong category</td></tr><tr><td>c014<br><small>medium</small></td><td>billing</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer with a .edu email asks if student pricing is available."}</pre></td><td>wrong category</td></tr><tr><td>c015<br><small>medium</small></td><td>billing</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer claims a promised 20% discount was guaranteed by sales rep Dana but sees full price on invoice."}</pre></td><td>wrong category</td></tr><tr><td>c017<br><small>easy</small></td><td>billing</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer asks if the free trial is truly free and if they will be charged for forgetting to cancel."}</pre></td><td>wrong category</td></tr><tr><td>c020<br><small>easy</small></td><td>billing</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer asks what payment methods are accepted, specifically if SEPA or bank transfer are supported."}</pre></td><td>wrong category</td></tr><tr><td>c029<br><small>hard</small></td><td>technical</td><td>general</td><td>4</td><td><pre>{"category": "general", "summary": "Customer requests support for OAuth callback accepting ported redirect URIs like localhost:3000, citing RFC 6749 compliance."}</pre></td><td>wrong category</td></tr><tr><td>c033<br><small>hard</small></td><td>technical</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer complains that the save shortcut now opens settings, and requests it be reverted."}</pre></td><td>wrong category</td></tr><tr><td>c049<br><small>hard</small></td><td>account</td><td>technical</td><td>5</td><td><pre>{"category": "technical", "summary": "Magic-link emails aren't arriving for one colleague's address on their domain, despite other emails working fine."}</pre></td><td>wrong category</td></tr><tr><td>c055<br><small>easy</small></td><td>account</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer asks if SSO with Okta is supported and wants to enforce it for all users."}</pre></td><td>wrong category</td></tr><tr><td>c058<br><small>easy</small></td><td>account</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer wants to know the user limit for the Team plan."}</pre></td><td>wrong category</td></tr></table>
+<p><small>Generated by regress/report.py. Portfolio workload measurements on a local model; not customer impact.</small></p>
+</body></html>

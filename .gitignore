@@ -1,0 +1,19 @@
+# environments & secrets
+.venv/
+.env
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+# large / rebuildable data (see each project's README for how to rebuild)
+01-hybrid-rag/data/raw/_src/
+01-hybrid-rag/data/raw/rfc/
+01-hybrid-rag/data/raw/uploads/
+01-hybrid-rag/data/processed/
+01-hybrid-rag/data/index/
+03-agent-orchestration/data/chroma/
+03-agent-orchestration/data/checkpoints.db*
+03-agent-orchestration/data/workspaces/
+03-agent-orchestration/data/demo_analytics.sqlite
+03-agent-orchestration/data/agentops.db-wal
+03-agent-orchestration/data/agentops.db-shm

@@ -1,0 +1,1180 @@
+{
+ "version": "0.2.0-reviewed",
+ "created": "2026-09-09",
+ "description": "Golden dataset for the support-email classifier. Drafted by AI (Claude) as review candidates, then reviewed case by case by Ihsan Duru on 2026-09-09 (labels/summaries corrected where needed; see verification fields). Includes deliberate edge cases: ambiguous/mixed, extremely short, typos, mixed languages, sarcasm, angry.",
+ "cases": [
+  {
+   "id": "c001",
+   "input": "Hello, I was charged $49 on the 3rd and again on the 5th for the same Pro plan. Invoice numbers INV-20931 and INV-20977. Please refund the duplicate.",
+   "expected_category": "billing",
+   "expected_summary": "Customer was charged twice for the Pro plan (invoices INV-20931 and INV-20977) and wants the duplicate refunded.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c002",
+   "input": "Can you send me a proper VAT invoice for last month? My accountant needs our company VAT number on it: DE811223344.",
+   "expected_category": "billing",
+   "expected_summary": "Customer needs last month's invoice reissued with their company VAT number DE811223344.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c003",
+   "input": "Why did my monthly price go from 12 to 15 dollars? I didn't change anything.",
+   "expected_category": "billing",
+   "expected_summary": "Customer asks why their monthly price increased from $12 to $15 without any change on their side.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c004",
+   "input": "I cancelled in June but you're still billing me. Stop it and refund July and August.",
+   "expected_category": "billing",
+   "expected_summary": "Customer cancelled in June but was billed for July and August and wants the charges stopped and refunded.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c005",
+   "input": "How do I switch from monthly to annual billing and is there a discount?",
+   "expected_category": "account",
+   "expected_summary": "Customer wants to know how to switch to annual billing and whether it is discounted.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c006",
+   "input": "My card expired and the payment failed, now the app says 'read only'. I've added the new card, when will it retry?",
+   "expected_category": "technical",
+   "expected_summary": "Customer's payment failed due to an expired card, added a new card, and asks when the retry will happen so read-only mode ends.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "mentions app behaviour but the ask is about payment retry. I think there should be a way to notify the user for when the 'read only' will be changed for the user, if it is typical scenario it should notify the user.",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c007",
+   "input": "We have 14 seats on the invoice but only 9 people actually use it. Can we get a credit for the extra 5?",
+   "expected_category": "billing",
+   "expected_summary": "Customer is invoiced for 14 seats but uses 9 and asks for a credit for the 5 unused seats.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c008",
+   "input": "hi. receipt pls. thx",
+   "expected_category": "billing",
+   "expected_summary": "Customer asks for a receipt.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "short"
+   ],
+   "notes": "very short; still billing",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c009",
+   "input": "I see a charge from you on my statement but I don't remember signing up. What is this for and how do I get my money back?",
+   "expected_category": "billing",
+   "expected_summary": "Customer sees an unrecognised charge on their statement and wants to know what it is and how to get a refund.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c010",
+   "input": "Our PO process requires net-60 terms and an invoice before payment; your checkout only takes cards. Is there an enterprise option?",
+   "expected_category": "billing",
+   "expected_summary": "Customer needs net-60 invoicing instead of card checkout and asks about an enterprise billing option.",
+   "expected_difficulty": "hard",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c011",
+   "input": "Bonjour, j'ai été facturé deux fois ce mois-ci (le 2 et le 4). Merci de rembourser le doublon.",
+   "expected_category": "billing",
+   "expected_summary": "Customer (in French) was charged twice this month, on the 2nd and 4th, and asks for the duplicate to be refunded.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "mixed-language"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c012",
+   "input": "Great, so you 'upgraded' me automatically to the $99 tier without asking. Love that for me. Reverse it.",
+   "expected_category": "billing",
+   "expected_summary": "Customer was automatically moved to the $99 tier without consent and wants it reversed.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "sarcasm"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c013",
+   "input": "The invoice PDF from May won't download — the link gives a 404. I need it for expenses.",
+   "expected_category": "technical",
+   "expected_summary": "Customer cannot download the May invoice PDF because the link returns a 404 and needs it for expenses.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "technical symptom, but the customer needs the invoice; ambiguous with technical",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c014",
+   "input": "Do you offer student pricing? I have a .edu email.",
+   "expected_category": "billing",
+   "expected_summary": "Customer asks whether student pricing is available with a .edu email.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "the student is not asking about billing they are asking about price for student accounts.",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c015",
+   "input": "We were promised 20% off for the first year by your sales rep (Dana) but the invoice is full price.",
+   "expected_category": "billing",
+   "expected_summary": "Customer says a sales rep promised 20% off the first year but the invoice shows full price.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c016",
+   "input": "Please update the billing email to finance@acme-corp.example so invoices stop going to my personal inbox.",
+   "expected_category": "account",
+   "expected_summary": "Customer wants invoices sent to finance@acme-corp.example instead of their personal email.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "billing contact change; could be read as account",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c017",
+   "input": "Is the free trial really free? Will I be charged if I forget to cancel?",
+   "expected_category": "billing",
+   "expected_summary": "Customer asks whether the free trial is free and if they will be charged if they forget to cancel.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c018",
+   "input": "charged 3x today. 3 TIMES. card is now blocked by my bank because of you. fix this now",
+   "expected_category": "billing",
+   "expected_summary": "Customer was charged three times today, their bank blocked the card, and they demand an immediate fix and refund.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "angry"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c019",
+   "input": "Can I get a refund for the 3 weeks I couldn't use the product during the outage in August?",
+   "expected_category": "billing",
+   "expected_summary": "Customer asks for a refund for the three weeks the product was unusable during the August outage.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "mentions outage but asks for money back",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c020",
+   "input": "What payment methods do you accept? Only cards or also SEPA / bank transfer?",
+   "expected_category": "billing",
+   "expected_summary": "Customer asks which payment methods are accepted, specifically SEPA or bank transfer besides cards.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c021",
+   "input": "The dashboard shows a blank white page after login since this morning. Chrome 129 on Mac. Console says 'TypeError: cannot read properties of undefined'.",
+   "expected_category": "technical",
+   "expected_summary": "Dashboard is a blank page after login on Chrome 129/Mac with a TypeError in the console since this morning.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c022",
+   "input": "Webhooks stopped arriving around 14:00 UTC yesterday. No changes on our side. Endpoint returns 200 when I test it manually.",
+   "expected_category": "technical",
+   "expected_summary": "Webhooks stopped being delivered since 14:00 UTC yesterday although the customer's endpoint works.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c023",
+   "input": "API returns 429 even though we're at ~40 req/min, well under the 100 limit on our plan.",
+   "expected_category": "technical",
+   "expected_summary": "API returns 429 rate-limit errors at about 40 requests per minute, under the plan's 100 limit.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c024",
+   "input": "The mobile app crashes on launch on Android 14 (Pixel 7) after the latest update.",
+   "expected_category": "technical",
+   "expected_summary": "Mobile app crashes on launch on a Pixel 7 running Android 14 after the latest update.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c025",
+   "input": "Exports of large projects (>10k rows) time out. Smaller ones work. Is there a limit or a workaround?",
+   "expected_category": "technical",
+   "expected_summary": "Exports of projects over 10,000 rows time out and the customer asks about limits or a workaround.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c026",
+   "input": "The Slack integration posts every message twice. Disconnected and reconnected, still duplicates.",
+   "expected_category": "technical",
+   "expected_summary": "Slack integration posts every message twice even after reconnecting.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c027",
+   "input": "Since v3.2 the search ignores accented characters — searching 'café' no longer finds 'café'. Regression?",
+   "expected_category": "technical",
+   "expected_summary": "Since v3.2, search no longer matches accented characters such as 'café'.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c028",
+   "input": "Error when i uplaod a csv: 'unexpected token at line 1'. file is utf-8 with BOM i think. worked before",
+   "expected_category": "technical",
+   "expected_summary": "CSV upload fails with 'unexpected token at line 1', possibly due to a UTF-8 BOM; it worked before.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "typos"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c029",
+   "input": "Not urgent but your OAuth callback rejects redirect URIs with a port (localhost:3000). RFC 6749 allows this. Local dev is painful.",
+   "expected_category": "technical",
+   "expected_summary": "OAuth callback rejects redirect URIs containing a port such as localhost:3000, blocking local development.",
+   "expected_difficulty": "hard",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c030",
+   "input": "Page load went from 1s to 8s this week. Network tab shows /api/v2/feed taking 6s. Nothing changed on our end.",
+   "expected_category": "technical",
+   "expected_summary": "Page loads slowed from 1 s to 8 s this week because /api/v2/feed takes 6 s.",
+   "expected_difficulty": "hard",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c031",
+   "input": "Hola, la app no sincroniza desde ayer. Sale 'error de red' aunque tengo internet. ¿Qué hago?",
+   "expected_category": "technical",
+   "expected_summary": "Customer (in Spanish) reports the app has not synced since yesterday and shows a network error despite having internet.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "mixed-language"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c032",
+   "input": "2FA codes from your app are rejected as 'expired' the moment I enter them. Phone clock is correct.",
+   "expected_category": "technical",
+   "expected_summary": "2FA codes are rejected as expired immediately even though the phone clock is correct.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "2FA sounds like account, but it is a malfunction of the code check",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c033",
+   "input": "Oh wonderful, another 'improvement' — the keyboard shortcut for save now opens the settings. Genius. Please put it back.",
+   "expected_category": "technical",
+   "expected_summary": "After the latest update the save keyboard shortcut opens settings instead of saving; customer wants the old behaviour back.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "sarcasm"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c034",
+   "input": "Getting 'certificate has expired' when calling api.yourservice.example from our servers since midnight.",
+   "expected_category": "technical",
+   "expected_summary": "API calls to api.yourservice.example fail with a certificate-expired error since midnight.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c035",
+   "input": "The PDF export cuts off the right side of wide tables. Landscape option doesn't help.",
+   "expected_category": "technical",
+   "expected_summary": "PDF export truncates the right side of wide tables even in landscape mode.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c036",
+   "input": "broken",
+   "expected_category": "technical",
+   "expected_summary": "Customer says something is broken but gives no details.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "short"
+   ],
+   "notes": "extremely short; no actionable info — labelled technical because 'broken' implies malfunction; reviewer may prefer general",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c037",
+   "input": "Data in the reports view is off by one day compared to the raw export — looks like a timezone bug (we're UTC+10).",
+   "expected_category": "technical",
+   "expected_summary": "Report dates are off by one day versus the raw export, likely a timezone bug for a UTC+10 customer.",
+   "expected_difficulty": "hard",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c038",
+   "input": "Images uploaded in the editor appear rotated 90 degrees. iPhone photos.",
+   "expected_category": "technical",
+   "expected_summary": "Images uploaded from an iPhone appear rotated 90 degrees in the editor.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c039",
+   "input": "Your Python SDK 2.4.0 raises ImportError on pydantic v2. Pinning 2.3.1 works. Please fix compatibility.",
+   "expected_category": "technical",
+   "expected_summary": "Python SDK 2.4.0 fails with an ImportError on Pydantic v2 while 2.3.1 works; customer asks for a compatibility fix.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c040",
+   "input": "Notifications arrive 30-40 minutes late. Push is enabled, battery optimisation is off. Android.",
+   "expected_category": "technical",
+   "expected_summary": "Push notifications on Android arrive 30–40 minutes late despite correct settings.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c041",
+   "input": "I can't log in. It says my password is wrong but I just reset it twice.",
+   "expected_category": "account",
+   "expected_summary": "Customer cannot log in even after resetting their password twice.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c042",
+   "input": "Please change my account email from old@example.com to new@example.com. I no longer have access to the old one.",
+   "expected_category": "account",
+   "expected_summary": "Customer wants their account email changed to new@example.com because they lost access to the old address.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c043",
+   "input": "How do I turn on two-factor authentication for my whole team?",
+   "expected_category": "account",
+   "expected_summary": "Customer asks how to enable two-factor authentication for their entire team.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c044",
+   "input": "I want to delete my account and all my data. How do I do that?",
+   "expected_category": "account",
+   "expected_summary": "Customer wants to delete their account and all associated data.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c045",
+   "input": "I lost my phone and my authenticator app with it. I'm locked out. Backup codes are on the laptop I can't log into.",
+   "expected_category": "account",
+   "expected_summary": "Customer lost their phone with the authenticator app and their backup codes are inaccessible, so they are locked out.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c046",
+   "input": "A former employee (j.smith) still has admin access. Please remove them and make me the owner.",
+   "expected_category": "account",
+   "expected_summary": "Customer wants a former employee's admin access removed and ownership transferred to themselves.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c047",
+   "input": "We have two workspaces by mistake, acme and acme-inc. Can you merge them into one?",
+   "expected_category": "account",
+   "expected_summary": "Customer accidentally has two workspaces (acme and acme-inc) and wants them merged.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c048",
+   "input": "login broken?? tried 5 times",
+   "expected_category": "account",
+   "expected_summary": "Customer cannot log in after five attempts.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "short",
+    "typos"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c049",
+   "input": "The magic-link email never arrives. Checked spam. Other emails from you arrive fine. Only affects my colleague's address on our domain.",
+   "expected_category": "account",
+   "expected_summary": "Magic-link login emails do not arrive for one colleague's address although other emails from the company do.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "delivery bug vs. account access; the ask is to regain access",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c050",
+   "input": "Ich habe mein Passwort vergessen und die Reset-Mail kommt nicht an. Bitte um Hilfe.",
+   "expected_category": "account",
+   "expected_summary": "Customer (in German) forgot their password and is not receiving the reset email.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "mixed-language"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c051",
+   "input": "Cool, so after 'security improvements' I'm locked out of my own account for 24h because I logged in from my parents' house. Amazing. Unlock me.",
+   "expected_category": "account",
+   "expected_summary": "Customer was locked out for 24 hours after logging in from a new location and wants their account unlocked.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "sarcasm"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c052",
+   "input": "Can I change my username? It's my old company name.",
+   "expected_category": "account",
+   "expected_summary": "Customer asks whether they can change their username.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c053",
+   "input": "I'm the new admin at Northwind. My predecessor set everything up with his personal email. How do we regain control of the org?",
+   "expected_category": "account",
+   "expected_summary": "New admin needs to regain control of an organisation set up under a former employee's personal email.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c054",
+   "input": "Please downgrade my role from owner to member; Priya (priya@northwind.example) should be the new owner.",
+   "expected_category": "account",
+   "expected_summary": "Customer wants to hand ownership to Priya and become a regular member.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c055",
+   "input": "Do you support SSO with Okta? We want to enforce it for all users.",
+   "expected_category": "account",
+   "expected_summary": "Customer asks whether Okta SSO is supported and can be enforced for all users.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c056",
+   "input": "I keep getting logged out every 10 minutes on the web app, on every device. Started Monday.",
+   "expected_category": "technical",
+   "expected_summary": "Customer is logged out every 10 minutes on all devices since Monday.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "session bug; could be technical — labelled account since it is about staying logged in",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c057",
+   "input": "Someone logged into my account from Brazil last night (I'm in Ireland). I've changed the password. What else should I do and can you see what they accessed?",
+   "expected_category": "account",
+   "expected_summary": "Customer saw an unauthorised login from Brazil, changed their password, and asks what else to do and what was accessed.",
+   "expected_difficulty": "hard",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c058",
+   "input": "How many users can I invite on the Team plan?",
+   "expected_category": "account",
+   "expected_summary": "Customer asks how many users can be invited on the Team plan.",
+   "expected_difficulty": "easy",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "plan limits; could be billing/general — reviewer decision",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c059",
+   "input": "My invite link says 'expired' but it was sent an hour ago.",
+   "expected_category": "account",
+   "expected_summary": "Customer's invite link shows as expired although it was sent an hour ago.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c060",
+   "input": "Remove my phone number from the account, I never agreed to SMS.",
+   "expected_category": "account",
+   "expected_summary": "Customer wants their phone number removed from the account and no SMS contact.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c061",
+   "input": "Do you have a dark mode planned? Would love it.",
+   "expected_category": "general",
+   "expected_summary": "Customer asks whether dark mode is planned.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c062",
+   "input": "Hi! I run a newsletter about productivity tools. Would you be open to a partnership or affiliate deal?",
+   "expected_category": "general",
+   "expected_summary": "Newsletter author proposes a partnership or affiliate deal.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c063",
+   "input": "Where is your company based and do you store data in the EU?",
+   "expected_category": "general",
+   "expected_summary": "Customer asks where the company is based and whether data is stored in the EU.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c064",
+   "input": "Just wanted to say the new editor is fantastic. No issues, keep it up!",
+   "expected_category": "general",
+   "expected_summary": "Customer sends positive feedback about the new editor; no action requested.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c065",
+   "input": "Can you add an option to export to Notion? Right now I copy-paste everything.",
+   "expected_category": "general",
+   "expected_summary": "Customer requests a Notion export feature.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c066",
+   "input": "Are you hiring support engineers? I'd like to apply.",
+   "expected_category": "general",
+   "expected_summary": "Person asks about support engineer job openings.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c067",
+   "input": "Is your service GDPR compliant and do you have a DPA we can sign?",
+   "expected_category": "general",
+   "expected_summary": "Customer asks about GDPR compliance and a signable data processing agreement.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c068",
+   "input": "?",
+   "expected_category": "general",
+   "expected_summary": "Customer sent an empty question mark with no content.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "short"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c069",
+   "input": "We're a nonprofit in Kenya teaching coding to teenagers; would you consider sponsoring 50 licences?",
+   "expected_category": "general",
+   "expected_summary": "Nonprofit asks the company to sponsor 50 licences for a coding programme in Kenya.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "mentions licences (billing-adjacent) but the ask is sponsorship",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c070",
+   "input": "Wow, a 40-minute onboarding video. Truly, who has the time. Any chance of a 2-page quick start?",
+   "expected_category": "general",
+   "expected_summary": "Customer finds the 40-minute onboarding video too long and asks for a short written quick-start guide.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "sarcasm"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c071",
+   "input": "Ciao, avete una versione in italiano dell'interfaccia? Grazie.",
+   "expected_category": "general",
+   "expected_summary": "Customer (in Italian) asks whether the interface is available in Italian.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "mixed-language"
+   ],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c072",
+   "input": "Could you tell me the difference between the Team and Business plans? The pricing page is confusing.",
+   "expected_category": "general",
+   "expected_summary": "Customer asks for an explanation of the differences between the Team and Business plans.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "pricing page question without a billing action; could be billing",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c073",
+   "input": "Unsubscribe me from marketing emails please.",
+   "expected_category": "account",
+   "expected_summary": "Customer wants to be unsubscribed from marketing emails.",
+   "expected_difficulty": "easy",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "preference change; could be account",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c074",
+   "input": "I'm writing a blog post comparing tools in your space. Can someone answer a few questions?",
+   "expected_category": "general",
+   "expected_summary": "Blogger asks for someone to answer questions for a comparison article.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c075",
+   "input": "Does the app work offline?",
+   "expected_category": "general",
+   "expected_summary": "Customer asks whether the app works offline.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c076",
+   "input": "Your status page says all systems operational but Twitter is full of people saying it's down. Which is it?",
+   "expected_category": "general",
+   "expected_summary": "Customer asks whether the service is down, since the status page and social media disagree.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "possible incident, but no personal issue reported; reviewer may prefer technical",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c077",
+   "input": "This is the third time I'm writing. Nobody answers. Do you even have a support team?",
+   "expected_category": "general",
+   "expected_summary": "Customer complains that previous messages received no reply and asks whether support exists.",
+   "expected_difficulty": "hard",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c078",
+   "input": "Can we get a shared inbox feature so multiple agents can work on the same conversation?",
+   "expected_category": "general",
+   "expected_summary": "Customer requests a shared inbox feature for multiple agents.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c079",
+   "input": "What is your uptime SLA for the Business plan?",
+   "expected_category": "general",
+   "expected_summary": "Customer asks about the uptime SLA of the Business plan.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  },
+  {
+   "id": "c080",
+   "input": "I accidentally sent this to the wrong company, please ignore.",
+   "expected_category": "general",
+   "expected_summary": "Customer emailed the wrong company and asks for the message to be ignored.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "",
+   "verification": {
+    "status": "human_verified",
+    "verified_by": "Ihsan",
+    "verified_at": "2026-09-09"
+   }
+  }
+ ]
+}

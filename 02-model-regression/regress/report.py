@@ -1,0 +1,120 @@
+"""HTML diff report (guide Phase 4.1): run metadata, scorecard vs baseline, side-by-side table of
+regressed cases, trend chart over the last N runs (inline SVG, no external assets)."""
+from __future__ import annotations
+
+import html
+from pathlib import Path
+
+from jinja2 import Template
+
+TEMPLATE = Template(r"""<!doctype html><html><head><meta charset="utf-8"><title>Regression report {{ c.run_id }}</title>
+<style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:2rem;max-width:1200px;color:#222}
+table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #ddd;padding:.4rem .6rem;vertical-align:top;font-size:.9rem}
+th{background:#f5f5f5;text-align:left}.pass{color:#1a7f37}.warn{color:#b35900}.critical{color:#b3261e}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:.4rem;font-weight:600;color:#fff}
+.badge.pass{background:#1a7f37}.badge.warn{background:#b35900}.badge.critical{background:#b3261e}
+pre{white-space:pre-wrap;margin:0;font-size:.8rem}small{color:#666}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.card{border:1px solid #ddd;border-radius:.5rem;padding:.8rem}.card b{font-size:1.4rem}
+</style></head><body>
+<h1>Regression report <small>{{ c.run_id }}</small></h1>
+{% if cmp %}<p><span class="badge {{ cmp.verdict }}">{{ cmp.verdict | upper }}</span> {{ cmp.verdict_basis }}</p>
+{% if cmp.dataset_note %}<p class="warn">⚠ {{ cmp.dataset_note }}</p>{% endif %}{% else %}<p><span class="badge pass">NO BASELINE</span> first run for comparison</p>{% endif %}
+
+<h2>Run metadata</h2>
+<table><tr><th>prompt version</th><td>{{ c.prompt_version }} <small>({{ c.prompt_path }})</small></td><th>model</th><td>{{ c.model }}</td></tr>
+<tr><th>judge</th><td>{{ c.judge_model }} <small>(summary scores are LLM judgments)</small></td><th>timestamp</th><td>{{ c.created }}</td></tr>
+<tr><th>dataset</th><td>{{ c.dataset_version }} · fingerprint {{ c.dataset_fingerprint }} · {{ c.n_cases }} cases · <b>{{ c.dataset_label }}</b></td>
+<th>baseline</th><td>{{ cmp.baseline_run_id if cmp else '—' }}</td></tr></table>
+
+<h2>Scorecard</h2>
+<table><tr><th>metric</th><th>baseline</th><th>candidate</th><th>delta</th></tr>
+{% for row in scorecard %}<tr><td>{{ row.name }}</td><td>{{ row.b }}</td><td>{{ row.c }}</td><td class="{{ row.cls }}">{{ row.d }}</td></tr>{% endfor %}
+</table>
+{% if cmp %}<h3>Per-category accuracy</h3><table><tr><th>category</th><th>n</th><th>baseline</th><th>candidate</th><th>delta</th></tr>
+{% for cat, r in cmp.per_category_accuracy_delta.items() %}<tr><td>{{ cat }}</td><td>{{ r.n }}</td><td>{{ '%.0f' % (100*r.baseline) }}%</td><td>{{ '%.0f' % (100*r.candidate) }}%</td><td class="{{ 'critical' if r.delta < -0.08 else 'warn' if r.delta < -0.03 else 'pass' }}">{{ '%+.1f' % (100*r.delta) }} pp</td></tr>{% endfor %}</table>
+<h3>Is it signal or noise?</h3>
+<p>{{ cmp.stats.reading }} Wilson 95% intervals — baseline {{ cmp.stats.baseline_pass_rate_wilson95 }}, candidate {{ cmp.stats.candidate_pass_rate_wilson95 }}.</p>
+<p><small>{{ cmp.stats.caveat }} The pass/warn/critical verdict above uses the configured <b>policy thresholds</b> ({{ '%.0f' % (100*c.thresholds.warn_delta) }} pp / {{ '%.0f' % (100*c.thresholds.critical_delta) }} pp), which are not a significance test.</small></p>
+{% endif %}
+
+{% if drift %}<h2>Slow drift ({{ drift.window }}-run moving average)</h2>
+<p class="{{ 'warn' if drift.drift else 'pass' }}">{{ drift.reason }}</p>{% endif %}
+
+<h2>Trend (pass rate, last {{ trend | length }} runs of this prompt version)</h2>
+{{ svg | safe }}
+
+{% if cmp %}<h2>Regressed cases ({{ cmp.regressions | length }})</h2>
+{% if cmp.regressions %}<table><tr><th>case</th><th>expected</th><th>baseline output</th><th>candidate output</th><th>why it failed</th></tr>
+{% for r in cmp.regressions %}<tr><td>{{ r.case_id }}<br><small>{{ r.difficulty }}</small></td><td>{{ r.expected_category }}</td>
+<td><pre>{{ r.baseline_output }}</pre><small>summary score {{ r.baseline_summary_score }}</small></td>
+<td><pre>{{ r.candidate_output }}</pre><small>summary score {{ r.candidate_summary_score }}</small></td><td>{{ r.reason }}</td></tr>{% endfor %}</table>
+{% else %}<p>None.</p>{% endif %}
+<h2>Improved cases ({{ cmp.improvements | length }})</h2>
+{% if cmp.improvements %}<ul>{% for r in cmp.improvements %}<li>{{ r.case_id }} ({{ r.expected_category }}, {{ r.difficulty }})</li>{% endfor %}</ul>{% else %}<p>None.</p>{% endif %}{% endif %}
+
+<h2>All failing cases in this run ({{ failures | length }})</h2>
+<table><tr><th>case</th><th>expected</th><th>predicted</th><th>summary score</th><th>output</th><th>problem</th></tr>
+{% for f in failures %}<tr><td>{{ f.case_id }}<br><small>{{ f.difficulty }}</small></td><td>{{ f.expected_category }}</td><td>{{ f.predicted_category or 'INVALID' }}</td><td>{{ f.summary_score }}</td><td><pre>{{ f.raw_output }}</pre></td><td>{{ f.problem }}</td></tr>{% endfor %}</table>
+<p><small>Generated by regress/report.py. Portfolio workload measurements on a local model; not customer impact.</small></p>
+</body></html>""")
+
+
+def _pct(x):
+    return "–" if x is None else f"{100 * x:.1f}%"
+
+
+def _svg_trend(trend: list[dict], threshold: float | None) -> str:
+    if not trend:
+        return "<p>no history yet</p>"
+    w, h, pad = 700, 220, 40
+    pts = list(reversed(trend))  # oldest → newest
+    n = len(pts)
+    xs = [pad + (w - 2 * pad) * (i / max(1, n - 1)) for i in range(n)]
+    ys = [h - pad - (h - 2 * pad) * (p["pass_rate"] or 0) for p in pts]
+    poly = " ".join(f"{x:.1f},{y:.1f}" for x, y in zip(xs, ys))
+    out = [f'<svg viewBox="0 0 {w} {h}" width="{w}" height="{h}" style="border:1px solid #eee;background:#fff">']
+    for frac in (0, .25, .5, .75, 1):
+        y = h - pad - (h - 2 * pad) * frac
+        out.append(f'<line x1="{pad}" y1="{y:.1f}" x2="{w - pad}" y2="{y:.1f}" stroke="#eee"/><text x="4" y="{y + 4:.1f}" font-size="11" fill="#666">{int(frac * 100)}%</text>')
+    if threshold is not None:
+        y = h - pad - (h - 2 * pad) * threshold
+        out.append(f'<line x1="{pad}" y1="{y:.1f}" x2="{w - pad}" y2="{y:.1f}" stroke="#b35900" stroke-dasharray="4 3"/><text x="{w - pad + 4}" y="{y + 4:.1f}" font-size="10" fill="#b35900">drift</text>')
+    out.append(f'<polyline points="{poly}" fill="none" stroke="#1f6feb" stroke-width="2"/>')
+    for (x, y), p in zip(zip(xs, ys), pts):
+        col = "#1a7f37" if p.get("status") == "baseline" else "#1f6feb"
+        out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" fill="{col}"><title>{html.escape(p["run_id"])}: {_pct(p["pass_rate"])}</title></circle>')
+    out.append(f'<text x="{pad}" y="{h - 8}" font-size="11" fill="#666">oldest</text><text x="{w - pad - 40}" y="{h - 8}" font-size="11" fill="#666">newest</text></svg>')
+    return "".join(out)
+
+
+def render_report(cand_meta: dict, cand_cases: dict[str, dict], comparison: dict | None, drift: dict | None,
+                  trend: list[dict], out_path: Path, base_meta: dict | None = None) -> Path:
+    def row(name, key, fmt=_pct, lower_is_better=False):
+        b = base_meta.get(key) if base_meta else None
+        c = cand_meta.get(key)
+        d = None if (b is None or c is None) else c - b
+        if d is None:
+            cls, dtxt = "", "–"
+        else:
+            good = d <= 0 if lower_is_better else d >= 0
+            cls = "pass" if good else ("critical" if abs(d) > 0.08 and not lower_is_better else "warn")
+            dtxt = (f"{d:+.0f} ms" if lower_is_better else f"{100 * d:+.1f} pp")
+        return {"name": name, "b": fmt(b) if b is not None else "–", "c": fmt(c) if c is not None else "–", "d": dtxt, "cls": cls}
+
+    scorecard = [row("overall pass rate (category ∧ valid ∧ summary ≥ threshold)", "pass_rate"),
+                 row("category accuracy", "category_accuracy"), row("summary acceptable rate (judge)", "summary_pass_rate"),
+                 row("output valid rate", "output_valid_rate"),
+                 row("latency p50", "latency_p50_ms", fmt=lambda x: f"{x:.0f} ms", lower_is_better=True),
+                 row("latency p95", "latency_p95_ms", fmt=lambda x: f"{x:.0f} ms", lower_is_better=True)]
+    failures = []
+    for cid, c in sorted(cand_cases.items()):
+        if not c["passed"]:
+            prob = ("invalid output: " + str(c["validation_error"])) if not c["output_valid"] else \
+                   ("wrong category" if not c["category_correct"] else f"summary judged {c['summary_score']}/5")
+            failures.append({**c, "problem": prob})
+    html_text = TEMPLATE.render(c=cand_meta, cmp=comparison, drift=drift, trend=trend, scorecard=scorecard, failures=failures,
+                                svg=_svg_trend(trend, drift["threshold"] if drift else None))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(html_text)
+    return out_path

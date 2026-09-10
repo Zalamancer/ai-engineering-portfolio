@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Regression report 20260909-193113_v1</title>
+<style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:2rem;max-width:1200px;color:#222}
+table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #ddd;padding:.4rem .6rem;vertical-align:top;font-size:.9rem}
+th{background:#f5f5f5;text-align:left}.pass{color:#1a7f37}.warn{color:#b35900}.critical{color:#b3261e}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:.4rem;font-weight:600;color:#fff}
+.badge.pass{background:#1a7f37}.badge.warn{background:#b35900}.badge.critical{background:#b3261e}
+pre{white-space:pre-wrap;margin:0;font-size:.8rem}small{color:#666}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.card{border:1px solid #ddd;border-radius:.5rem;padding:.8rem}.card b{font-size:1.4rem}
+</style></head><body>
+<h1>Regression report <small>20260909-193113_v1</small></h1>
+<p><span class="badge pass">NO BASELINE</span> first run for comparison</p>
+
+<h2>Run metadata</h2>
+<table><tr><th>prompt version</th><td>v1 <small>(prompts/v1.yaml)</small></td><th>model</th><td>mlx-community/Qwen3-4B-Instruct-2507-4bit</td></tr>
+<tr><th>judge</th><td>mlx-community/Qwen3-4B-Instruct-2507-4bit <small>(summary scores are LLM judgments)</small></td><th>timestamp</th><td>2026-09-09T19:37:02</td></tr>
+<tr><th>dataset</th><td>0.2.0-reviewed · fingerprint d6f4a7d7d3be · 80 cases · <b>human-verified</b></td>
+<th>baseline</th><td>—</td></tr></table>
+
+<h2>Scorecard</h2>
+<table><tr><th>metric</th><th>baseline</th><th>candidate</th><th>delta</th></tr>
+<tr><td>overall pass rate (category ∧ valid ∧ summary ≥ threshold)</td><td>–</td><td>85.0%</td><td class="">–</td></tr><tr><td>category accuracy</td><td>–</td><td>87.5%</td><td class="">–</td></tr><tr><td>summary acceptable rate (judge)</td><td>–</td><td>97.5%</td><td class="">–</td></tr><tr><td>output valid rate</td><td>–</td><td>100.0%</td><td class="">–</td></tr><tr><td>latency p50</td><td>–</td><td>4975 ms</td><td class="">–</td></tr><tr><td>latency p95</td><td>–</td><td>12799 ms</td><td class="">–</td></tr>
+</table>
+
+
+<h2>Slow drift (7-run moving average)</h2>
+<p class="pass">need 7 runs, have 1</p>
+
+<h2>Trend (pass rate, last 1 runs of this prompt version)</h2>
+<svg viewBox="0 0 700 220" width="700" height="220" style="border:1px solid #eee;background:#fff"><line x1="40" y1="180.0" x2="660" y2="180.0" stroke="#eee"/><text x="4" y="184.0" font-size="11" fill="#666">0%</text><line x1="40" y1="145.0" x2="660" y2="145.0" stroke="#eee"/><text x="4" y="149.0" font-size="11" fill="#666">25%</text><line x1="40" y1="110.0" x2="660" y2="110.0" stroke="#eee"/><text x="4" y="114.0" font-size="11" fill="#666">50%</text><line x1="40" y1="75.0" x2="660" y2="75.0" stroke="#eee"/><text x="4" y="79.0" font-size="11" fill="#666">75%</text><line x1="40" y1="40.0" x2="660" y2="40.0" stroke="#eee"/><text x="4" y="44.0" font-size="11" fill="#666">100%</text><line x1="40" y1="61.0" x2="660" y2="61.0" stroke="#b35900" stroke-dasharray="4 3"/><text x="664" y="65.0" font-size="10" fill="#b35900">drift</text><polyline points="40.0,59.2" fill="none" stroke="#1f6feb" stroke-width="2"/><circle cx="40.0" cy="59.2" r="4" fill="#1a7f37"><title>20260909-175034_v1: 86.2%</title></circle><text x="40" y="212" font-size="11" fill="#666">oldest</text><text x="620" y="212" font-size="11" fill="#666">newest</text></svg>
+
+
+
+<h2>All failing cases in this run (12)</h2>
+<table><tr><th>case</th><th>expected</th><th>predicted</th><th>summary score</th><th>output</th><th>problem</th></tr>
+<tr><td>c005<br><small>easy</small></td><td>account</td><td>billing</td><td>5</td><td><pre>{"category": "billing", "summary": "Customer wants to switch from monthly to annual billing and inquire about any associated discount."}</pre></td><td>wrong category</td></tr><tr><td>c006<br><small>medium</small></td><td>technical</td><td>billing</td><td>5</td><td><pre>{"category": "billing", "summary": "The customer wants to know when the app will retry payment after adding a new card following an expired card failure."}</pre></td><td>wrong category</td></tr><tr><td>c010<br><small>hard</small></td><td>billing</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer asks if there's an enterprise billing option supporting net-60 terms and invoice issuance before payment instead of card-only checkout."}</pre></td><td>wrong category</td></tr><tr><td>c013<br><small>medium</small></td><td>technical</td><td>billing</td><td>5</td><td><pre>{"category": "billing", "summary": "The May invoice PDF is not downloading due to a 404 error and is needed for expense reimbursement."}</pre></td><td>wrong category</td></tr><tr><td>c014<br><small>medium</small></td><td>billing</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer inquires about student pricing eligibility based on .edu email address."}</pre></td><td>wrong category</td></tr><tr><td>c029<br><small>hard</small></td><td>technical</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "OAuth callback should accept redirect URIs with ports like localhost:3000, as per RFC 6749, to improve local development experience."}</pre></td><td>wrong category</td></tr><tr><td>c033<br><small>hard</small></td><td>technical</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer requests reverting a keyboard shortcut change that now opens settings instead of saving."}</pre></td><td>wrong category</td></tr><tr><td>c049<br><small>hard</small></td><td>account</td><td>technical</td><td>5</td><td><pre>{"category": "technical", "summary": "The magic-link email is not being sent to our colleague's address on the domain, despite other emails arriving successfully."}</pre></td><td>wrong category</td></tr><tr><td>c050<br><small>hard</small></td><td>account</td><td>account</td><td>3</td><td><pre>{"category": "account", "summary": "Der Kunden kann das vergessene Passwort zurücksetzen, da die Reset-E-Mail nicht ankommt."}</pre></td><td>summary judged 3/5</td></tr><tr><td>c055<br><small>easy</small></td><td>account</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer inquires about Okta SSO integration to enforce single sign-on for all users."}</pre></td><td>wrong category</td></tr><tr><td>c058<br><small>easy</small></td><td>account</td><td>general</td><td>5</td><td><pre>{"category": "general", "summary": "Customer is asking about the user limit for the Team plan to understand how many users can be invited."}</pre></td><td>wrong category</td></tr><tr><td>c068<br><small>medium</small></td><td>general</td><td>general</td><td>1</td><td><pre>{"category": "general", "summary": "Customer has a general question about the software features and wants clarification on how to use a specific function."}</pre></td><td>summary judged 1/5</td></tr></table>
+<p><small>Generated by regress/report.py. Portfolio workload measurements on a local model; not customer impact.</small></p>
+</body></html>

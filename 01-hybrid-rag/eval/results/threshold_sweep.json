@@ -1,0 +1,429 @@
+{
+ "run_at": "2026-09-09T16:32:44",
+ "split": "dev",
+ "strategy": "recursive",
+ "dataset": {
+  "dataset_version": "0.1.0-ai-draft",
+  "n_questions": 75,
+  "verification": {
+   "ai_generated": 75
+  }
+ },
+ "rrf_weight_sweep": [
+  {
+   "rerank": false,
+   "dense_weight": 0.3,
+   "sparse_weight": 0.7,
+   "hit@5": 0.8333,
+   "evidence_recall@5": 0.7917,
+   "mrr@5": 0.7093
+  },
+  {
+   "rerank": false,
+   "dense_weight": 0.5,
+   "sparse_weight": 0.5,
+   "hit@5": 0.8333,
+   "evidence_recall@5": 0.7778,
+   "mrr@5": 0.6583
+  },
+  {
+   "rerank": false,
+   "dense_weight": 0.6,
+   "sparse_weight": 0.4,
+   "hit@5": 0.7778,
+   "evidence_recall@5": 0.7083,
+   "mrr@5": 0.613
+  },
+  {
+   "rerank": false,
+   "dense_weight": 0.7,
+   "sparse_weight": 0.3,
+   "hit@5": 0.7778,
+   "evidence_recall@5": 0.7083,
+   "mrr@5": 0.6106
+  },
+  {
+   "rerank": false,
+   "dense_weight": 0.8,
+   "sparse_weight": 0.2,
+   "hit@5": 0.7778,
+   "evidence_recall@5": 0.7083,
+   "mrr@5": 0.606
+  },
+  {
+   "rerank": false,
+   "dense_weight": 0.9,
+   "sparse_weight": 0.1,
+   "hit@5": 0.7778,
+   "evidence_recall@5": 0.7083,
+   "mrr@5": 0.5736
+  },
+  {
+   "rerank": true,
+   "dense_weight": 0.3,
+   "sparse_weight": 0.7,
+   "hit@5": 0.8333,
+   "evidence_recall@5": 0.7917,
+   "mrr@5": 0.6259
+  },
+  {
+   "rerank": true,
+   "dense_weight": 0.5,
+   "sparse_weight": 0.5,
+   "hit@5": 0.8333,
+   "evidence_recall@5": 0.7917,
+   "mrr@5": 0.6259
+  },
+  {
+   "rerank": true,
+   "dense_weight": 0.6,
+   "sparse_weight": 0.4,
+   "hit@5": 0.8333,
+   "evidence_recall@5": 0.7917,
+   "mrr@5": 0.6259
+  },
+  {
+   "rerank": true,
+   "dense_weight": 0.7,
+   "sparse_weight": 0.3,
+   "hit@5": 0.8333,
+   "evidence_recall@5": 0.7917,
+   "mrr@5": 0.6259
+  },
+  {
+   "rerank": true,
+   "dense_weight": 0.8,
+   "sparse_weight": 0.2,
+   "hit@5": 0.8333,
+   "evidence_recall@5": 0.7917,
+   "mrr@5": 0.6259
+  },
+  {
+   "rerank": true,
+   "dense_weight": 0.9,
+   "sparse_weight": 0.1,
+   "hit@5": 0.8333,
+   "evidence_recall@5": 0.7917,
+   "mrr@5": 0.6259
+  }
+ ],
+ "confidences": [
+  {
+   "id": "q001",
+   "type": "lookup",
+   "confidence": 0.9060605996525598
+  },
+  {
+   "id": "q002",
+   "type": "lookup",
+   "confidence": 0.8890281437909476
+  },
+  {
+   "id": "q003",
+   "type": "lookup",
+   "confidence": 0.9741823276801611
+  },
+  {
+   "id": "q005",
+   "type": "lookup",
+   "confidence": 0.8993197461869643
+  },
+  {
+   "id": "q007",
+   "type": "lookup",
+   "confidence": 0.9771762965698478
+  },
+  {
+   "id": "q008",
+   "type": "lookup",
+   "confidence": 0.9962950788506978
+  },
+  {
+   "id": "q010",
+   "type": "lookup",
+   "confidence": 0.9427986717733937
+  },
+  {
+   "id": "q011",
+   "type": "lookup",
+   "confidence": 0.9051190994473748
+  },
+  {
+   "id": "q013",
+   "type": "lookup",
+   "confidence": 0.994155603630453
+  },
+  {
+   "id": "q014",
+   "type": "lookup",
+   "confidence": 0.9948509250007008
+  },
+  {
+   "id": "q016",
+   "type": "lookup",
+   "confidence": 0.9460131665461252
+  },
+  {
+   "id": "q018",
+   "type": "lookup",
+   "confidence": 0.9696804062143767
+  },
+  {
+   "id": "q020",
+   "type": "lookup",
+   "confidence": 0.990718040064107
+  },
+  {
+   "id": "q021",
+   "type": "lookup",
+   "confidence": 0.9985814840008826
+  },
+  {
+   "id": "q023",
+   "type": "lookup",
+   "confidence": 0.9970001414727087
+  },
+  {
+   "id": "q024",
+   "type": "lookup",
+   "confidence": 0.9961149879968626
+  },
+  {
+   "id": "q026",
+   "type": "lookup",
+   "confidence": 0.8562701648448172
+  },
+  {
+   "id": "q028",
+   "type": "lookup",
+   "confidence": 0.9847707357043095
+  },
+  {
+   "id": "q030",
+   "type": "lookup",
+   "confidence": 0.9664296439144063
+  },
+  {
+   "id": "q031",
+   "type": "lookup",
+   "confidence": 0.9913263103701776
+  },
+  {
+   "id": "q033",
+   "type": "lookup",
+   "confidence": 0.9960224718494862
+  },
+  {
+   "id": "q034",
+   "type": "lookup",
+   "confidence": 0.9561595507597622
+  },
+  {
+   "id": "q036",
+   "type": "lookup",
+   "confidence": 0.9532105200096962
+  },
+  {
+   "id": "q038",
+   "type": "lookup",
+   "confidence": 0.97661864813815
+  },
+  {
+   "id": "q039",
+   "type": "lookup",
+   "confidence": 0.9980487596748647
+  },
+  {
+   "id": "q041",
+   "type": "lookup",
+   "confidence": 0.9990119233640912
+  },
+  {
+   "id": "q043",
+   "type": "lookup",
+   "confidence": 0.9300918564543549
+  },
+  {
+   "id": "q044",
+   "type": "lookup",
+   "confidence": 0.9965587594706488
+  },
+  {
+   "id": "q046",
+   "type": "lookup",
+   "confidence": 0.9976843956891811
+  },
+  {
+   "id": "q048",
+   "type": "lookup",
+   "confidence": 0.9857395699949402
+  },
+  {
+   "id": "q050",
+   "type": "lookup",
+   "confidence": 0.986793685097381
+  },
+  {
+   "id": "q052",
+   "type": "multi_hop",
+   "confidence": 0.9822222433790042
+  },
+  {
+   "id": "q054",
+   "type": "multi_hop",
+   "confidence": 0.5423589317810068
+  },
+  {
+   "id": "q055",
+   "type": "multi_hop",
+   "confidence": 0.7255159076193917
+  },
+  {
+   "id": "q057",
+   "type": "multi_hop",
+   "confidence": 0.9708744216424741
+  },
+  {
+   "id": "q059",
+   "type": "multi_hop",
+   "confidence": 0.9933785977813031
+  },
+  {
+   "id": "q060",
+   "type": "no_answer",
+   "confidence": 0.0002580082526942193
+  },
+  {
+   "id": "q062",
+   "type": "no_answer",
+   "confidence": 0.9811409652348347
+  },
+  {
+   "id": "q064",
+   "type": "no_answer",
+   "confidence": 0.3533533665063824
+  },
+  {
+   "id": "q066",
+   "type": "no_answer",
+   "confidence": 0.06196022592447443
+  }
+ ],
+ "threshold_sweep": [
+  {
+   "threshold": 0.05,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.25,
+   "balanced": 0.625
+  },
+  {
+   "threshold": 0.1,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.5,
+   "balanced": 0.75
+  },
+  {
+   "threshold": 0.15,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.5,
+   "balanced": 0.75
+  },
+  {
+   "threshold": 0.2,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.5,
+   "balanced": 0.75
+  },
+  {
+   "threshold": 0.25,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.5,
+   "balanced": 0.75
+  },
+  {
+   "threshold": 0.3,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.5,
+   "balanced": 0.75
+  },
+  {
+   "threshold": 0.35,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.5,
+   "balanced": 0.75
+  },
+  {
+   "threshold": 0.4,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.875
+  },
+  {
+   "threshold": 0.45,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.875
+  },
+  {
+   "threshold": 0.5,
+   "answerable_kept": 1.0,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.875
+  },
+  {
+   "threshold": 0.55,
+   "answerable_kept": 0.972,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.861
+  },
+  {
+   "threshold": 0.6,
+   "answerable_kept": 0.972,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.861
+  },
+  {
+   "threshold": 0.65,
+   "answerable_kept": 0.972,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.861
+  },
+  {
+   "threshold": 0.7,
+   "answerable_kept": 0.972,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.861
+  },
+  {
+   "threshold": 0.75,
+   "answerable_kept": 0.944,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.847
+  },
+  {
+   "threshold": 0.8,
+   "answerable_kept": 0.944,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.847
+  },
+  {
+   "threshold": 0.85,
+   "answerable_kept": 0.944,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.847
+  },
+  {
+   "threshold": 0.9,
+   "answerable_kept": 0.861,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.806
+  },
+  {
+   "threshold": 0.95,
+   "answerable_kept": 0.722,
+   "no_answer_abstained": 0.75,
+   "balanced": 0.736
+  }
+ ],
+ "recommended_threshold": 0.4
+}

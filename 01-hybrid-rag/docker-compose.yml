@@ -1,0 +1,45 @@
+# docker compose up --build
+# Adaptation from the guide's "API + ChromaDB + frontend" compose: ChromaDB runs embedded
+# (file-based PersistentClient, one of the two options the guide lists) inside the API
+# container, sharing ./data. The LLM is reached on the host via host.docker.internal.
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      RAG_LLM_BASE_URL: ${RAG_LLM_BASE_URL:-http://host.docker.internal:8081/v1}
+      RAG_LLM_MODEL: ${RAG_LLM_MODEL:-mlx-community/Qwen3-4B-Instruct-2507-4bit}
+      RAG_LLM_API_KEY: ${RAG_LLM_API_KEY:-local-no-key}
+      HF_HOME: /app/.hf
+    volumes:
+      - ./data:/app/data          # raw corpus + processed docs + indexes (run the seed once)
+      - hf-cache:/app/.hf         # embedding + reranker weights
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+  ui:
+    build: .
+    command: ["streamlit", "run", "hybrid_rag/ui.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
+    ports: ["8501:8501"]
+    environment:
+      RAG_LLM_BASE_URL: ${RAG_LLM_BASE_URL:-http://host.docker.internal:8081/v1}
+      HF_HOME: /app/.hf
+    volumes:
+      - ./data:/app/data
+      - hf-cache:/app/.hf
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    depends_on: [api]
+  seed:
+    # one-shot: fetch the corpus at the pinned commits and build all three indexes
+    build: .
+    profiles: ["seed"]
+    command: ["bash", "-lc", "apt-get install -y git >/dev/null 2>&1 || true; ./scripts/fetch_corpus.sh && python scripts/ingest.py"]
+    environment: { HF_HOME: /app/.hf }
+    volumes:
+      - ./data:/app/data
+      - hf-cache:/app/.hf
+volumes:
+  hf-cache: {}
