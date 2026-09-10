@@ -59,7 +59,7 @@ regress/storage.py  SQLite (runs, case_results) + runs/<id>/{summary,cases,compa
 regress/cli.py      `regress run | compare | history | dataset-stats | set-baseline`
 scripts/review_ui.py  human review screen for the golden dataset
 scripts/demo_runs.sh  baseline → candidate → bad prompt
-.github/workflows/regression.yml   PR gate on prompts/**
+(repo root) .github/workflows/regression.yml   PR gate on prompts/**
 ```
 
 ## How to add golden cases

@@ -1,5 +1,7 @@
 # AI Engineering Portfolio
 
+Repository: https://github.com/Zalamancer/ai-engineering-portfolio
+
 Three portfolio projects built from the BASWE "15 AI Engineering Projects" guide
 (project identities and use cases kept as written; substitutions documented in
 `SOURCE_MAPPING.md`).

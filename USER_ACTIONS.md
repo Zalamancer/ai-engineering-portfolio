@@ -16,8 +16,9 @@ Newest first. Each item says why it is needed and what happens if it waits.
 4. **Decide on paid model access.** Everything so far uses the free local 4B model. A paid key
    (OpenAI or Anthropic) would raise quality and let GitHub Actions run the regression gate. Your
    Claude chat subscription does not include API credits. Say yes/no and a monthly cap.
-5. **Connect GitHub** for project 2's workflow: create a private repo, `gh auth login` in Terminal
-   (never paste tokens into chat), then Claude pushes and the PR gate can run.
+5. ~~Connect GitHub~~ — **done 2026-09-09**: public repo https://github.com/Zalamancer/ai-engineering-portfolio.
+   The PR gate workflow runs tests on every prompt change; the model-based eval step stays skipped (and says so)
+   until you add `LLM_BASE_URL` / `LLM_API_KEY` / `LLM_MODEL` as repository secrets (needs a paid or reachable model).
 6. **Slack test webhook** (optional): create an incoming webhook for a *test* channel and put the URL
    in `02-model-regression/.env` as `REG_SLACK_WEBHOOK_URL`. Until then alerts are built and saved locally, not sent.
 7. **AWS** (project 3, later): confirm "$30 per month" is the right reading, sign in yourself, enable MFA,

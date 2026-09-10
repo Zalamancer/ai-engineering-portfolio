@@ -15,7 +15,7 @@
 | 4.1 | HTML diff report: metadata, scorecard vs baseline, side-by-side regressed cases, trend chart over last N runs | ✅ | `regress/report.py` → `reports/<run_id>.html` | inline SVG chart |
 | 4.2 | Slack incoming webhook: status, headline numbers, link to report | 🟡 | `regress/alerts.py` (Block Kit), outbox | **Live delivery pending authorisation**; payload verified locally + in tests |
 | 4.3 | Drift detection: 7-run moving average below threshold → slow-drift warning | ✅ | `regress/drift.py` | — |
-| 5.1 | GitHub Action on PRs touching /prompts: run eval, report, PR comment, block merge on critical | 🟡 | `.github/workflows/regression.yml` | Not executed remotely yet (no repo connected); eval step needs model-access secrets |
+| 5.1 | GitHub Action on PRs touching /prompts: run eval, report, PR comment, block merge on critical | 🟡 | `.github/workflows/regression.yml` | Repo connected (Zalamancer/ai-engineering-portfolio); workflow runs tests on PRs, eval step needs model-access secrets |
 | 5.2 | Dockerfile with env vars for API key, webhook, thresholds | 🟡 | `Dockerfile` | Not built (disk) |
 | 5.3 | README as internal docs: summary, setup, adding cases, thresholds, architecture rationale | ✅ | `README.md` | — |
 | 6.1 | Loom walkthrough | ⚪ | — | human task |
