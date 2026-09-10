@@ -1,7 +1,13 @@
 # AWS cost plan — project 3 only
 
-**Status (2026-09-10): account connected (IAM user `agentops-deploy`, region us-east-1), prices verified via the
-AWS CLI, nothing provisioned yet.** Deployment waits for Ihsan's confirmation of the budget reading and of this plan.
+**Status (2026-09-10): deployed.** Ihsan confirmed "$30 per month" (asked to stay under $20). Created so far:
+- AWS Budget `portfolio-20-monthly` — $20/month, e-mail alerts at 40 % / 75 % / 100 % actual and 100 % forecast.
+- Lightsail instance `agentops-1` (small_3_0, Ubuntu 22.04, us-east-1a, $12/month) with static IP `agentops-1-ip`
+  (free while attached), firewall **SSH only**; API/console reachable only through an SSH tunnel.
+- Services api / worker / console / testtarget under systemd (`deploy/server_setup.sh`); measured on the server:
+  565 MB used of 1910 MB with everything idle.
+- Pending: Bedrock (account verification by AWS, then the `bedrock` profile on the server); CloudWatch log shipping.
+Teardown: `03-agent-orchestration/scripts/aws_teardown.sh`. Backup: `scripts/aws_backup.sh` (creates the S3 bucket on first use).
 
 ## Budget interpretation (to confirm)
 
@@ -45,8 +51,7 @@ also avoids Docker's overhead on a 2 GB box.)
 
 ## Controls before anything is created
 
-1. AWS Budget "portfolio-30" at $30/month with alerts at 33 % / 66 % / 100 % of forecast and actual, e-mailed to Ihsan
-   — created only with Ihsan's ok (it is free).
+1. AWS Budget `portfolio-20-monthly` at $20/month, alerts 40/75/100 % actual + 100 % forecast, e-mailed to Ihsan — **created 2026-09-10**.
 2. Demo access restricted: the API and console bound to localhost on the instance, reached through an SSH tunnel only
    (no public ports beyond SSH); concurrency 1 worker.
 3. Application limits already in code: steps, LLM calls, tool calls, tokens, time, retries, review rounds, per-run cost,

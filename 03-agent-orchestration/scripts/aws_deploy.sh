@@ -24,7 +24,7 @@ fi
 IP=$($A lightsail get-static-ip --region $REGION --static-ip-name "$NAME-ip" --query 'staticIp.ipAddress' --output text)
 echo "instance $NAME at $IP"
 SSH="ssh -i $KEY -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 ubuntu@$IP"
-until $SSH true 2>/dev/null; do sleep 5; done
+for i in $(seq 1 30); do $SSH true 2>/dev/null && break; sleep 10; done
 scp -q -i "$KEY" -o StrictHostKeyChecking=accept-new deploy/server_setup.sh deploy/agentops.env.example ubuntu@$IP:/tmp/
 $SSH "chmod +x /tmp/server_setup.sh && REPO=$REPO sudo -E /tmp/server_setup.sh"
 echo

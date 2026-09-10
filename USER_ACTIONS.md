@@ -19,7 +19,10 @@ Newest first. Each item says why it is needed and what happens if it waits.
    until you add `LLM_BASE_URL` / `LLM_API_KEY` / `LLM_MODEL` as repository secrets (needs a paid or reachable model).
 6. **Slack test webhook** (optional): create an incoming webhook for a *test* channel and put the URL
    in `02-model-regression/.env` as `REG_SLACK_WEBHOOK_URL`. Until then alerts are built and saved locally, not sent.
-7. **AWS** (project 3, later): confirm "$30 per month" is the right reading, sign in yourself, enable MFA,
-   create least-privilege access. No resource will be created before you approve the cost sheet.
+7. ~~AWS account + deploy approval~~ — **done 2026-09-10** (budget $20 alert + $12 server created). Still to do:
+   - create IAM user `agentops-bedrock` with `AmazonBedrockLimitedAccess` + `CloudWatchAgentServerPolicy`, make an access
+     key, run `~/.local/bin/aws configure --profile bedrock` in Terminal (region us-east-1, output json);
+   - enable MFA on the root user (IAM → root user → security credentials);
+   - when AWS e-mails that the account is verified, tell Claude so the cloud model can be switched on.
 8. **Try the approval flow yourself**: start project 3's console and approve/reject a paused run
    (`uv run streamlit run agentops/ui.py` in `03-agent-orchestration/`).

@@ -8,7 +8,7 @@ Last updated: 2026-09-09 (session 1, night). Repo: https://github.com/Zalamancer
 |---|---|---|
 | 01 Hybrid RAG (#6) | **Built, measured, running locally.** 20 tests pass; retrieval eval (18 configs) and six answer-quality runs done; results + failure analysis in README. | No (question set verified 2026-09-10) |
 | 02 Model regression (#1) | **Done locally + on GitHub.** 12 tests; dataset human-verified by Ihsan (80/80); v1 85 %, v2 pass, v3-bad blocked (critical, exit 2); public repo + PR gate workflow running (eval step skipped without model secrets). Slack delivery pending a webhook. | Slack webhook (optional); model secrets for Actions (optional) |
-| 03 Agent orchestration (#15) | **Built and live-tested locally.** 11 tests; one full live run completed with approval pause/resume, budget pause/resume and exactly one webhook delivery; five defects found by live runs and fixed. AWS untouched. | Later — AWS budget confirmation |
+| 03 Agent orchestration (#15) | **Built and live-tested locally.** 11 tests; one full live run completed with approval pause/resume, budget pause/resume and exactly one webhook delivery; five defects found by live runs and fixed. **Deployed to AWS Lightsail ($12/month, SSH-only) with a $20 budget alert**; Bedrock model access pending AWS account verification. | Create the `agentops-bedrock` IAM user + local profile |
 
 All three share one local LLM server (Qwen3-4B on the Mac). Running the three evaluation jobs at
 once slowed each of them; results are still correct, only wall-clock latency numbers are inflated
