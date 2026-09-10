@@ -19,8 +19,14 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    env:   # secrets cannot be used in `if:` directly; map them to env first
+      LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+      LLM_MODEL: ${{ secrets.LLM_MODEL }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - uses: astral-sh/setup-uv@v5
       - run: uv sync --frozen
       - name: Unit tests + config validation
@@ -29,12 +35,12 @@ jobs:
           uv run regress dataset-stats
       - name: Evaluate changed prompts against the baseline
         id: eval
-        if: ${{ secrets.LLM_BASE_URL != '' }}
+        if: env.LLM_BASE_URL != ''
         env:
-          REG_LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
-          REG_LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          REG_LLM_MODEL: ${{ secrets.LLM_MODEL }}
-          REG_SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          REG_LLM_BASE_URL: ${{ env.LLM_BASE_URL }}
+          REG_LLM_API_KEY: ${{ env.LLM_API_KEY }}
+          REG_LLM_MODEL: ${{ env.LLM_MODEL }}
+          REG_SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
         run: |
           set -o pipefail
           # runs/ (baseline + history) is committed so the comparison has something to compare against
@@ -43,11 +49,11 @@ jobs:
             uv run regress run --prompt "$p" --gate ${SLACK_SEND:+--send} 2>&1 | tee -a summary.md || echo "GATE_FAILED=1" >> "$GITHUB_ENV"
           done
       - name: Upload HTML reports
-        if: ${{ always() && secrets.LLM_BASE_URL != '' }}
+        if: always() && env.LLM_BASE_URL != ''
         uses: actions/upload-artifact@v4
         with: { name: regression-reports, path: 02-model-regression/reports/*.html }
       - name: Comment on the PR
-        if: ${{ always() && github.event_name == 'pull_request' }}
+        if: always() && github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
@@ -58,5 +64,5 @@ jobs:
               : '### Prompt regression check\n⚠️ Model access secrets (LLM_BASE_URL/LLM_API_KEY/LLM_MODEL) are not configured, so the evaluation was **skipped**. Tests and config validation passed. This is not a pass of the regression gate.';
             await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body });
       - name: Fail on critical regression
-        if: ${{ env.GATE_FAILED == '1' }}
+        if: env.GATE_FAILED == '1'
         run: exit 2
