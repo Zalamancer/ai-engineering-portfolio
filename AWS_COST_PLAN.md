@@ -36,7 +36,12 @@ The $12 plan matches Ihsan's note from 2026-09-09. The instance is the whole cos
 
 ## Memory / CPU fit (to measure before choosing the instance)
 
-Local container measurement: MEASUREMENT_PLACEHOLDER
+Measured natively on the Mac (2026-09-10, idle after startup, resident memory): worker **569 MB** (holds the
+embedding model), API 53 MB, console 68 MB, test target 7 MB, plus ~30 MB per `uv run` wrapper → **≈ 790 MB total**.
+Under load the worker grows by a few hundred MB. With Ubuntu's own ~150 MB this fits the **2 GB `small_3_0` plan
+with ~1 GB headroom**, so no upgrade is planned. (Docker Desktop's disk filled up during the image build, so the
+container measurement was replaced by the native one; on the server the services run under systemd via `uv`, which
+also avoids Docker's overhead on a 2 GB box.)
 
 ## Controls before anything is created
 
