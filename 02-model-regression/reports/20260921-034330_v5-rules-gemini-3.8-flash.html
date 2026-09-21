@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Regression report 20260921-034330_v5-rules-gemini-3.8-flash</title>
+<style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:2rem;max-width:1200px;color:#222}
+table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #ddd;padding:.4rem .6rem;vertical-align:top;font-size:.9rem}
+th{background:#f5f5f5;text-align:left}.pass{color:#1a7f37}.warn{color:#b35900}.critical{color:#b3261e}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:.4rem;font-weight:600;color:#fff}
+.badge.pass{background:#1a7f37}.badge.warn{background:#b35900}.badge.critical{background:#b3261e}
+pre{white-space:pre-wrap;margin:0;font-size:.8rem}small{color:#666}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.card{border:1px solid #ddd;border-radius:.5rem;padding:.8rem}.card b{font-size:1.4rem}
+</style></head><body>
+<h1>Regression report <small>20260921-034330_v5-rules-gemini-3.8-flash</small></h1>
+<p><span class="badge warn">WARN</span> pass rate dropped 5.0 pp > warning threshold 3 pp</p>
+
+
+<h2>Run metadata</h2>
+<table><tr><th>prompt version</th><td>v5-rules <small>(prompts/v5-rules.yaml)</small></td><th>model</th><td>gemini-3.8-flash</td></tr>
+<tr><th>backend / judge</th><td>openai · <small>no judge — jev returns a typed choice, the summary dimension is not applicable</small></td><th>timestamp</th><td>2026-09-21T03:43:55</td></tr>
+<tr><th>dataset</th><td>0.2.0-reviewed · fingerprint d6f4a7d7d3be · 80 cases · <b>human-verified</b></td>
+<th>baseline</th><td>20260921-023228_jev-v4</td></tr></table>
+
+<h2>Scorecard</h2>
+<table><tr><th>metric</th><th>baseline</th><th>candidate</th><th>delta</th></tr>
+<tr><td>overall pass rate (category ∧ valid ∧ summary ≥ threshold)</td><td>97.5%</td><td>92.5%</td><td class="warn">-5.0 pp</td></tr><tr><td>category accuracy</td><td>97.5%</td><td>92.5%</td><td class="warn">-5.0 pp</td></tr><tr><td>summary acceptable rate (judge)</td><td>100.0%</td><td>97.5%</td><td class="warn">-2.5 pp</td></tr><tr><td>output valid rate</td><td>100.0%</td><td>97.5%</td><td class="warn">-2.5 pp</td></tr><tr><td>latency p50</td><td>189 ms</td><td>1498 ms</td><td class="warn">+1308 ms</td></tr><tr><td>latency p95</td><td>376 ms</td><td>4389 ms</td><td class="warn">+4013 ms</td></tr>
+</table>
+<h3>Per-category accuracy</h3><table><tr><th>category</th><th>n</th><th>baseline</th><th>candidate</th><th>delta</th></tr>
+<tr><td>account</td><td>22</td><td>91%</td><td>86%</td><td class="warn">-4.5 pp</td></tr><tr><td>billing</td><td>16</td><td>100%</td><td>100%</td><td class="pass">+0.0 pp</td></tr><tr><td>general</td><td>19</td><td>100%</td><td>95%</td><td class="warn">-5.3 pp</td></tr><tr><td>technical</td><td>23</td><td>100%</td><td>91%</td><td class="critical">-8.7 pp</td></tr></table>
+<h3>Is it signal or noise?</h3>
+<p>4 regressions vs 0 improvements among 4 flipped cases; exact two-sided p=0.125. This is consistent with noise at n=80. Wilson 95% intervals — baseline (0.9134, 0.9931), candidate (0.8459, 0.9652).</p>
+<p><small>With fewer than ~100 cases, differences under ~8-10 pp are rarely statistically distinguishable; the policy thresholds are a product decision, not a test. The pass/warn/critical verdict above uses the configured <b>policy thresholds</b> (3 pp / 8 pp), which are not a significance test.</small></p>
+
+
+<h2>Slow drift (7-run moving average)</h2>
+<p class="pass">need 7 runs, have 3</p>
+
+<h2>Trend (pass rate, last 3 runs of this prompt version)</h2>
+<svg viewBox="0 0 700 220" width="700" height="220" style="border:1px solid #eee;background:#fff"><line x1="40" y1="180.0" x2="660" y2="180.0" stroke="#eee"/><text x="4" y="184.0" font-size="11" fill="#666">0%</text><line x1="40" y1="145.0" x2="660" y2="145.0" stroke="#eee"/><text x="4" y="149.0" font-size="11" fill="#666">25%</text><line x1="40" y1="110.0" x2="660" y2="110.0" stroke="#eee"/><text x="4" y="114.0" font-size="11" fill="#666">50%</text><line x1="40" y1="75.0" x2="660" y2="75.0" stroke="#eee"/><text x="4" y="79.0" font-size="11" fill="#666">75%</text><line x1="40" y1="40.0" x2="660" y2="40.0" stroke="#eee"/><text x="4" y="44.0" font-size="11" fill="#666">100%</text><line x1="40" y1="61.0" x2="660" y2="61.0" stroke="#b35900" stroke-dasharray="4 3"/><text x="664" y="65.0" font-size="10" fill="#b35900">drift</text><polyline points="40.0,54.0 350.0,180.0 660.0,180.0" fill="none" stroke="#1f6feb" stroke-width="2"/><circle cx="40.0" cy="54.0" r="4" fill="#1f6feb"><title>20260921-034308_v5-rules-claude-haiku-4-5: 90.0%</title></circle><circle cx="350.0" cy="180.0" r="4" fill="#1f6feb"><title>20260921-034324_v5-rules-claude-sonnet-5: 0.0%</title></circle><circle cx="660.0" cy="180.0" r="4" fill="#1f6feb"><title>20260921-034327_v5-rules-claude-opus-5: 0.0%</title></circle><text x="40" y="212" font-size="11" fill="#666">oldest</text><text x="620" y="212" font-size="11" fill="#666">newest</text></svg>
+
+<h2>Regressed cases (4)</h2>
+<table><tr><th>case</th><th>expected</th><th>baseline output</th><th>candidate output</th><th>why it failed</th></tr>
+<tr><td>c006<br><small>medium</small></td><td>technical</td>
+<td><pre>{"type": "choice", "choice": "technical", "confidence": 0.66, "probabilities": {"general": 0.0, "technical": 0.75, "account": 0.0, "billing": 0.25}}</pre><small>summary score None</small></td>
+<td><pre>{"category": "billing", "summary": "The customer updated their expired payment method after a failed charge and asks when the payment will retry to restore full app access."}</pre><small>summary score None</small></td><td>category technical→billing</td></tr><tr><td>c036<br><small>medium</small></td><td>technical</td>
+<td><pre>{"type": "choice", "choice": "technical", "confidence": 0.37, "probabilities": {"account": 0.0, "billing": 0.0, "general": 0.47, "technical": 0.53}}</pre><small>summary score None</small></td>
+<td><pre>{"category": "general", "summary": "The customer submitted an unclear one-word message stating only that something is broken without providing any details."}</pre><small>summary score None</small></td><td>category technical→general</td></tr><tr><td>c055<br><small>easy</small></td><td>account</td>
+<td><pre>{"type": "choice", "choice": "account", "confidence": 0.41, "probabilities": {"billing": 0.0, "general": 0.44, "account": 0.56, "technical": 0.0}}</pre><small>summary score None</small></td>
+<td><pre>{"category": "general", "summary": "The customer is asking whether the product supports Ok</pre><small>summary score None</small></td><td>category account→INVALID; output invalid: no JSON object in output; summary score None→None</td></tr><tr><td>c069<br><small>hard</small></td><td>general</td>
+<td><pre>{"type": "choice", "choice": "general", "confidence": 0.68, "probabilities": {"technical": 0.0, "account": 0.0, "general": 0.76, "billing": 0.24}}</pre><small>summary score None</small></td>
+<td><pre>{"category": "billing", "summary": "The customer is a nonprofit requesting sponsored licenses for fifty students."</pre><small>summary score None</small></td><td>category general→INVALID; output invalid: no JSON object in output; summary score None→None</td></tr></table>
+
+<h2>Improved cases (0)</h2>
+<p>None.</p>
+
+<h2>All failing cases in this run (6)</h2>
+<table><tr><th>case</th><th>expected</th><th>predicted</th><th>summary score</th><th>output</th><th>problem</th></tr>
+<tr><td>c005<br><small>easy</small></td><td>account</td><td>billing</td><td>None</td><td><pre>{"category": "billing", "summary": "The customer is asking how to switch from monthly to annual billing and whether a discount is available."}</pre></td><td>wrong category</td></tr><tr><td>c006<br><small>medium</small></td><td>technical</td><td>billing</td><td>None</td><td><pre>{"category": "billing", "summary": "The customer updated their expired payment method after a failed charge and asks when the payment will retry to restore full app access."}</pre></td><td>wrong category</td></tr><tr><td>c036<br><small>medium</small></td><td>technical</td><td>general</td><td>None</td><td><pre>{"category": "general", "summary": "The customer submitted an unclear one-word message stating only that something is broken without providing any details."}</pre></td><td>wrong category</td></tr><tr><td>c055<br><small>easy</small></td><td>account</td><td>INVALID</td><td>None</td><td><pre>{"category": "general", "summary": "The customer is asking whether the product supports Ok</pre></td><td>invalid output: no JSON object in output</td></tr><tr><td>c058<br><small>easy</small></td><td>account</td><td>general</td><td>None</td><td><pre>{"category": "general", "summary": "The customer is asking about the user limit included on the Team plan."}</pre></td><td>wrong category</td></tr><tr><td>c069<br><small>hard</small></td><td>general</td><td>INVALID</td><td>None</td><td><pre>{"category": "billing", "summary": "The customer is a nonprofit requesting sponsored licenses for fifty students."</pre></td><td>invalid output: no JSON object in output</td></tr></table>
+<p><small>Generated by regress/report.py. Portfolio workload measurements on a local model; not customer impact.</small></p>
+</body></html>

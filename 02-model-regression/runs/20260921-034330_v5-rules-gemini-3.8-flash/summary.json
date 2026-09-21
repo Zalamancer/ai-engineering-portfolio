@@ -1,0 +1,98 @@
+{
+ "run_id": "20260921-034330_v5-rules-gemini-3.8-flash",
+ "created": "2026-09-21T03:43:55",
+ "prompt_version": "v5-rules",
+ "backend": "openai",
+ "prompt_path": "prompts/v5-rules.yaml",
+ "dataset_version": "0.2.0-reviewed",
+ "dataset_fingerprint": "d6f4a7d7d3be",
+ "n_cases": 80,
+ "n_verified": 80,
+ "only_verified": false,
+ "dataset_label": "human-verified",
+ "pass_rate": 0.925,
+ "category_accuracy": 0.925,
+ "summary_pass_rate": 0.975,
+ "summary_score_mean": null,
+ "output_valid_rate": 0.975,
+ "latency_p50_ms": 1497.6,
+ "latency_p95_ms": 4388.8,
+ "latency_mean_ms": 2104.1,
+ "prompt_tokens": 57804,
+ "completion_tokens": 2501,
+ "confidence_mean": null,
+ "confidence_mean_correct": null,
+ "confidence_mean_wrong": null,
+ "by_category": {
+  "billing": {
+   "n": 16,
+   "correct": 16,
+   "passed": 16,
+   "accuracy": 1.0,
+   "pass_rate": 1.0
+  },
+  "account": {
+   "n": 22,
+   "correct": 19,
+   "passed": 19,
+   "accuracy": 0.8636,
+   "pass_rate": 0.8636
+  },
+  "technical": {
+   "n": 23,
+   "correct": 21,
+   "passed": 21,
+   "accuracy": 0.913,
+   "pass_rate": 0.913
+  },
+  "general": {
+   "n": 19,
+   "correct": 18,
+   "passed": 18,
+   "accuracy": 0.9474,
+   "pass_rate": 0.9474
+  }
+ },
+ "by_difficulty": {
+  "easy": {
+   "n": 27,
+   "passed": 24,
+   "pass_rate": 0.8889
+  },
+  "medium": {
+   "n": 36,
+   "passed": 34,
+   "pass_rate": 0.9444
+  },
+  "hard": {
+   "n": 17,
+   "passed": 16,
+   "pass_rate": 0.9412
+  }
+ },
+ "status": "candidate",
+ "baseline_run_id": "20260921-023228_jev-v4",
+ "notes": "",
+ "thresholds": {
+  "warn_delta": 0.03,
+  "critical_delta": 0.08,
+  "summary_pass_score": 4,
+  "kind": "policy thresholds, not statistical significance"
+ },
+ "model": "gemini-3.8-flash",
+ "judge_model": null,
+ "wall_seconds": 25.3,
+ "verdict": "warn",
+ "drift": {
+  "drift": false,
+  "reason": "need 7 runs, have 3",
+  "window": 7,
+  "moving_average": null,
+  "threshold": 0.85,
+  "runs_used": [
+   "20260921-034327_v5-rules-claude-opus-5",
+   "20260921-034324_v5-rules-claude-sonnet-5",
+   "20260921-034308_v5-rules-claude-haiku-4-5"
+  ]
+ }
+}

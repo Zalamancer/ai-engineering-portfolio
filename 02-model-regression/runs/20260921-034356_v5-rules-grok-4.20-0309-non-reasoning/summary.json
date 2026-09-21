@@ -1,0 +1,99 @@
+{
+ "run_id": "20260921-034356_v5-rules-grok-4.20-0309-non-reasoning",
+ "created": "2026-09-21T03:44:27",
+ "prompt_version": "v5-rules",
+ "backend": "openai",
+ "prompt_path": "prompts/v5-rules.yaml",
+ "dataset_version": "0.2.0-reviewed",
+ "dataset_fingerprint": "d6f4a7d7d3be",
+ "n_cases": 80,
+ "n_verified": 80,
+ "only_verified": false,
+ "dataset_label": "human-verified",
+ "pass_rate": 0.95,
+ "category_accuracy": 0.95,
+ "summary_pass_rate": 1.0,
+ "summary_score_mean": null,
+ "output_valid_rate": 1.0,
+ "latency_p50_ms": 2861.7,
+ "latency_p95_ms": 5359.0,
+ "latency_mean_ms": 2867.4,
+ "prompt_tokens": 70821,
+ "completion_tokens": 2418,
+ "confidence_mean": null,
+ "confidence_mean_correct": null,
+ "confidence_mean_wrong": null,
+ "by_category": {
+  "billing": {
+   "n": 16,
+   "correct": 14,
+   "passed": 14,
+   "accuracy": 0.875,
+   "pass_rate": 0.875
+  },
+  "account": {
+   "n": 22,
+   "correct": 20,
+   "passed": 20,
+   "accuracy": 0.9091,
+   "pass_rate": 0.9091
+  },
+  "technical": {
+   "n": 23,
+   "correct": 23,
+   "passed": 23,
+   "accuracy": 1.0,
+   "pass_rate": 1.0
+  },
+  "general": {
+   "n": 19,
+   "correct": 19,
+   "passed": 19,
+   "accuracy": 1.0,
+   "pass_rate": 1.0
+  }
+ },
+ "by_difficulty": {
+  "easy": {
+   "n": 27,
+   "passed": 25,
+   "pass_rate": 0.9259
+  },
+  "medium": {
+   "n": 36,
+   "passed": 35,
+   "pass_rate": 0.9722
+  },
+  "hard": {
+   "n": 17,
+   "passed": 16,
+   "pass_rate": 0.9412
+  }
+ },
+ "status": "candidate",
+ "baseline_run_id": "20260921-023228_jev-v4",
+ "notes": "",
+ "thresholds": {
+  "warn_delta": 0.03,
+  "critical_delta": 0.08,
+  "summary_pass_score": 4,
+  "kind": "policy thresholds, not statistical significance"
+ },
+ "model": "grok-4.20-0309-non-reasoning",
+ "judge_model": null,
+ "wall_seconds": 31.2,
+ "verdict": "pass",
+ "drift": {
+  "drift": false,
+  "reason": "need 7 runs, have 4",
+  "window": 7,
+  "moving_average": null,
+  "threshold": 0.85,
+  "runs_used": [
+   "20260921-034330_v5-rules-gemini-3.8-flash",
+   "20260921-034327_v5-rules-claude-opus-5",
+   "20260921-034324_v5-rules-claude-sonnet-5",
+   "20260921-034308_v5-rules-claude-haiku-4-5"
+  ]
+ }
+}

@@ -247,6 +247,36 @@ this laptop; median shown. Every text model answered *billing* for this email; t
 Parallel calls shrink a batch's wall clock for every model alike; what they do not change is the
 per-email time a customer waits for a route, which is where 0.15 s vs 0.7–3 s matters.
 
+### Same rules, six hosted text models, all 80 cases (2026-09-21)
+
+`prompts/v5-rules.yaml` is the jev-v4 rules and criteria rendered as a text prompt (JSON output with a
+summary still required), run through each provider's OpenAI-compatible endpoint with `--no-judge`
+(pass = category correct ∧ valid JSON), 8 concurrent, gated against the jev-v4 run. Cost per 1k emails
+is computed from the tokens each run actually used at list prices on 2026-09-21 (Claude: Haiku 4.5
+$1/$5, Sonnet 5 $2/$10, Opus 5 $5/$25; Gemini 3.8 Flash $0.75/$3.75; Grok 4.20 non-reasoning
+$1.25/$2.50, Grok 4.6 $2/$6 per Mtok in/out). Gemini and Grok 4.6 do not report their thinking
+tokens through this endpoint, so their cost is a floor.
+
+| model | category acc | vs jev-v4 (gate) | wrong cases | p50 / p95 | wall, 80 emails | $ per 1k emails |
+|---|---|---|---|---|---|---|
+| **Jev 1.13, jev-v4** | **97.5 %** | baseline | c005, c058 | **189 / 376 ms** | **2.2 s** | **$0.042** |
+| Grok 4.20 non-reasoning | 95.0 % | PASS (−2.5 pp, p = 0.63) | c010, c014, c055, c058 | 2,862 / 5,359 ms | 31 s | $1.18 |
+| Grok 4.6 (reasoning) | 93.8 % | WARN (−3.7 pp, p = 0.25) | c005, c006, c010, c036, c058 | 6,759 / 22,804 ms | 90 s | ≥ $2.87 |
+| Claude Sonnet 5 | 92.5 % | WARN (−5.0 pp, p = 0.13) | c006, c014, c020, c036, c058 + 1 truncated JSON (c005, wrong anyway) | 2,052 / 3,516 ms | 24 s | $2.83 |
+| Gemini 3.8 Flash | 92.5 % | WARN (−5.0 pp, p = 0.13) | c005, c006, c036, c058 + 2 truncated JSON (c055, c069, both wrong anyway) | 1,498 / 4,389 ms | 25 s | ≥ $0.66 |
+| Claude Haiku 4.5 | 90.0 % | WARN (−7.5 pp, p = 0.03) | c005, c006, c010, c014, c017, c020, c036, c058 | 889 / 1,233 ms | 9.4 s | $0.93 |
+| Claude Opus 5 | 90.0 % | WARN (−7.5 pp, p = 0.03) | c005, c006, c017, c033, c036, c043, c055, c058 | 2,531 / 3,615 ms | 28 s | $6.72 |
+
+Reading it: with the *same* rules, no text model matched the typed-decision model on this set — the
+best (Grok 4.20) was 2 cases behind, the Claude and Gemini models 4–6 behind, and the cases they
+miss are the boundary ones the rules exist for (c006 "card expired → app read-only", c036 "broken",
+c010 net-60 PO terms, c058 seat limits). Every text model was also 5–35× slower per email and
+15–160× more expensive. The three "truncated JSON" rows are outputs cut at the 600-token budget
+because thinking tokens count against it — a real failure mode of generate-then-parse that the typed
+answer cannot have; their categories were wrong regardless, so the accuracy column is unaffected.
+The comparison is one prompt and one day; a prompt tuned per model would likely narrow the accuracy
+gap, which is exactly the point of keeping the gate around.
+
 ### What confidence buys: routing instead of guessing (`regress confidence-curve 20260921-023228_jev-v4`)
 
 | act only when confidence ≥ | emails handled automatically | accuracy on those | sent to a human | wrong *and* auto-handled |

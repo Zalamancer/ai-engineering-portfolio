@@ -19,7 +19,9 @@ trade-offs, so the work can be discussed honestly. Every number below is in `EVI
   gate, and used the gate to iterate the classification criteria one rule at a time: 85.0 % → 97.5 % category accuracy
   on the 80 human-verified cases (0 regressions, exact McNemar p = 0.002), above the LLM prompt's 87.5 %, at a p50 of
   189 ms vs 4,975 ms and $0.042 per 1,000 emails; 70.8 % → 95.8 % on 24 held-out cases; showed that a 0.80 confidence
-  threshold auto-routes 88 % of emails with no observed errors and hands the rest to a person.
+  threshold auto-routes 88 % of emails with no observed errors and hands the rest to a person. Ran the same rules through
+  six hosted text models (Claude Haiku 4.5 / Sonnet 5 / Opus 5, Gemini 3.8 Flash, Grok 4.20 / 4.6): best 95.0 %, at
+  5–35× the per-email latency and 15–160× the cost.
 - Built a supervisor / specialist / reviewer multi-agent system on LangGraph with a schema-validated tool registry,
   sandboxed code execution, human approval pauses/resumes, budgets enforced in code (steps, calls, tokens, time, cost
   ledger), durable state and long-term memory outside the process, and crash recovery that never repeats external
@@ -72,7 +74,10 @@ team's boundary rules into the criteria — one rule per version, each run gated
 cases and which rule broke three login emails on the way. It is 26× faster and costs four cents per thousand emails,
 but it can't write the summary, and the confidence score is the real win: at 0.80 it auto-handles 88 % with zero
 observed mistakes and sends the ambiguous 12 % to a human — including the two cases my own reviewer flagged as
-coin-flips." If asked about overfitting: "Tuned on the evaluation set, yes — that's why there's a held-out set,
+coin-flips." Against other models: "Same rules as a text prompt through Claude, Gemini and Grok: the best of them, Grok 4.20, was two
+cases behind; Opus 5 and Haiku were six behind at up to 160× the cost. I quote the fastest and cheapest competitor, not the
+slowest — the table has all of them, and the number that matters is that the typed model won on accuracy, speed and cost
+at once on this set." If asked about overfitting: "Tuned on the evaluation set, yes — that's why there's a held-out set,
 written after the criteria were frozen, where it went 71 → 96 %; those labels are mine, not reviewed, and I say so."
 
 ## Project 3 — Agent orchestration (60 seconds)

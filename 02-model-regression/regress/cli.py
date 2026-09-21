@@ -61,15 +61,17 @@ def cmd_run(args) -> int:
         cfg = PromptConfig.load(args.prompt)
         if args.model:
             cfg.model = args.model      # model swap under the same prompt (e.g. jev-latest → jev-preview)
+        if args.no_temperature:
+            cfg.temperature = None
         ds = GoldenDataset.load(Path(args.golden) if args.golden else settings.golden_path)
     except Exception as e:
         print(f"invalid configuration: {e}", file=sys.stderr)
         return 3
     store = Store(settings.db_path, settings.runs_dir)
-    run_id = new_run_id(cfg.version + (f"-{args.model}" if args.model else "") + ("-holdout" if args.golden else ""))
+    run_id = new_run_id(cfg.version + (f"-{args.tag}" if args.tag else f"-{args.model}" if args.model else "") + ("-holdout" if args.golden else ""))
     default_model = settings.jev_model if cfg.backend == "jev" else settings.llm_model
     print(f"prompt {cfg.version} · backend {cfg.backend} · dataset {ds.version} ({ds.counts()['by_status']}) · model {cfg.model or default_model}")
-    meta, scores = run_eval(cfg, ds, settings, run_id, only_verified=args.only_verified)
+    meta, scores = run_eval(cfg, ds, settings, run_id, only_verified=args.only_verified, judge=not args.no_judge)
     cases = {s.case_id: s.to_dict() for s in scores}
     base = None
     if args.set_baseline:
@@ -219,6 +221,9 @@ def main() -> None:
     r.add_argument("--gate", action="store_true"); r.add_argument("--send", action="store_true", help="actually POST to Slack (needs REG_SLACK_WEBHOOK_URL)")
     r.add_argument("--only-verified", action="store_true", help="score only human-verified cases")
     r.add_argument("--model", help="override the prompt's model for this run (e.g. jev-preview)")
+    r.add_argument("--no-judge", action="store_true", help="skip the summary judge: pass = category correct ∧ output valid")
+    r.add_argument("--no-temperature", action="store_true", help="omit the temperature parameter (models that reject it)")
+    r.add_argument("--tag", help="suffix for the run id (e.g. the provider name)")
     r.add_argument("--golden", help="score a different dataset file (e.g. a held-out set); no automatic baseline comparison")
     c = sub.add_parser("compare"); c.add_argument("baseline"); c.add_argument("candidate"); c.add_argument("--gate", action="store_true")
     h = sub.add_parser("history"); h.add_argument("--limit", type=int, default=20)

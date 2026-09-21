@@ -1,0 +1,37 @@
+{
+ "text": "🚨 *CRITICAL* — prompt `v5-rules` vs baseline `20260921-023228_jev-v4`: 78 regressions, 0 improvements, pass rate 98% → 0%",
+ "blocks": [
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "🚨 *CRITICAL* — prompt `v5-rules` vs baseline `20260921-023228_jev-v4`: 78 regressions, 0 improvements, pass rate 98% → 0%"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "category accuracy Δ -97.5 pp · n=80 · exact p=0.0 · 95% CI candidate (0.0, 0.0458)"
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "*Regressed cases*\n• `c001` (billing, easy): category billing→INVALID; output invalid: request failed: BadRequestError; summary score None→None\n• `c002` (billing, easy): category billing→INVALID; output invalid: request failed: BadRequestError; summary score None→None\n• `c003` (billing, easy): category billing→INVALID; output invalid: request failed: BadRequestError; summary score None→None\n• `c004` (billing, easy): category billing→INVALID; output invalid: request failed: BadRequestError; summary score None→None\n• `c006` (technical, medium): category technical→INVALID; output invalid: request failed: BadRequestError; summary score None→None"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "model `claude-opus-5` · judge `None` · dataset human-verified"
+    }
+   ]
+  }
+ ]
+}

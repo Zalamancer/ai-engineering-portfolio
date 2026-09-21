@@ -1,0 +1,37 @@
+{
+ "text": "⚠️ *WARN* — prompt `v5-rules` vs baseline `20260921-023228_jev-v4`: 3 regressions, 0 improvements, pass rate 98% → 94%",
+ "blocks": [
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "⚠️ *WARN* — prompt `v5-rules` vs baseline `20260921-023228_jev-v4`: 3 regressions, 0 improvements, pass rate 98% → 94%"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "category accuracy Δ -3.8 pp · n=80 · exact p=0.25 · 95% CI candidate (0.8619, 0.973)"
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "*Regressed cases*\n• `c006` (technical, medium): category technical→billing\n• `c010` (billing, hard): category billing→general\n• `c036` (technical, medium): category technical→general"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "model `grok-4.6` · judge `None` · dataset human-verified"
+    }
+   ]
+  }
+ ]
+}

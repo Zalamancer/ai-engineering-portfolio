@@ -42,7 +42,7 @@ class PromptConfig(BaseModel):
     description: str = ""
     backend: Backend = "openai"
     model: str | None = None
-    temperature: float = 0.0
+    temperature: float | None = 0.0     # None = do not send (Claude Sonnet 5 / Opus 5 reject the parameter)
     max_tokens: int = 200
     system_prompt: str = ""
     few_shot: list[dict] = []           # [{"email": ..., "category": ..., "summary": ...}]
@@ -133,8 +133,8 @@ class Classifier:
         model = cfg.model or self.default_model
         t0 = time.perf_counter()
         try:
-            resp = self.client.chat.completions.create(model=model, messages=cfg.messages(email),
-                                                       temperature=cfg.temperature, max_tokens=cfg.max_tokens)
+            sampling = {} if cfg.temperature is None else {"temperature": cfg.temperature}
+            resp = self.client.chat.completions.create(model=model, messages=cfg.messages(email), max_tokens=cfg.max_tokens, **sampling)
             text = resp.choices[0].message.content or ""
             usage = resp.usage
             pt, ct = (usage.prompt_tokens, usage.completion_tokens) if usage else (None, None)
