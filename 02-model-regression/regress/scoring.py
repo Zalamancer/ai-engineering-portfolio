@@ -47,6 +47,8 @@ class CaseScore:
     predicted_summary: str | None
     difficulty: str
     judge_raw: str | None = None
+    confidence: float | None = None      # jev backend only
+    probabilities: dict | None = None    # jev backend only: probability per category
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -85,4 +87,5 @@ def score_case(case: GoldenCase, res: FeatureResult, judge: Judge | None, summar
         summary_score=s_score, summary_pass=s_pass, passed=bool(cat_ok and valid and s_pass),
         latency_ms=res.latency_ms, prompt_tokens=res.prompt_tokens, completion_tokens=res.completion_tokens,
         raw_output=res.raw_output, predicted_summary=pred_sum, difficulty=case.expected_difficulty, judge_raw=j_raw,
+        confidence=res.confidence, probabilities=res.probabilities,
     )

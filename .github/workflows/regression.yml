@@ -6,6 +6,8 @@ name: prompt-regression
 #     fail the job on a critical regression so branch protection can block the merge.
 # Without those secrets the eval step is skipped and the PR comment says so — a missing model is
 # never reported as a pass.
+#  3. prompts with `backend: jev` (prompts/jev-*.yaml) need only TYPESAFE_API_KEY; they run in their
+#     own step and are gated against the committed jev baseline.
 on:
   pull_request:
     paths: ["02-model-regression/prompts/**", "02-model-regression/regress/**", "02-model-regression/data/golden/**"]
@@ -38,12 +40,23 @@ jobs:
         run: |
           set -o pipefail
           # runs/ (baseline + history) is committed so the comparison has something to compare against
-          for p in $(git diff --name-only origin/${{ github.base_ref }}... -- prompts/ | sed 's#02-model-regression/##'); do
+          for p in $(git diff --name-only origin/${{ github.base_ref }}... -- prompts/ | grep -v '/jev-' | sed 's#02-model-regression/##'); do
+            echo "## $p" >> summary.md
+            uv run regress run --prompt "$p" --gate ${SLACK_SEND:+--send} 2>&1 | tee -a summary.md || echo "GATE_FAILED=1" >> "$GITHUB_ENV"
+          done
+      - name: Evaluate changed jev prompts against the jev baseline
+        if: ${{ secrets.TYPESAFE_API_KEY != '' }}
+        env:
+          REG_TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          REG_SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          set -o pipefail
+          for p in $(git diff --name-only origin/${{ github.base_ref }}... -- prompts/jev-*.yaml | sed 's#02-model-regression/##'); do
             echo "## $p" >> summary.md
             uv run regress run --prompt "$p" --gate ${SLACK_SEND:+--send} 2>&1 | tee -a summary.md || echo "GATE_FAILED=1" >> "$GITHUB_ENV"
           done
       - name: Upload HTML reports
-        if: ${{ always() && secrets.LLM_BASE_URL != '' }}
+        if: ${{ always() && (secrets.LLM_BASE_URL != '' || secrets.TYPESAFE_API_KEY != '') }}
         uses: actions/upload-artifact@v4
         with: { name: regression-reports, path: 02-model-regression/reports/*.html }
       - name: Comment on the PR
@@ -55,7 +68,7 @@ jobs:
             const path = '02-model-regression/summary.md';
             const body = fs.existsSync(path)
               ? '### Prompt regression check\n```\n' + fs.readFileSync(path, 'utf8').slice(-6000) + '\n```\n' + (process.env.GATE_FAILED ? '🚨 **critical regression — merge blocked**' : '✅ no critical regression')
-              : '### Prompt regression check\n⚠️ Model access secrets (LLM_BASE_URL/LLM_API_KEY/LLM_MODEL) are not configured, so the evaluation was **skipped**. Tests and config validation passed. This is not a pass of the regression gate.';
+              : '### Prompt regression check\n⚠️ Model access secrets (LLM_BASE_URL/LLM_API_KEY/LLM_MODEL, or TYPESAFE_API_KEY for jev prompts) are not configured, so the evaluation was **skipped**. Tests and config validation passed. This is not a pass of the regression gate.';
             await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body });
       - name: Fail on critical regression
         if: ${{ env.GATE_FAILED == '1' }}

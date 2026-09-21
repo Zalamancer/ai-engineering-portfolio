@@ -1,0 +1,37 @@
+{
+ "text": "✅ *PASS* — prompt `jev-v2` vs baseline `20260921-023002_jev-v1`: 3 regressions, 8 improvements, pass rate 85% → 91%",
+ "blocks": [
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "✅ *PASS* — prompt `jev-v2` vs baseline `20260921-023002_jev-v1`: 3 regressions, 8 improvements, pass rate 85% → 91%"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "category accuracy Δ +6.2 pp · n=80 · exact p=0.2266 · 95% CI candidate (0.8302, 0.957)"
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "*Regressed cases*\n• `c012` (billing, hard): category billing→account\n• `c014` (billing, medium): category billing→general\n• `c055` (account, easy): category account→general"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "model `jev-1.13.0` · judge `None` · dataset human-verified"
+    }
+   ]
+  }
+ ]
+}

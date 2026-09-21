@@ -43,8 +43,21 @@ p-value and Wilson intervals (explicitly not called significance); 7-run drift c
 inline SVG trend; Slack payload builder with outbox (no sending without `--send` + webhook);
 Dockerfile; GitHub Actions workflow that skips (and says so) when model secrets are absent.
 
-Checked: 12 tests; baseline v1 measured (EVIDENCE_LEDGER R2-BASE). Pending: v2 and v3-bad runs
-(gate demonstration), then README results.
+Checked: 12 tests; baseline v1 measured (EVIDENCE_LEDGER R2-BASE); v2 / v3-bad gate demonstration
+on the human-verified dataset (R2-VERIFIED); README results filled.
+
+**2026-09-21 — Jev (TypeSafe System One) backend.** Same golden set, scoring and gate, second
+backend selected by `backend: jev` in the prompt YAML: one Choice question per email, typed answer
+with per-category probabilities and confidence, no text generation (summary dimension recorded as
+not applicable). Baselines are per backend; served model id recorded per run; SQLite migrated
+with `confidence` / `probabilities` columns; new commands `confidence-curve`, `versus`, and
+`run --model / --golden`. 16 tests. Four gated prompt versions, one change each: 85.0 % → 91.3 %
+→ 93.8 % → **97.5 %** category accuracy (0 regressions / 10 improvements vs the jev baseline,
+McNemar p = 0.002), vs 87.5 % for the LLM prompt; p50 189 ms vs 4,975 ms; $0.042 per 1k emails.
+Held-out (24 AI-drafted cases written after v4 was frozen): 70.8 % → 95.8 %. Confidence gating at
+0.80: 88 % auto-handled at 100 % accuracy. Repeat run and `jev-preview` swap: 0 flips. Ledger
+R2-JEV-*. Caveats recorded in the README: criteria tuned on the evaluation set, held-out labels
+unverified, n = 80, laptop-vs-hosted latency.
 
 ## 03 — Agent orchestration
 

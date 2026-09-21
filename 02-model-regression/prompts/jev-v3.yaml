@@ -1,0 +1,27 @@
+version: jev-v3
+created: 2026-09-21T02:50:00
+description: Candidate — jev-v2 with the two boundary rules that v2 got backwards rewritten from the team's labelling convention. A malfunctioning login/2FA/session feature is technical (the symptom is a bug); needing an account action is account. A price or discount question is billing; a which-plan / what's-included question is general. Written after reading jev-v2's 3 regressions and 4 remaining errors.
+backend: jev
+state_context:
+  company: a B2B SaaS software company; customers write to one shared support inbox
+instructions:
+  question: Which support team should handle this email?
+  focus: Classify by what the customer is asking us to DO or answer, not by every topic mentioned in passing.
+  rules:
+    - Money already charged, an unwanted upgrade to reverse, a refund, an invoice or receipt document, a price or discount question, or a payment method is billing.
+    - A product feature that malfunctions (errors, crashes, 404s, failed exports, codes rejected, sessions dropping, a payment that should retry but does not) is technical, even when the feature is login, 2FA or billing — the symptom is a bug.
+    - Needing an account action — a password reset, a new invite, roles or permissions, SSO setup, an email or username change, closing an account, switching plans, seat limits, contact or notification preferences — is account.
+    - Questions about the company, product capabilities, which plan fits or what a plan includes, service status, or feedback, with no personal problem to fix, are general.
+criteria:
+  billing:
+    covers: charges, duplicate or failed payments, refunds, reversing an unwanted upgrade, invoices and receipts, VAT details, price changes on the bill, price or discount questions, payment methods
+    not: switching plans or changing who receives invoices (account), a billing feature that is broken such as an invoice link that 404s (technical), comparing what plans include (general)
+  technical:
+    covers: bugs, error messages, crashes, slow performance, features not working, exports or downloads failing, integrations, API, mobile or browser problems, 2FA codes wrongly rejected, being logged out repeatedly, a failed payment that does not retry
+    not: needing a password reset, a new invite or a permission change (account), asking whether the product supports something (general)
+  account:
+    covers: password reset, locked out and needs access restored, expired invite, roles and permissions, SSO or enforced login policy, email or username changes, closing or merging accounts, switching plans, seat limits, notification or marketing preferences, who receives invoices
+    not: an actual charge, refund or price question (billing), a login or 2FA feature that malfunctions (technical)
+  general:
+    covers: feature requests, product questions and capabilities, comparing plans or what a plan includes, company or partnership questions, service status questions, feedback, thanks, unclear or empty messages
+    not: a price or discount question (billing), any email that asks us to fix, change or refund something for this customer

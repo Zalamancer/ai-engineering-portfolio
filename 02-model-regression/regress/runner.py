@@ -8,7 +8,7 @@ import time
 
 from .config import Settings
 from .dataset import GoldenCase, GoldenDataset
-from .feature import Classifier, PromptConfig
+from .feature import Classifier, JevClassifier, PromptConfig, make_classifier
 from .scoring import CaseScore, Judge, score_case
 
 
@@ -22,31 +22,38 @@ def _pct(xs, p):
 
 async def _run_all(cases: list[GoldenCase], cfg: PromptConfig, clf: Classifier, judge: Judge | None,
                    settings: Settings, log=print) -> list[CaseScore]:
-    sem = asyncio.Semaphore(settings.concurrency)
+    sem = asyncio.Semaphore(settings.jev_concurrency if cfg.backend == "jev" else settings.concurrency)
     results: dict[str, CaseScore] = {}
+    served: set[str] = set()   # model ids actually reported by the endpoint (jev reports the versioned id behind an alias)
 
     async def one(i: int, case: GoldenCase):
         async with sem:
             res = await asyncio.to_thread(clf.classify, case.input, cfg)
+            if res.parsed is not None:
+                served.add(res.model)
             sc = await asyncio.to_thread(score_case, case, res, judge, settings.summary_pass_score)
             results[case.id] = sc
+            extra = f"conf={sc.confidence:.2f}" if sc.confidence is not None else f"sum={sc.summary_score}"
             log(f"[{i}/{len(cases)}] {case.id} {case.expected_category:>9} → {sc.predicted_category or 'INVALID':<9} "
-                f"cat={'ok' if sc.category_correct else 'X '} sum={sc.summary_score} {'PASS' if sc.passed else 'FAIL'} {sc.latency_ms:.0f}ms")
+                f"cat={'ok' if sc.category_correct else 'X '} {extra} {'PASS' if sc.passed else 'FAIL'} {sc.latency_ms:.0f}ms")
 
     await asyncio.gather(*(one(i, c) for i, c in enumerate(cases, 1)))
-    return [results[c.id] for c in cases]
+    return [results[c.id] for c in cases], sorted(served)
 
 
 def run_eval(cfg: PromptConfig, dataset: GoldenDataset, settings: Settings, run_id: str, only_verified: bool = False,
-             log=print, clf: Classifier | None = None, judge: Judge | None | bool = True) -> tuple[dict, list[CaseScore]]:
+             log=print, clf: Classifier | JevClassifier | None = None, judge: Judge | None | bool = True) -> tuple[dict, list[CaseScore]]:
     cases = dataset.active(only_verified=only_verified)
-    clf = clf or Classifier(settings.llm_base_url, settings.llm_api_key, settings.llm_model, settings.llm_timeout_s)
-    if judge is True:
+    clf = clf or make_classifier(cfg, settings)
+    if cfg.backend == "jev":
+        judge = None   # jev returns a typed choice, no summary text — the summary dimension is not applicable
+    elif judge is True:
         judge = Judge(settings.llm_base_url, settings.llm_api_key, settings.judge_model or settings.llm_model, settings.llm_timeout_s)
     t0 = time.time()
-    scores = asyncio.run(_run_all(cases, cfg, clf, judge or None, settings, log))
+    scores, served = asyncio.run(_run_all(cases, cfg, clf, judge or None, settings, log))
     meta = aggregate(scores, cfg, dataset, settings, run_id, only_verified)
-    meta.update({"model": cfg.model or settings.llm_model, "judge_model": (settings.judge_model or settings.llm_model) if judge else None,
+    default_model = settings.jev_model if cfg.backend == "jev" else settings.llm_model
+    meta.update({"model": ", ".join(served) if served else (cfg.model or default_model), "judge_model": (settings.judge_model or settings.llm_model) if judge else None,
                  "wall_seconds": round(time.time() - t0, 1)})
     return meta, scores
 
@@ -72,8 +79,9 @@ def aggregate(scores: list[CaseScore], cfg: PromptConfig, dataset: GoldenDataset
     for d in by_diff.values():
         d["pass_rate"] = round(d["passed"] / d["n"], 4) if d["n"] else None
     verified = sum(1 for c in dataset.active(only_verified) if c.verification.status == "human_verified")
+    confs = [s.confidence for s in scores if s.confidence is not None]
     return {
-        "run_id": run_id, "created": time.strftime("%Y-%m-%dT%H:%M:%S"), "prompt_version": cfg.version,
+        "run_id": run_id, "created": time.strftime("%Y-%m-%dT%H:%M:%S"), "prompt_version": cfg.version, "backend": cfg.backend,
         "prompt_path": getattr(cfg, "_path", None), "dataset_version": dataset.version, "dataset_fingerprint": dataset.fingerprint(),
         "n_cases": n, "n_verified": verified, "only_verified": only_verified,
         "dataset_label": "human-verified" if verified == n and n > 0 else f"{verified}/{n} human-verified; rest AI-drafted",
@@ -85,6 +93,9 @@ def aggregate(scores: list[CaseScore], cfg: PromptConfig, dataset: GoldenDataset
         "latency_p50_ms": _pct(lat, 50), "latency_p95_ms": _pct(lat, 95), "latency_mean_ms": round(statistics.mean(lat), 1) if lat else None,
         "prompt_tokens": sum(s.prompt_tokens or 0 for s in scores) if any(s.prompt_tokens for s in scores) else None,
         "completion_tokens": sum(s.completion_tokens or 0 for s in scores) if any(s.completion_tokens for s in scores) else None,
+        "confidence_mean": round(statistics.mean(confs), 4) if confs else None,
+        "confidence_mean_correct": round(statistics.mean([s.confidence for s in scores if s.confidence is not None and s.category_correct]), 4) if any(s.confidence is not None and s.category_correct for s in scores) else None,
+        "confidence_mean_wrong": round(statistics.mean([s.confidence for s in scores if s.confidence is not None and not s.category_correct]), 4) if any(s.confidence is not None and not s.category_correct for s in scores) else None,
         "by_category": by_cat, "by_difficulty": by_diff, "status": "candidate", "baseline_run_id": None, "notes": "",
         "thresholds": {"warn_delta": settings.warn_delta, "critical_delta": settings.critical_delta,
                        "summary_pass_score": settings.summary_pass_score, "kind": "policy thresholds, not statistical significance"},

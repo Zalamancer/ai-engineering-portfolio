@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -17,6 +18,13 @@ class Settings(BaseSettings):
     judge_model: str = ""              # empty = same as llm_model
     llm_timeout_s: float = 120.0
     concurrency: int = 2               # async batch size (local server is effectively serial)
+
+    # jev backend (TypeSafe System One). Key: REG_TYPESAFE_API_KEY, or the SDK's own TYPESAFE_API_KEY.
+    typesafe_api_key: str = os.environ.get("TYPESAFE_API_KEY", "")
+    typesafe_base_url: str = "https://api.typesafe.ai"
+    jev_model: str = "jev-latest"
+    jev_timeout_s: float = 30.0
+    jev_concurrency: int = 8           # hosted API; rate limit is 1,200 req/min at the time of writing
 
     # thresholds — POLICY thresholds (guide p.4), not statistical significance
     warn_delta: float = 0.03           # pass-rate drop > 3 pp → warning

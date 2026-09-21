@@ -1,0 +1,192 @@
+{
+ "baseline_run_id": "20260921-023002_jev-v1",
+ "candidate_run_id": "20260921-023053_jev-v2",
+ "n_common": 80,
+ "baseline_pass_rate": 0.85,
+ "candidate_pass_rate": 0.9125,
+ "pass_rate_delta": 0.0625,
+ "category_accuracy_delta": 0.0625,
+ "per_category_accuracy_delta": {
+  "account": {
+   "n": 22,
+   "baseline": 0.7727,
+   "candidate": 0.9545,
+   "delta": 0.1818
+  },
+  "billing": {
+   "n": 16,
+   "baseline": 1.0,
+   "candidate": 0.875,
+   "delta": -0.125
+  },
+  "general": {
+   "n": 19,
+   "baseline": 0.8421,
+   "candidate": 1.0,
+   "delta": 0.1579
+  },
+  "technical": {
+   "n": 23,
+   "baseline": 0.8261,
+   "candidate": 0.8261,
+   "delta": 0.0
+  }
+ },
+ "regressions": [
+  {
+   "case_id": "c012",
+   "expected_category": "billing",
+   "difficulty": "hard",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"billing\", \"confidence\": 1.0, \"probabilities\": {\"billing\": 1.0, \"general\": 0.0, \"account\": 0.0, \"technical\": 0.0}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"account\", \"confidence\": 0.45, \"probabilities\": {\"technical\": 0.0, \"billing\": 0.41, \"general\": 0.0, \"account\": 0.59}}",
+   "baseline_category": "billing",
+   "candidate_category": "account",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "category billing\u2192account"
+  },
+  {
+   "case_id": "c014",
+   "expected_category": "billing",
+   "difficulty": "medium",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"billing\", \"confidence\": 1.0, \"probabilities\": {\"account\": 0.0, \"billing\": 1.0, \"technical\": 0.0, \"general\": 0.0}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"general\", \"confidence\": 0.97, \"probabilities\": {\"general\": 0.98, \"technical\": 0.0, \"billing\": 0.02, \"account\": 0.0}}",
+   "baseline_category": "billing",
+   "candidate_category": "general",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "category billing\u2192general"
+  },
+  {
+   "case_id": "c055",
+   "expected_category": "account",
+   "difficulty": "easy",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"account\", \"confidence\": 0.33, \"probabilities\": {\"account\": 0.51, \"billing\": 0.0, \"technical\": 0.43, \"general\": 0.06}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"general\", \"confidence\": 0.97, \"probabilities\": {\"general\": 0.97, \"technical\": 0.02, \"account\": 0.01, \"billing\": 0.0}}",
+   "baseline_category": "account",
+   "candidate_category": "general",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "category account\u2192general"
+  }
+ ],
+ "improvements": [
+  {
+   "case_id": "c005",
+   "expected_category": "account",
+   "difficulty": "easy",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"billing\", \"confidence\": 1.0, \"probabilities\": {\"account\": 0.0, \"general\": 0.0, \"technical\": 0.0, \"billing\": 1.0}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"account\", \"confidence\": 0.9, \"probabilities\": {\"technical\": 0.0, \"billing\": 0.04, \"account\": 0.93, \"general\": 0.03}}",
+   "baseline_category": "billing",
+   "candidate_category": "account",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "fail \u2192 pass"
+  },
+  {
+   "case_id": "c016",
+   "expected_category": "account",
+   "difficulty": "medium",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"billing\", \"confidence\": 0.62, \"probabilities\": {\"technical\": 0.0, \"general\": 0.0, \"account\": 0.28, \"billing\": 0.72}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"account\", \"confidence\": 0.94, \"probabilities\": {\"general\": 0.0, \"billing\": 0.05, \"account\": 0.95, \"technical\": 0.0}}",
+   "baseline_category": "billing",
+   "candidate_category": "account",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "fail \u2192 pass"
+  },
+  {
+   "case_id": "c058",
+   "expected_category": "account",
+   "difficulty": "easy",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"billing\", \"confidence\": 0.19, \"probabilities\": {\"billing\": 0.4, \"account\": 0.32, \"technical\": 0.0, \"general\": 0.28}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"account\", \"confidence\": 0.46, \"probabilities\": {\"billing\": 0.0, \"general\": 0.4, \"account\": 0.6, \"technical\": 0.0}}",
+   "baseline_category": "billing",
+   "candidate_category": "account",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "fail \u2192 pass"
+  },
+  {
+   "case_id": "c059",
+   "expected_category": "account",
+   "difficulty": "medium",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"technical\", \"confidence\": 0.91, \"probabilities\": {\"account\": 0.06, \"billing\": 0.0, \"general\": 0.01, \"technical\": 0.93}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"account\", \"confidence\": 1.0, \"probabilities\": {\"technical\": 0.0, \"general\": 0.0, \"account\": 1.0, \"billing\": 0.0}}",
+   "baseline_category": "technical",
+   "candidate_category": "account",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "fail \u2192 pass"
+  },
+  {
+   "case_id": "c072",
+   "expected_category": "general",
+   "difficulty": "medium",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"billing\", \"confidence\": 1.0, \"probabilities\": {\"account\": 0.0, \"billing\": 1.0, \"general\": 0.0, \"technical\": 0.0}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"general\", \"confidence\": 1.0, \"probabilities\": {\"account\": 0.0, \"technical\": 0.0, \"billing\": 0.0, \"general\": 1.0}}",
+   "baseline_category": "billing",
+   "candidate_category": "general",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "fail \u2192 pass"
+  },
+  {
+   "case_id": "c073",
+   "expected_category": "account",
+   "difficulty": "easy",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"general\", \"confidence\": 0.74, \"probabilities\": {\"general\": 0.81, \"account\": 0.19, \"billing\": 0.0, \"technical\": 0.0}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"account\", \"confidence\": 1.0, \"probabilities\": {\"account\": 1.0, \"technical\": 0.0, \"billing\": 0.0, \"general\": 0.0}}",
+   "baseline_category": "general",
+   "candidate_category": "account",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "fail \u2192 pass"
+  },
+  {
+   "case_id": "c075",
+   "expected_category": "general",
+   "difficulty": "easy",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"technical\", \"confidence\": 0.62, \"probabilities\": {\"account\": 0.0, \"billing\": 0.0, \"general\": 0.29, \"technical\": 0.71}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"general\", \"confidence\": 1.0, \"probabilities\": {\"general\": 1.0, \"technical\": 0.0, \"account\": 0.0, \"billing\": 0.0}}",
+   "baseline_category": "technical",
+   "candidate_category": "general",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "fail \u2192 pass"
+  },
+  {
+   "case_id": "c076",
+   "expected_category": "general",
+   "difficulty": "medium",
+   "baseline_output": "{\"type\": \"choice\", \"choice\": \"technical\", \"confidence\": 1.0, \"probabilities\": {\"account\": 0.0, \"general\": 0.0, \"billing\": 0.0, \"technical\": 1.0}}",
+   "candidate_output": "{\"type\": \"choice\", \"choice\": \"general\", \"confidence\": 0.99, \"probabilities\": {\"general\": 0.99, \"account\": 0.0, \"technical\": 0.01, \"billing\": 0.0}}",
+   "baseline_category": "technical",
+   "candidate_category": "general",
+   "baseline_summary_score": null,
+   "candidate_summary_score": null,
+   "reason": "fail \u2192 pass"
+  }
+ ],
+ "verdict": "pass",
+ "verdict_basis": "pass rate change +6.2 pp within warning threshold 3 pp",
+ "stats": {
+  "n": 80,
+  "flipped_to_fail": 3,
+  "flipped_to_pass": 8,
+  "discordant_pairs": 11,
+  "mcnemar_exact_p_value": 0.2266,
+  "baseline_pass_rate_wilson95": [
+   0.7559,
+   0.9121
+  ],
+  "candidate_pass_rate_wilson95": [
+   0.8302,
+   0.957
+  ],
+  "reading": "3 regressions vs 8 improvements among 11 flipped cases; exact two-sided p=0.227. This is consistent with noise at n=80.",
+  "caveat": "With fewer than ~100 cases, differences under ~8-10 pp are rarely statistically distinguishable; the policy thresholds are a product decision, not a test."
+ },
+ "same_dataset": true,
+ "dataset_note": ""
+}

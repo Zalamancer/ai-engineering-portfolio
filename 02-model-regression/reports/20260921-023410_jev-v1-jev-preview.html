@@ -1,0 +1,47 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Regression report 20260921-023410_jev-v1-jev-preview</title>
+<style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:2rem;max-width:1200px;color:#222}
+table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid #ddd;padding:.4rem .6rem;vertical-align:top;font-size:.9rem}
+th{background:#f5f5f5;text-align:left}.pass{color:#1a7f37}.warn{color:#b35900}.critical{color:#b3261e}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:.4rem;font-weight:600;color:#fff}
+.badge.pass{background:#1a7f37}.badge.warn{background:#b35900}.badge.critical{background:#b3261e}
+pre{white-space:pre-wrap;margin:0;font-size:.8rem}small{color:#666}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.card{border:1px solid #ddd;border-radius:.5rem;padding:.8rem}.card b{font-size:1.4rem}
+</style></head><body>
+<h1>Regression report <small>20260921-023410_jev-v1-jev-preview</small></h1>
+<p><span class="badge pass">PASS</span> pass rate change +0.0 pp within warning threshold 3 pp</p>
+
+
+<h2>Run metadata</h2>
+<table><tr><th>prompt version</th><td>jev-v1 <small>(prompts/jev-v1.yaml)</small></td><th>model</th><td>jev-1.13.0</td></tr>
+<tr><th>backend / judge</th><td>jev · <small>no judge — jev returns a typed choice, the summary dimension is not applicable</small></td><th>timestamp</th><td>2026-09-21T02:34:12</td></tr>
+<tr><th>dataset</th><td>0.2.0-reviewed · fingerprint d6f4a7d7d3be · 80 cases · <b>human-verified</b></td>
+<th>baseline</th><td>20260921-023002_jev-v1</td></tr></table>
+
+<h2>Scorecard</h2>
+<table><tr><th>metric</th><th>baseline</th><th>candidate</th><th>delta</th></tr>
+<tr><td>overall pass rate (category ∧ valid ∧ summary ≥ threshold)</td><td>85.0%</td><td>85.0%</td><td class="pass">+0.0 pp</td></tr><tr><td>category accuracy</td><td>85.0%</td><td>85.0%</td><td class="pass">+0.0 pp</td></tr><tr><td>summary acceptable rate (judge)</td><td>100.0%</td><td>100.0%</td><td class="pass">+0.0 pp</td></tr><tr><td>output valid rate</td><td>100.0%</td><td>100.0%</td><td class="pass">+0.0 pp</td></tr><tr><td>latency p50</td><td>195 ms</td><td>161 ms</td><td class="pass">-35 ms</td></tr><tr><td>latency p95</td><td>876 ms</td><td>328 ms</td><td class="pass">-548 ms</td></tr><tr><td>mean confidence (jev)</td><td>0.945</td><td>0.945</td><td class="pass">+0.0 pp</td></tr><tr><td>mean confidence on wrong answers (lower is better)</td><td>0.779</td><td>0.770</td><td class="pass">-0 ms</td></tr>
+</table>
+<h3>Per-category accuracy</h3><table><tr><th>category</th><th>n</th><th>baseline</th><th>candidate</th><th>delta</th></tr>
+<tr><td>account</td><td>22</td><td>77%</td><td>77%</td><td class="pass">+0.0 pp</td></tr><tr><td>billing</td><td>16</td><td>100%</td><td>100%</td><td class="pass">+0.0 pp</td></tr><tr><td>general</td><td>19</td><td>84%</td><td>84%</td><td class="pass">+0.0 pp</td></tr><tr><td>technical</td><td>23</td><td>83%</td><td>83%</td><td class="pass">+0.0 pp</td></tr></table>
+<h3>Is it signal or noise?</h3>
+<p>no discordant pairs Wilson 95% intervals — baseline (0.7559, 0.9121), candidate (0.7559, 0.9121).</p>
+<p><small>With fewer than ~100 cases, differences under ~8-10 pp are rarely statistically distinguishable; the policy thresholds are a product decision, not a test. The pass/warn/critical verdict above uses the configured <b>policy thresholds</b> (3 pp / 8 pp), which are not a significance test.</small></p>
+
+
+<h2>Slow drift (7-run moving average)</h2>
+<p class="pass">need 7 runs, have 2</p>
+
+<h2>Trend (pass rate, last 2 runs of this prompt version)</h2>
+<svg viewBox="0 0 700 220" width="700" height="220" style="border:1px solid #eee;background:#fff"><line x1="40" y1="180.0" x2="660" y2="180.0" stroke="#eee"/><text x="4" y="184.0" font-size="11" fill="#666">0%</text><line x1="40" y1="145.0" x2="660" y2="145.0" stroke="#eee"/><text x="4" y="149.0" font-size="11" fill="#666">25%</text><line x1="40" y1="110.0" x2="660" y2="110.0" stroke="#eee"/><text x="4" y="114.0" font-size="11" fill="#666">50%</text><line x1="40" y1="75.0" x2="660" y2="75.0" stroke="#eee"/><text x="4" y="79.0" font-size="11" fill="#666">75%</text><line x1="40" y1="40.0" x2="660" y2="40.0" stroke="#eee"/><text x="4" y="44.0" font-size="11" fill="#666">100%</text><line x1="40" y1="61.0" x2="660" y2="61.0" stroke="#b35900" stroke-dasharray="4 3"/><text x="664" y="65.0" font-size="10" fill="#b35900">drift</text><polyline points="40.0,61.0 660.0,80.8" fill="none" stroke="#1f6feb" stroke-width="2"/><circle cx="40.0" cy="61.0" r="4" fill="#1a7f37"><title>20260921-023002_jev-v1: 85.0%</title></circle><circle cx="660.0" cy="80.8" r="4" fill="#1f6feb"><title>20260921-023352_jev-v1-holdout: 70.8%</title></circle><text x="40" y="212" font-size="11" fill="#666">oldest</text><text x="620" y="212" font-size="11" fill="#666">newest</text></svg>
+
+<h2>Regressed cases (0)</h2>
+<p>None.</p>
+<h2>Improved cases (0)</h2>
+<p>None.</p>
+
+<h2>All failing cases in this run (12)</h2>
+<table><tr><th>case</th><th>expected</th><th>predicted</th><th>confidence</th><th>output</th><th>problem</th></tr>
+<tr><td>c005<br><small>easy</small></td><td>account</td><td>billing</td><td>1.00</td><td><pre>{"type": "choice", "choice": "billing", "confidence": 1.0, "probabilities": {"general": 0.0, "account": 0.0, "billing": 1.0, "technical": 0.0}}</pre></td><td>wrong category</td></tr><tr><td>c006<br><small>medium</small></td><td>technical</td><td>billing</td><td>1.00</td><td><pre>{"type": "choice", "choice": "billing", "confidence": 1.0, "probabilities": {"technical": 0.0, "billing": 1.0, "general": 0.0, "account": 0.0}}</pre></td><td>wrong category</td></tr><tr><td>c013<br><small>medium</small></td><td>technical</td><td>billing</td><td>0.74</td><td><pre>{"type": "choice", "choice": "billing", "confidence": 0.74, "probabilities": {"general": 0.0, "technical": 0.19, "account": 0.0, "billing": 0.81}}</pre></td><td>wrong category</td></tr><tr><td>c016<br><small>medium</small></td><td>account</td><td>billing</td><td>0.61</td><td><pre>{"type": "choice", "choice": "billing", "confidence": 0.61, "probabilities": {"account": 0.29, "general": 0.0, "billing": 0.71, "technical": 0.0}}</pre></td><td>wrong category</td></tr><tr><td>c032<br><small>medium</small></td><td>technical</td><td>account</td><td>0.96</td><td><pre>{"type": "choice", "choice": "account", "confidence": 0.96, "probabilities": {"general": 0.0, "account": 0.97, "technical": 0.03, "billing": 0.0}}</pre></td><td>wrong category</td></tr><tr><td>c056<br><small>medium</small></td><td>technical</td><td>account</td><td>0.55</td><td><pre>{"type": "choice", "choice": "account", "confidence": 0.55, "probabilities": {"technical": 0.34, "billing": 0.0, "general": 0.0, "account": 0.66}}</pre></td><td>wrong category</td></tr><tr><td>c058<br><small>easy</small></td><td>account</td><td>billing</td><td>0.17</td><td><pre>{"type": "choice", "choice": "billing", "confidence": 0.17, "probabilities": {"account": 0.29, "billing": 0.38, "general": 0.33, "technical": 0.0}}</pre></td><td>wrong category</td></tr><tr><td>c059<br><small>medium</small></td><td>account</td><td>technical</td><td>0.92</td><td><pre>{"type": "choice", "choice": "technical", "confidence": 0.92, "probabilities": {"general": 0.0, "account": 0.06, "technical": 0.94, "billing": 0.0}}</pre></td><td>wrong category</td></tr><tr><td>c072<br><small>medium</small></td><td>general</td><td>billing</td><td>1.00</td><td><pre>{"type": "choice", "choice": "billing", "confidence": 1.0, "probabilities": {"general": 0.0, "billing": 1.0, "account": 0.0, "technical": 0.0}}</pre></td><td>wrong category</td></tr><tr><td>c073<br><small>easy</small></td><td>account</td><td>general</td><td>0.72</td><td><pre>{"type": "choice", "choice": "general", "confidence": 0.72, "probabilities": {"billing": 0.0, "general": 0.79, "account": 0.21, "technical": 0.0}}</pre></td><td>wrong category</td></tr><tr><td>c075<br><small>easy</small></td><td>general</td><td>technical</td><td>0.58</td><td><pre>{"type": "choice", "choice": "technical", "confidence": 0.58, "probabilities": {"billing": 0.0, "account": 0.0, "technical": 0.69, "general": 0.31}}</pre></td><td>wrong category</td></tr><tr><td>c076<br><small>medium</small></td><td>general</td><td>technical</td><td>0.99</td><td><pre>{"type": "choice", "choice": "technical", "confidence": 0.99, "probabilities": {"account": 0.0, "billing": 0.0, "general": 0.0, "technical": 1.0}}</pre></td><td>wrong category</td></tr></table>
+<p><small>Generated by regress/report.py. Portfolio workload measurements on a local model; not customer impact.</small></p>
+</body></html>

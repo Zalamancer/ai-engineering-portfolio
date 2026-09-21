@@ -1,0 +1,34 @@
+version: jev-v4
+created: '2026-09-21T03:00:00'
+description: 'Candidate — jev-v3 plus one clarification: a customer who is locked out and needs access restored (password rejected after a reset, login failing, magic-link or invite email not arriving)
+  is account; only an authentication feature producing a wrong result for a customer who can otherwise get in (2FA codes rejected as expired, sessions dropping every few minutes) is technical. Written after
+  jev-v3 moved three ''cannot log in'' emails to technical.'
+backend: jev
+state_context:
+  company: a B2B SaaS software company; customers write to one shared support inbox
+instructions:
+  question: Which support team should handle this email?
+  focus: Classify by what the customer is asking us to DO or answer, not by every topic mentioned in passing.
+  rules:
+  - Money already charged, an unwanted upgrade to reverse, a refund, an invoice or receipt document, a price or discount question, or a payment method is billing.
+  - A customer who is locked out and needs access restored — password rejected after a reset, login failing, magic-link or invite email not arriving — is account, whatever the cause.
+  - A product feature that malfunctions for a customer who can otherwise get in (errors, crashes, 404s, failed exports, 2FA codes rejected as expired, sessions dropping every few minutes, a payment that
+    should retry but does not) is technical, even when the feature is 2FA or billing — the symptom is a bug.
+  - Needing an account action — a new invite, roles or permissions, SSO setup, an email or username change, closing an account, switching plans, seat limits, contact or notification preferences — is account.
+  - Questions about the company, product capabilities, which plan fits or what a plan includes, service status, or feedback, with no personal problem to fix, are general.
+criteria:
+  billing:
+    covers: charges, duplicate or failed payments, refunds, reversing an unwanted upgrade, invoices and receipts, VAT details, price changes on the bill, price or discount questions, payment methods
+    not: switching plans or changing who receives invoices (account), a billing feature that is broken such as an invoice link that 404s (technical), comparing what plans include (general)
+  technical:
+    covers: bugs, error messages, crashes, slow performance, features not working, exports or downloads failing, integrations, API, mobile or browser problems, 2FA codes wrongly rejected as expired, being
+      logged out repeatedly, a failed payment that does not retry
+    not: a customer who cannot log in at all and needs access restored (account), asking whether the product supports something (general)
+  account:
+    covers: cannot log in, password rejected after a reset, locked out and needs access restored, magic-link or invite email not arriving, expired invite, roles and permissions, SSO or enforced login policy,
+      email or username changes, closing or merging accounts, switching plans, seat limits, notification or marketing preferences, who receives invoices
+    not: an actual charge, refund or price question (billing), 2FA codes rejected or sessions dropping for a customer who can otherwise get in (technical)
+  general:
+    covers: feature requests, product questions and capabilities, comparing plans or what a plan includes, company or partnership questions, service status questions, feedback, thanks, unclear or empty
+      messages
+    not: a price or discount question (billing), any email that asks us to fix, change or refund something for this customer

@@ -1,0 +1,371 @@
+{
+ "version": "holdout-0.1.0-ai-draft",
+ "created": "2026-09-21",
+ "description": "Held-out set for the jev criteria tuning. 24 cases written AFTER prompts/jev-v4.yaml was final, following the labelling convention of the reviewed golden set (locked out → account; malfunctioning feature incl. login/2FA/billing features → technical; price/discount question → billing; which-plan / what's-included → general; plan switch, invites, preferences → account). DRAFTED BY AI (Claude) on 2026-09-21 and NOT human-verified: it exists to check that the criteria did not only memorise the 80 tuning cases, not as ground truth.",
+ "cases": [
+  {
+   "id": "h001",
+   "input": "Your system charged my card $120 on Friday and again on Saturday for the same annual renewal. Please refund one of them.",
+   "expected_category": "billing",
+   "expected_summary": "Customer was charged twice for the annual renewal and wants one charge refunded.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h002",
+   "input": "I need the receipts for June, July and August in one PDF for my expense report.",
+   "expected_category": "billing",
+   "expected_summary": "Customer wants receipts for June to August combined into one PDF.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h003",
+   "input": "Is there a nonprofit discount? We're a registered charity and the current price is hard to justify.",
+   "expected_category": "billing",
+   "expected_summary": "Customer asks whether a nonprofit discount exists because the current price is too high.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h004",
+   "input": "You took payment for 20 seats. We agreed on 12 in writing with your rep. Fix the invoice and refund the difference.",
+   "expected_category": "billing",
+   "expected_summary": "Customer was invoiced for 20 seats instead of the agreed 12 and wants a corrected invoice plus a refund.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "angry"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h005",
+   "input": "Love how the 'free' add-on turned into $30/month on my statement. Take it off and give me the money back.",
+   "expected_category": "billing",
+   "expected_summary": "Customer was unexpectedly charged $30/month for an add-on and wants it removed and refunded.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "sarcasm"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h006",
+   "input": "invoice for march?",
+   "expected_category": "billing",
+   "expected_summary": "Customer asks for the March invoice.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "short"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h007",
+   "input": "The calendar sync with Google stopped working on Tuesday. Events created in your app no longer show up in Google Calendar.",
+   "expected_category": "technical",
+   "expected_summary": "Google Calendar sync stopped on Tuesday; new events do not appear in Google Calendar.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h008",
+   "input": "Uploading a 40 MB video fails at 99% with 'unknown error'. Smaller files are fine. Firefox on Windows 11.",
+   "expected_category": "technical",
+   "expected_summary": "Uploads of a 40 MB video fail at 99% with an unknown error in Firefox on Windows 11.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h009",
+   "input": "The 'Download invoice' button on the billing page does nothing when clicked. Console shows a 500 from /api/invoices/latest.",
+   "expected_category": "technical",
+   "expected_summary": "The download-invoice button fails with a 500 error from the invoices API.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h010",
+   "input": "Every time I enable two-factor, the app says 'setup complete' but next login it asks me to set it up again. Loop has happened four times.",
+   "expected_category": "technical",
+   "expected_summary": "Two-factor setup does not persist; the app asks the customer to set it up again on every login.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h011",
+   "input": "Merhaba, raporlar sayfası açılmıyor, sürekli 'yükleniyor' yazıyor. Dün çalışıyordu.",
+   "expected_category": "technical",
+   "expected_summary": "The reports page never finishes loading; it worked yesterday.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "mixed-language"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h012",
+   "input": "teh mobile app logs me out evry time i switch to anohter app and back. iphone 15, latest version",
+   "expected_category": "technical",
+   "expected_summary": "The mobile app logs the customer out whenever they switch apps and return, on an iPhone 15.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "typos"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h013",
+   "input": "I reset my password an hour ago and the new one is rejected too. I need to get in before a client call at 2.",
+   "expected_category": "account",
+   "expected_summary": "Customer cannot log in even after a password reset and needs access before a 2 pm call.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h014",
+   "input": "Please transfer ownership of the workspace to maria@northwind.example, I'm leaving the company on Friday.",
+   "expected_category": "account",
+   "expected_summary": "Customer wants workspace ownership transferred to a colleague before leaving the company.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h015",
+   "input": "We want to move from the Starter plan to Business next month — what do we need to do on our side?",
+   "expected_category": "account",
+   "expected_summary": "Customer wants to switch from the Starter plan to Business next month and asks how.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h016",
+   "input": "Can you add a limit so members can't invite people outside our email domain?",
+   "expected_category": "account",
+   "expected_summary": "Customer wants to restrict invitations to their own email domain.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h017",
+   "input": "The verification email for my new address hasn't arrived in two days. My old address still works but I need the change done.",
+   "expected_category": "account",
+   "expected_summary": "The email-change verification message has not arrived for two days and the customer needs the change completed.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h018",
+   "input": "stop sending me product update emails",
+   "expected_category": "account",
+   "expected_summary": "Customer wants product update emails turned off.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "short"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h019",
+   "input": "Does your API have an official Go client, or should we generate one from the OpenAPI spec?",
+   "expected_category": "general",
+   "expected_summary": "Customer asks whether an official Go client exists for the API.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h020",
+   "input": "Which plan includes audit logs? Starter, Team or Business?",
+   "expected_category": "general",
+   "expected_summary": "Customer asks which plan includes audit logs.",
+   "expected_difficulty": "easy",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h021",
+   "input": "Is there an outage right now? Our whole team sees slowness but I don't see anything on the status page.",
+   "expected_category": "general",
+   "expected_summary": "Customer asks whether there is an outage because their team sees slowness and the status page shows nothing.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "mixed"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h022",
+   "input": "Would you add the ability to schedule reports to be emailed weekly? Our managers keep asking.",
+   "expected_category": "general",
+   "expected_summary": "Customer requests scheduled weekly report emails.",
+   "expected_difficulty": "medium",
+   "tags": [],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h023",
+   "input": "Delightful new pricing page. Truly a puzzle. Which of the five tiers is the one for a team of three?",
+   "expected_category": "general",
+   "expected_summary": "Customer asks which pricing tier suits a three-person team, sarcastically complaining about the pricing page.",
+   "expected_difficulty": "hard",
+   "tags": [
+    "sarcasm"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  },
+  {
+   "id": "h024",
+   "input": "thanks, all sorted now",
+   "expected_category": "general",
+   "expected_summary": "Customer says their issue is resolved and thanks the team.",
+   "expected_difficulty": "medium",
+   "tags": [
+    "short"
+   ],
+   "notes": "held-out; label follows golden convention",
+   "verification": {
+    "status": "ai_generated",
+    "verified_by": null,
+    "verified_at": null
+   }
+  }
+ ]
+}

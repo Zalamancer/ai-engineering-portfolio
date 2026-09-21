@@ -1,0 +1,30 @@
+{
+ "text": "✅ eval run `20260921-023352_jev-v1-holdout` — pass rate 71% (no baseline to compare)",
+ "blocks": [
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "✅ eval run `20260921-023352_jev-v1-holdout` — pass rate 71% (no baseline to compare)"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "n=24 · dataset holdout-0.1.0-ai-draft (0/24 human-verified; rest AI-drafted)"
+    }
+   ]
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "model `jev-1.13.0` · judge `None` · dataset 0/24 human-verified; rest AI-drafted"
+    }
+   ]
+  }
+ ]
+}

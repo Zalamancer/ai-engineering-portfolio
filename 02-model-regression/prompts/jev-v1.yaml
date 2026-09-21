@@ -1,0 +1,10 @@
+version: jev-v1
+created: 2026-09-20T09:30:00
+description: Baseline on the jev backend — the same four one-line category definitions as v1, sent as Choice options. Plain-string state, no rules, no examples.
+backend: jev
+instructions: Which category does this customer support email belong to?
+criteria:
+  billing: invoices, charges, refunds, payment methods, pricing, subscription cost
+  technical: bugs, errors, crashes, performance, integrations, API or app not working as expected
+  account: login, password, 2FA, email/username changes, permissions, closing or merging accounts
+  general: anything else — feature requests, questions about the company, feedback, partnerships, unclear messages

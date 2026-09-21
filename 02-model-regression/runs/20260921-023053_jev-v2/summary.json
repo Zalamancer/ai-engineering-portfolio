@@ -1,0 +1,94 @@
+{
+ "run_id": "20260921-023053_jev-v2",
+ "created": "2026-09-21T02:31:00",
+ "prompt_version": "jev-v2",
+ "backend": "jev",
+ "prompt_path": "prompts/jev-v2.yaml",
+ "dataset_version": "0.2.0-reviewed",
+ "dataset_fingerprint": "d6f4a7d7d3be",
+ "n_cases": 80,
+ "n_verified": 80,
+ "only_verified": false,
+ "dataset_label": "human-verified",
+ "pass_rate": 0.9125,
+ "category_accuracy": 0.9125,
+ "summary_pass_rate": 1.0,
+ "summary_score_mean": null,
+ "output_valid_rate": 1.0,
+ "latency_p50_ms": 177.7,
+ "latency_p95_ms": 382.2,
+ "latency_mean_ms": 267.2,
+ "prompt_tokens": 66918,
+ "completion_tokens": 3600,
+ "confidence_mean": 0.9569,
+ "confidence_mean_correct": 0.9632,
+ "confidence_mean_wrong": 0.8914,
+ "by_category": {
+  "billing": {
+   "n": 16,
+   "correct": 14,
+   "passed": 14,
+   "accuracy": 0.875,
+   "pass_rate": 0.875
+  },
+  "account": {
+   "n": 22,
+   "correct": 21,
+   "passed": 21,
+   "accuracy": 0.9545,
+   "pass_rate": 0.9545
+  },
+  "technical": {
+   "n": 23,
+   "correct": 19,
+   "passed": 19,
+   "accuracy": 0.8261,
+   "pass_rate": 0.8261
+  },
+  "general": {
+   "n": 19,
+   "correct": 19,
+   "passed": 19,
+   "accuracy": 1.0,
+   "pass_rate": 1.0
+  }
+ },
+ "by_difficulty": {
+  "easy": {
+   "n": 27,
+   "passed": 26,
+   "pass_rate": 0.963
+  },
+  "medium": {
+   "n": 36,
+   "passed": 31,
+   "pass_rate": 0.8611
+  },
+  "hard": {
+   "n": 17,
+   "passed": 16,
+   "pass_rate": 0.9412
+  }
+ },
+ "status": "candidate",
+ "baseline_run_id": "20260921-023002_jev-v1",
+ "notes": "",
+ "thresholds": {
+  "warn_delta": 0.03,
+  "critical_delta": 0.08,
+  "summary_pass_score": 4,
+  "kind": "policy thresholds, not statistical significance"
+ },
+ "model": "jev-1.13.0",
+ "judge_model": null,
+ "wall_seconds": 7.1,
+ "verdict": "pass",
+ "drift": {
+  "drift": false,
+  "reason": "need 7 runs, have 0",
+  "window": 7,
+  "moving_average": null,
+  "threshold": 0.85,
+  "runs_used": []
+ }
+}

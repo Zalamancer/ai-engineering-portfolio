@@ -1,0 +1,30 @@
+{
+ "text": "✅ *PASS* — prompt `jev-v1` vs baseline `20260921-023002_jev-v1`: 0 regressions, 0 improvements, pass rate 85% → 85%",
+ "blocks": [
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "✅ *PASS* — prompt `jev-v1` vs baseline `20260921-023002_jev-v1`: 0 regressions, 0 improvements, pass rate 85% → 85%"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "category accuracy Δ +0.0 pp · n=80 · exact p=None · 95% CI candidate (0.7559, 0.9121)"
+    }
+   ]
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "model `jev-1.13.0` · judge `None` · dataset human-verified"
+    }
+   ]
+  }
+ ]
+}

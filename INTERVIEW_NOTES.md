@@ -15,6 +15,11 @@ trade-offs, so the work can be discussed honestly. Every number below is in `EVI
   McNemar / Wilson statistics, HTML diff reports, drift detection, Slack payloads and a GitHub Actions PR gate;
   demonstrated it blocking an intentionally broken prompt (−61 pp, exit code 2) while passing a benign change (−1.2 pp,
   p = 1.0).
+- Re-implemented the classifier on TypeSafe's Jev (a typed-decision "System One" model) behind the same contract and
+  gate, and used the gate to iterate the classification criteria one rule at a time: 85.0 % → 97.5 % category accuracy
+  on the 80 human-verified cases (0 regressions, exact McNemar p = 0.002), above the LLM prompt's 87.5 %, at a p50 of
+  189 ms vs 4,975 ms and $0.042 per 1,000 emails; 70.8 % → 95.8 % on 24 held-out cases; showed that a 0.80 confidence
+  threshold auto-routes 88 % of emails with no observed errors and hands the rest to a person.
 - Built a supervisor / specialist / reviewer multi-agent system on LangGraph with a schema-validated tool registry,
   sandboxed code execution, human approval pauses/resumes, budgets enforced in code (steps, calls, tokens, time, cost
   ledger), durable state and long-term memory outside the process, and crash recovery that never repeats external
@@ -59,6 +64,16 @@ Dataset story: I drafted the cases, then reviewed all 80 myself and changed 6 la
 WARN to PASS after those corrections — a concrete example of why label quality bounds evaluation quality.
 
 Trade-off: the judge is the local model; live Slack delivery and Actions inference need a model key.
+
+Jev chapter (2026-09-21): "Then I swapped the model for one that only makes typed decisions — Jev returns a category,
+a probability per category and a confidence, no text. Same golden set, same gate. The first version, with the LLM
+prompt's definitions as the option descriptions, was 85 %, *below* the LLM. What got it to 97.5 % was writing the
+team's boundary rules into the criteria — one rule per version, each run gated, so I can show which rule fixed which
+cases and which rule broke three login emails on the way. It is 26× faster and costs four cents per thousand emails,
+but it can't write the summary, and the confidence score is the real win: at 0.80 it auto-handles 88 % with zero
+observed mistakes and sends the ambiguous 12 % to a human — including the two cases my own reviewer flagged as
+coin-flips." If asked about overfitting: "Tuned on the evaluation set, yes — that's why there's a held-out set,
+written after the criteria were frozen, where it went 71 → 96 %; those labels are mine, not reviewed, and I say so."
 
 ## Project 3 — Agent orchestration (60 seconds)
 

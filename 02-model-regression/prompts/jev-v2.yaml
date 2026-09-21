@@ -1,0 +1,28 @@
+version: jev-v2
+created: 2026-09-21T02:40:00
+description: Candidate — structured Choice options (covers / not / hand-offs) and the team's tie-break rules folded into the instructions; email wrapped in a state object with company context. Written after reading jev-v1's 12 failures, which were all boundary cases (billing↔account, technical↔account, general↔technical).
+backend: jev
+state_context:
+  company: a B2B SaaS software company; customers write to one shared support inbox
+instructions:
+  question: Which support team should handle this email?
+  focus: Classify by what the customer is asking us to DO or answer, not by every topic mentioned in passing.
+  rules:
+    - Money already charged, a refund, an invoice document, a price change on their bill, or a payment method is billing.
+    - A login, password, 2FA, invite, session or permission problem that blocks the customer is account, even when it looks like a bug.
+    - Managing the customer's own subscription, plan, seats, contact/notification preferences or team members is account.
+    - A product feature that malfunctions (errors, crashes, 404s, failed exports, integrations, API) is technical, unless rules 1–3 apply.
+    - Questions about the company, product capabilities, plan comparisons, service status or feedback with no personal problem to fix are general.
+criteria:
+  billing:
+    covers: charges, duplicate or failed payments, refunds, invoices and receipts, VAT details, price changes on the bill, payment methods, cancellation refunds
+    not: questions about which plan to choose or what a plan includes (general), switching plans or changing who receives invoices (account)
+  technical:
+    covers: bugs, error messages, crashes, slow performance, features not working, exports or downloads failing, integrations, API, mobile or browser problems
+    not: being unable to log in or stay logged in (account), a general question about whether the product supports something (general)
+  account:
+    covers: login, password reset, 2FA, invites, roles and permissions, email or username changes, closing or merging accounts, subscription and plan changes, seat limits, notification or marketing preferences
+    not: an actual charge or refund (billing), a feature that is broken for a logged-in user (technical)
+  general:
+    covers: feature requests, product questions and capabilities, plan comparisons and pricing-page questions, company or partnership questions, service status questions, feedback, thanks, unclear or empty messages
+    not: any email that asks us to fix, change or refund something for this customer

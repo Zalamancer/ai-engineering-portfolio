@@ -20,8 +20,22 @@ ROOT = Path(__file__).resolve().parent.parent
 def test_prompt_configs_load_and_have_versions():
     for p in sorted((ROOT / "prompts").glob("*.yaml")):
         cfg = PromptConfig.load(p)
-        assert cfg.version and cfg.system_prompt and cfg.created
-        assert cfg.messages("hi")[-1] == {"role": "user", "content": "hi"}
+        assert cfg.version and cfg.created
+        if cfg.backend == "openai":
+            assert cfg.system_prompt
+            assert cfg.messages("hi")[-1] == {"role": "user", "content": "hi"}
+        else:
+            q = cfg.jev_question()
+            assert q["type"] == "choice" and set(q["criteria"]) == {"billing", "technical", "account", "general"}
+
+
+def test_jev_prompt_config_is_validated():
+    with pytest.raises(Exception):
+        PromptConfig(version="x", created="2026-09-20T00:00:00", backend="jev", instructions="q", criteria={"billing": "a"})
+    cfg = PromptConfig(version="x", created="2026-09-20T00:00:00", backend="jev", instructions={"question": "q"},
+                       criteria={c: {"covers": c} for c in ("billing", "technical", "account", "general")}, state_context={"company": "acme"})
+    assert cfg.jev_state("hi") == {"company": "acme", "email": "hi"}
+    assert cfg.jev_question()["instructions"] == {"question": "q"}
 
 
 def test_golden_dataset_schema_and_labels():
@@ -134,3 +148,93 @@ def test_drift_detection_fires_on_moving_average():
 def test_bad_prompt_is_clearly_labelled():
     cfg = PromptConfig.load(ROOT / "prompts" / "v3-bad.yaml")
     assert "INTENTIONALLY BAD" in cfg.description
+
+
+# ---------------------------------------------------------------------------------------------- jev backend
+
+def _jev_transport(answer: dict, status: int = 200, usage=None):
+    """Fake TypeSafe endpoint: records the request body, returns a canned Choice answer."""
+    import httpx
+    seen = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(json.loads(request.content))
+        if request.url.path == "/v1/models":
+            return httpx.Response(200, json={"models": [{"name": "jev-latest"}]})
+        return httpx.Response(status, json={"model": "jev-1.13.0", "answers": {"category": answer},
+                                            "usage": usage or {"input_tokens": 120, "output_tokens": 30}})
+    return httpx.MockTransport(handler), seen
+
+
+def test_jev_classifier_sends_one_choice_question_and_reads_typed_answer():
+    from regress.feature import JevClassifier
+    cfg = PromptConfig.load(ROOT / "prompts" / "jev-v1.yaml")
+    transport, seen = _jev_transport({"type": "choice", "choice": "billing", "confidence": 0.9,
+                                      "probabilities": {"billing": 0.93, "technical": 0.02, "account": 0.02, "general": 0.03}})
+    clf = JevClassifier("test-key", transport=transport)
+    res = clf.classify("charged twice, refund pls", cfg)
+    body = seen[0]
+    assert body["state"] == "charged twice, refund pls" and body["model"] == "jev-latest"
+    assert list(body["questions"]) == ["category"] and body["questions"]["category"]["type"] == "choice"
+    assert set(body["questions"]["category"]["criteria"]) == {"billing", "technical", "account", "general"}
+    assert res.parsed and res.parsed.category == "billing" and res.parsed.summary is None
+    assert res.confidence == 0.9 and res.probabilities["billing"] == 0.93
+    assert res.prompt_tokens == 120 and res.completion_tokens == 30 and res.model == "jev-1.13.0"
+    assert res.validation_error is None
+
+
+def test_jev_classifier_records_failures_instead_of_crashing():
+    from regress.feature import JevClassifier
+    cfg = PromptConfig.load(ROOT / "prompts" / "jev-v1.yaml")
+    transport, _ = _jev_transport({}, status=500)
+    res = JevClassifier("test-key", transport=transport, max_retries=0).classify("x", cfg)
+    assert res.parsed is None and res.validation_error.startswith("request failed")
+    transport, _ = _jev_transport({"type": "choice", "choice": "refund"})   # not one of our options
+    res = JevClassifier("test-key", transport=transport).classify("x", cfg)
+    assert res.parsed is None and res.validation_error.startswith("schema")
+    with pytest.raises(ValueError):
+        JevClassifier("")
+
+
+def test_jev_run_skips_judge_and_stores_confidence(tmp_path):
+    """A jev run: pass = category correct ∧ valid (summary not applicable); confidence is aggregated,
+    stored in SQLite (migrated columns) and drives the confidence-gated routing curve."""
+    from regress.cli import confidence_curve, versus
+    from regress.feature import JevClassifier
+    ds = GoldenDataset.load(ROOT / "data" / "golden" / "golden.json")
+    cfg = PromptConfig.load(ROOT / "prompts" / "jev-v1.yaml")
+    expected = {c.input: c.expected_category for c in ds.cases}
+    wrong = {c.id for c in ds.cases[:6]}
+    by_input = {c.input: c.id for c in ds.cases}
+
+    class FakeJev(JevClassifier):
+        def __init__(self):
+            pass
+
+        def classify(self, email, cfg):
+            cat = expected[email]
+            if by_input[email] in wrong:
+                cat = "general" if cat != "general" else "billing"
+                conf = 0.2
+            else:
+                conf = 0.95
+            return FeatureResult(json.dumps({"choice": cat}), __import__("regress.feature", fromlist=["Classification"]).Classification(category=cat),
+                                 None, 80.0, 100, 20, "jev-1.13.0", confidence=conf, probabilities={cat: 0.9})
+    settings = Settings(db_path=tmp_path / "r.db", runs_dir=tmp_path / "runs", reports_dir=tmp_path / "reports")
+    meta, scores = run_eval(cfg, ds, settings, "t_jev", clf=FakeJev(), log=lambda *_: None)
+    assert meta["backend"] == "jev" and meta["judge_model"] is None and meta["model"] == "jev-1.13.0"
+    assert meta["pass_rate"] == meta["category_accuracy"] == round(74 / 80, 4)
+    assert meta["confidence_mean_wrong"] == 0.2 and meta["confidence_mean_correct"] == 0.95
+    store = Store(settings.db_path, settings.runs_dir)
+    store.save_run(meta, [s.to_dict() for s in scores])
+    cases = store.get_cases("t_jev")
+    assert cases["c001"]["confidence"] == 0.2 and cases["c001"]["probabilities"] == {"general": 0.9}
+    curve = confidence_curve(cases)
+    assert curve[0]["coverage"] == 1.0 and curve[0]["accuracy_when_acting"] == round(74 / 80, 4)
+    at_half = next(r for r in curve if r["threshold"] == 0.5)
+    assert at_half["routed_to_human"] == 6 and at_half["accuracy_when_acting"] == 1.0
+    # baselines are per backend: a jev candidate never diffs against an LLM baseline
+    meta["status"] = "baseline"; store.save_run(meta, [s.to_dict() for s in scores])
+    assert store.latest_baseline("jev")["run_id"] == "t_jev" and store.latest_baseline("openai") is None
+    v = versus(meta, cases, meta, cases)
+    assert v["n_common"] == 80 and v["a"]["usd_per_1k_emails"] == round(8000 / 1e6 * 0.042 / 80 * 1000, 4)

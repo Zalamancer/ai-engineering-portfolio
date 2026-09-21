@@ -1,0 +1,95 @@
+{
+ "run_id": "20260921-023354_jev-v4-holdout",
+ "created": "2026-09-21T02:33:55",
+ "prompt_version": "jev-v4",
+ "backend": "jev",
+ "prompt_path": "prompts/jev-v4.yaml",
+ "dataset_version": "holdout-0.1.0-ai-draft",
+ "dataset_fingerprint": "a3df14a92e2d",
+ "n_cases": 24,
+ "n_verified": 0,
+ "only_verified": false,
+ "dataset_label": "0/24 human-verified; rest AI-drafted",
+ "pass_rate": 0.9583,
+ "category_accuracy": 0.9583,
+ "summary_pass_rate": 1.0,
+ "summary_score_mean": null,
+ "output_valid_rate": 1.0,
+ "latency_p50_ms": 180.9,
+ "latency_p95_ms": 1268.7,
+ "latency_mean_ms": 353.3,
+ "prompt_tokens": 24007,
+ "completion_tokens": 1080,
+ "confidence_mean": 0.9746,
+ "confidence_mean_correct": 0.9857,
+ "confidence_mean_wrong": 0.72,
+ "by_category": {
+  "billing": {
+   "n": 6,
+   "correct": 6,
+   "passed": 6,
+   "accuracy": 1.0,
+   "pass_rate": 1.0
+  },
+  "technical": {
+   "n": 6,
+   "correct": 6,
+   "passed": 6,
+   "accuracy": 1.0,
+   "pass_rate": 1.0
+  },
+  "account": {
+   "n": 6,
+   "correct": 5,
+   "passed": 5,
+   "accuracy": 0.8333,
+   "pass_rate": 0.8333
+  },
+  "general": {
+   "n": 6,
+   "correct": 6,
+   "passed": 6,
+   "accuracy": 1.0,
+   "pass_rate": 1.0
+  }
+ },
+ "by_difficulty": {
+  "easy": {
+   "n": 8,
+   "passed": 8,
+   "pass_rate": 1.0
+  },
+  "medium": {
+   "n": 12,
+   "passed": 11,
+   "pass_rate": 0.9167
+  },
+  "hard": {
+   "n": 4,
+   "passed": 4,
+   "pass_rate": 1.0
+  }
+ },
+ "status": "candidate",
+ "baseline_run_id": null,
+ "notes": "",
+ "thresholds": {
+  "warn_delta": 0.03,
+  "critical_delta": 0.08,
+  "summary_pass_score": 4,
+  "kind": "policy thresholds, not statistical significance"
+ },
+ "model": "jev-1.13.0",
+ "judge_model": null,
+ "wall_seconds": 1.4,
+ "drift": {
+  "drift": false,
+  "reason": "need 7 runs, have 1",
+  "window": 7,
+  "moving_average": null,
+  "threshold": 0.85,
+  "runs_used": [
+   "20260921-023228_jev-v4"
+  ]
+ }
+}

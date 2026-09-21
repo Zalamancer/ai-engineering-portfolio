@@ -1,0 +1,30 @@
+{
+ "text": "✅ eval run `20260921-023002_jev-v1` — pass rate 85% (no baseline to compare)",
+ "blocks": [
+  {
+   "type": "section",
+   "text": {
+    "type": "mrkdwn",
+    "text": "✅ eval run `20260921-023002_jev-v1` — pass rate 85% (no baseline to compare)"
+   }
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "n=80 · dataset 0.2.0-reviewed (human-verified)"
+    }
+   ]
+  },
+  {
+   "type": "context",
+   "elements": [
+    {
+     "type": "mrkdwn",
+     "text": "model `jev-1.13.0` · judge `None` · dataset human-verified"
+    }
+   ]
+  }
+ ]
+}
