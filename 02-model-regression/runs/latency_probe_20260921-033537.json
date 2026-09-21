@@ -1,0 +1,46 @@
+{
+ "email": "The invoice PDF from May won't download \u2014 the link gives a 404. I need it for expenses.",
+ "system_prompt": "prompts/v2.yaml",
+ "tries": 3,
+ "rows": [
+  {
+   "probe": "claude-haiku-4-5",
+   "tries_ms": [
+    1043,
+    803,
+    776
+   ],
+   "median_ms": 803,
+   "min_ms": 776,
+   "input_tokens": 293,
+   "output_tokens": 36,
+   "output": "```json\n{\"category\": \"billing\", \"summary\": \"Customer cannot download May invoice PDF due to broken link and needs it for expense reporting.\"}\n```"
+  },
+  {
+   "probe": "claude-sonnet-5 (effort low)",
+   "tries_ms": [
+    1855,
+    1778,
+    1780
+   ],
+   "median_ms": 1780,
+   "min_ms": 1778,
+   "input_tokens": 397,
+   "output_tokens": 50,
+   "output": "{\"category\": \"billing\", \"summary\": \"Customer's May invoice PDF link returns a 404 error and they need it downloaded for expense reporting.\"}"
+  },
+  {
+   "probe": "claude-opus-5 (effort low)",
+   "tries_ms": [
+    3047,
+    3137,
+    2560
+   ],
+   "median_ms": 3047,
+   "min_ms": 2560,
+   "input_tokens": 397,
+   "output_tokens": 55,
+   "output": "{\"category\": \"billing\", \"summary\": \"The customer cannot download their May invoice PDF because the link returns a 404 error and needs the invoice for expense reporting.\"}"
+  }
+ ]
+}

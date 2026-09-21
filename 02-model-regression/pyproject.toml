@@ -32,3 +32,9 @@ testpaths = ["tests"]
 
 [tool.uv.build-backend]
 module-root = ""
+
+[dependency-groups]
+probe = [
+    "anthropic>=1.7.0",
+    "google-genai>=2.24.0",
+]

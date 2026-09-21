@@ -1,0 +1,100 @@
+{
+ "email": "The invoice PDF from May won't download \u2014 the link gives a 404. I need it for expenses.",
+ "system_prompt": "prompts/v2.yaml",
+ "tries": 3,
+ "rows": [
+  {
+   "probe": "jev-1.13.0 (jev-v4, typed choice)",
+   "tries_ms": [
+    655,
+    148,
+    116
+   ],
+   "median_ms": 148,
+   "min_ms": 116,
+   "input_tokens": 1002,
+   "output_tokens": 45,
+   "output": "technical (conf 0.84)"
+  },
+  {
+   "probe": "claude-haiku-4-5",
+   "error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This API key is not scoped to a workspace, so this request must inclu",
+   "tries_ms": []
+  },
+  {
+   "probe": "claude-sonnet-5 (effort low)",
+   "error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This API key is not scoped to a workspace, so this request must inclu",
+   "tries_ms": []
+  },
+  {
+   "probe": "claude-opus-5 (effort low)",
+   "error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This API key is not scoped to a workspace, so this request must inclu",
+   "tries_ms": []
+  },
+  {
+   "probe": "gemini-3.8-flash (default thinking)",
+   "tries_ms": [
+    2030,
+    2838,
+    2105
+   ],
+   "median_ms": 2105,
+   "min_ms": 2030,
+   "input_tokens": 283,
+   "output_tokens": 396,
+   "output": "{\"category\": \"billing\", \"summary\": \"The customer is unable to download their May invoice due to a 404"
+  },
+  {
+   "probe": "gemini-3.8-flash (thinking low)",
+   "tries_ms": [
+    1406,
+    3202,
+    1200
+   ],
+   "median_ms": 1406,
+   "min_ms": 1200,
+   "input_tokens": 283,
+   "output_tokens": 187,
+   "output": "{\"category\": \"billing\", \"summary\": \"The customer cannot download their May invoice PDF due to a 404 error link and needs a copy for expenses.\"}"
+  },
+  {
+   "probe": "gemini-3.5-flash-lite",
+   "tries_ms": [
+    717,
+    731,
+    1050
+   ],
+   "median_ms": 731,
+   "min_ms": 717,
+   "input_tokens": 283,
+   "output_tokens": 34,
+   "output": "{\"category\": \"billing\", \"summary\": \"The customer wants to download their May invoice for expenses, but the link is returning a 404 error.\"}"
+  },
+  {
+   "probe": "grok-4.20-non-reasoning",
+   "tries_ms": [
+    1178,
+    727,
+    698
+   ],
+   "median_ms": 727,
+   "min_ms": 698,
+   "input_tokens": 448,
+   "output_tokens": 29,
+   "output": "{\"category\": \"billing\", \"summary\": \"Customer cannot download May invoice PDF due to 404 error and needs it for expense reporting.\"}"
+  },
+  {
+   "probe": "grok-4.6",
+   "tries_ms": [
+    11899,
+    14198,
+    12365
+   ],
+   "median_ms": 12365,
+   "min_ms": 11899,
+   "input_tokens": 910,
+   "output_tokens": 30,
+   "output": "{\"category\": \"billing\", \"summary\": \"The May invoice PDF link returns a 404, and the customer needs the file for expenses.\"}"
+  }
+ ]
+}

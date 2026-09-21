@@ -226,6 +226,27 @@ API — but the shape is the point: the classifier stops being the slow step. Th
 is a prompt-engineering result as much as a model result: jev-v1 with the *same* definitions as
 the LLM prompt was 85 %, below the LLM's 87.5 %; the structured rules are what took it to 97.5 %.
 
+### One-email latency probe, other hosted models (`scripts/latency_probe.py`, 2026-09-21)
+
+Same email (c013, "invoice PDF gives a 404"), same `prompts/v2.yaml` system prompt, three tries each from
+this laptop; median shown. Every text model answered *billing* for this email; the human label is
+*technical* and jev-v4 said *technical* at confidence 0.84. Raw JSON in `runs/latency_probe_*.json`.
+
+| model | median | tries | tokens in / out |
+|---|---|---|---|
+| Jev 1.13 (jev-v4, typed choice) | **148 ms** | 655 (cold) / 148 / 116 | 1,002 / 45 |
+| Gemini 3.5 Flash-Lite | 731 ms | 717 / 731 / 1,050 | 283 / 34 |
+| Grok 4.20 non-reasoning | 727 ms | 1,178 / 727 / 698 | 448 / 29 |
+| Claude Haiku 4.5 | 803 ms | 1,043 / 803 / 776 | 293 / 36 |
+| Gemini 3.8 Flash, thinking low | 1.4 s | 1,406 / 3,202 / 1,200 | 283 / 187 |
+| Claude Sonnet 5, effort low | 1.8 s | 1,855 / 1,778 / 1,780 | 397 / 50 |
+| Gemini 3.8 Flash, default thinking | 2.1 s | 2,030 / 2,838 / 2,105 | 283 / 396 |
+| Claude Opus 5, effort low | 3.0 s | 3,047 / 3,137 / 2,560 | 397 / 55 |
+| Grok 4.6 (reasoning) | 12.4 s | 11,899 / 14,198 / 12,365 | 910 / 30 |
+
+Parallel calls shrink a batch's wall clock for every model alike; what they do not change is the
+per-email time a customer waits for a route, which is where 0.15 s vs 0.7–3 s matters.
+
 ### What confidence buys: routing instead of guessing (`regress confidence-curve 20260921-023228_jev-v4`)
 
 | act only when confidence ≥ | emails handled automatically | accuracy on those | sent to a human | wrong *and* auto-handled |
